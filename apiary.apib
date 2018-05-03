@@ -20,7 +20,7 @@ Polls is a simple API allowing consumers to view polls and vote in them.
                 "phone": "12345678909"
             }
 
-+ Response 201 (application/json)
++ Response 200 (application/json)
 
     + Header
 
@@ -47,7 +47,7 @@ Polls is a simple API allowing consumers to view polls and vote in them.
             "username": "admin"
         }
 
-+ Response 401 (application/json)
++ Response 400 (application/json)
 
         {}
 
@@ -73,7 +73,6 @@ Polls is a simple API allowing consumers to view polls and vote in them.
             "msg": "You have logged in as admin"
         }
 
-+ Response 401 (application/json)
 
 ### Logout [POST /api/boss/logout]
 
@@ -92,13 +91,10 @@ Polls is a simple API allowing consumers to view polls and vote in them.
 
             Location: /api/boss/login
 
-+ Response 401 (application/json)
++ Response 400 (application/json)
 
 ## Group Manage [/api/boss/manage]
-
-### Add Staff [POST /api/boss/manage/staff]
-
-+ Request (application/json)
+lication/json)
 
     + Body
 
@@ -110,7 +106,7 @@ Polls is a simple API allowing consumers to view polls and vote in them.
                 "type": "1"
             }
 
-+ Response 201 (application/json)
++ Response 200 (application/json)
 
     + Header
 
@@ -137,10 +133,8 @@ Polls is a simple API allowing consumers to view polls and vote in them.
     + Body
     
             {}
-            
-+ Response 401 (application/json)
-
-+ Response 404 (application/json)
+        
++ Response 400 (application/json)
 
         {
             "msg": "staff not found"
@@ -185,10 +179,8 @@ Polls is a simple API allowing consumers to view polls and vote in them.
     + Body
     
             {}
-            
-+ Response 401 (application/json)
 
-+ Response 404 (application/json)
++ Response 400 (application/json)
 
         {
             "msg": "ingredients not found"
@@ -214,9 +206,7 @@ Polls is a simple API allowing consumers to view polls and vote in them.
 
             {}
 
-+ Response 401 (application/json)
-
-+ Response 404 (application/json)
++ Response 400 (application/json)
 
         {
             "msg": "ingredients not found"
@@ -261,10 +251,8 @@ Polls is a simple API allowing consumers to view polls and vote in them.
     + Body
     
             {}
-            
-+ Response 401 (application/json)
 
-+ Response 404 (application/json)
++ Response 400 (application/json)
 
         {
             "msg": "dishes not found"
@@ -280,7 +268,7 @@ Polls is a simple API allowing consumers to view polls and vote in them.
             {"remark3": "wonderful"}
         ]
             
-+ Response 401 (application/json)
++ Response 400 (application/json)
 
 ### Show Account List [GET /api/boss/manage/accounts]
 
@@ -292,7 +280,7 @@ Polls is a simple API allowing consumers to view polls and vote in them.
             {"profit": "41976"}
         ]
             
-+ Response 401 (application/json)
++ Response 400 (application/json)
 
 ## Group Staff [/api/staff]
 
@@ -316,8 +304,6 @@ Polls is a simple API allowing consumers to view polls and vote in them.
         {
             "msg": "You have logged in as pml"
         }
-
-+ Response 401 (application/json)
 
 ### Staff Logout [POST /api/staff/logout]
 
@@ -347,9 +333,7 @@ Polls is a simple API allowing consumers to view polls and vote in them.
 
             {}
 
-+ Response 401 (application/json)
-
-+ Response 404 (application/json)
++ Response 400 (application/json)
 
         {
             "msg": "order not found"
@@ -375,9 +359,7 @@ Polls is a simple API allowing consumers to view polls and vote in them.
 
             {}
 
-+ Response 401 (application/json)
-
-+ Response 404 (application/json)
++ Response 400 (application/json)
 
         {
             "msg": "order not found"
@@ -419,7 +401,7 @@ Polls is a simple API allowing consumers to view polls and vote in them.
                 "ordertime": "2018-05-03 20:00"
             }
 
-+ Response 201 (application/json)
++ Response 200 (application/json)
 
     + Header
 
@@ -448,4 +430,4 @@ Polls is a simple API allowing consumers to view polls and vote in them.
             {"predict time": "20min"}
         ]
             
-+ Response 401 (application/json)
++ Response 400 (application/json)
