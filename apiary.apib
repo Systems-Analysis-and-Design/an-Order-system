@@ -5,76 +5,447 @@ HOST: http://polls.apiblueprint.org/
 
 Polls is a simple API allowing consumers to view polls and vote in them.
 
-## Questions Collection [/questions]
+## Group Boss [/api/boss]
 
-### List All Questions [GET]
-
-+ Response 200 (application/json)
-
-        [
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 2048
-                    }, {
-                        "choice": "Python",
-                        "votes": 1024
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 512
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 256
-                    }
-                ]
-            }
-        ]
-
-### Create a New Question [POST]
-
-You may create your own question using this action. It takes a JSON
-object containing a question and a collection of answers in the
-form of choices.
+### Register [POST]
 
 + Request (application/json)
-
-        {
-            "question": "Favourite programming language?",
-            "choices": [
-                "Swift",
-                "Python",
-                "Objective-C",
-                "Ruby"
-            ]
-        }
-
-+ Response 201 (application/json)
-
-    + Headers
-
-            Location: /questions/2
 
     + Body
 
             {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 0
-                    }, {
-                        "choice": "Python",
-                        "votes": 0
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 0
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 0
-                    }
-                ]
+                "username": "admin",
+                "password": "boss",
+                "email": "computing@service.com",
+                "phone": "12345678909"
             }
+
++ Response 201 (application/json)
+
+    + Header
+
+            Location: /api/boss/login
+            
+    + Body
+    
+            {}
+
++ Response 400 (application/json)
+
+        {
+            "msg": "bad username"
+        }
+        
+### Is Logged in [GET /api/boss/login{?openid}]
+
++ Parameters
+    - openid : `abcdefg` (string, required) - Open ID
+
++ Response 200 (application/json)
+
+        {
+            "username": "admin"
+        }
+
++ Response 401 (application/json)
+
+        {}
+
+### Login [POST /api/boss/login]
+
++ Request (application/json)
+
+        {
+            "username": "admin",
+            "password": "boss"
+        }
+
++ Response 200 (application/json)
+
+        {
+            "openid": "abcdefg",
+            "msg": "Logged in successfully"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "msg": "You have logged in as admin"
+        }
+
++ Response 401 (application/json)
+
+### Logout [POST /api/boss/logout]
+
++ Response 200 (application/json)
+
+    + Header
+
+            Location: /api/user/login
+
+
+### Delete Account [DELETE /api/boss/self]
+
++ Response 200 (application/json)
+
+    + Header
+
+            Location: /api/boss/login
+
++ Response 401 (application/json)
+
+## Group Manage [/api/boss/manage]
+
+### Add Staff [POST /api/boss/manage/staff]
+
++ Request (application/json)
+
+    + Body
+
+            {
+                "staffname": "staff1",
+                "password": "123456",
+                "email": "staff@service.com",
+                "phone": "13345667890",
+                "type": "1"
+            }
+
++ Response 201 (application/json)
+
+    + Header
+
+            Location: /api/boss/manage/staff
+            
+    + Body
+    
+            {}
+
++ Response 400 (application/json)
+
+        {
+            "msg": "bad staffname"
+        }
+
+### Delete Staff [DELETE /api/boss/manage/staff/{staffname}]
+
++ Response 200 (application/json)
+
+    + Header
+    
+            Location: /api/boss/manage/staff
+    
+    + Body
+    
+            {}
+            
++ Response 401 (application/json)
+
++ Response 404 (application/json)
+
+        {
+            "msg": "staff not found"
+        }   
+
+### Add Ingredients [POST /api/boss/manage/ingredients]
+
++ Request (application/json)
+
+    + Body
+        
+            {
+                "ingredientsname": "onion",
+                "amount": "100",
+                "price": "2.5"
+            }
+            
++ Response 200 (application/json)
+
+    + Header
+
+            Location: /api/boss/manage/ingredients
+
+    + Body
+
+            {}
+
++ Response 400 (application/json)
+
+        {
+            "msg": "bad ingredients name"
+        }
+
+### Delete Ingredients [DELETE /ap/api/boss/manage/ingredients/{ingredientsname}]
+
++ Request (application/json)
+
+   + Header
+    
+            Location: /api/boss/manage/ingredients
+    
+    + Body
+    
+            {}
+            
++ Response 401 (application/json)
+
++ Response 404 (application/json)
+
+        {
+            "msg": "ingredients not found"
+        }   
+       
+### Update Ingredients  [PUT /api/meetings/{redientsname}/amount]
+
++ Request (application/json)
+
+    + Body
+        
+            {
+                "amount": "235"
+            }
+            
++ Response 200 (application/json)
+
+    + Header
+
+            Location: /api/boss/manage/ingredients
+
+    + Body
+
+            {}
+
++ Response 401 (application/json)
+
++ Response 404 (application/json)
+
+        {
+            "msg": "ingredients not found"
+        }
+
+### Add Dishes [POST /api/boss/manage/dishes]
+
++ Request (application/json)
+
+    + Body
+        
+            {
+                "dishesname": "mlxg",
+                "ingredients": "hhh,nmb,sb",
+                "price": "35"
+            }
+            
++ Response 200 (application/json)
+
+    + Header
+
+            Location: /api/boss/manage/dishes
+
+    + Body
+
+            {}
+
++ Response 400 (application/json)
+
+        {
+            "msg": "bad dishes name"
+        }
+
+### Delete Dishes [DELETE /api/boss/manage/dishes/{dishesname}]
+
++ Request (application/json)
+
+   + Header
+    
+            Location: /api/boss/manage/dishes
+    
+    + Body
+    
+            {}
+            
++ Response 401 (application/json)
+
++ Response 404 (application/json)
+
+        {
+            "msg": "dishes not found"
+        }   
+
+### Show Remark List [GET /api/boss/manage/remarks]
+
++ Response 200 (application/json)
+            
+        [
+            {"remark1": "pretty good"},
+            {"remark2": "what the hell"},
+            {"remark3": "wonderful"}
+        ]
+            
++ Response 401 (application/json)
+
+### Show Account List [GET /api/boss/manage/accounts]
+
++ Response 200 (application/json)
+            
+        [
+            {"cost": "12345"},
+            {"gain": "54321"},
+            {"profit": "41976"}
+        ]
+            
++ Response 401 (application/json)
+
+## Group Staff [/api/staff]
+
+### Staff Login [POST /api/staff/login]
+
++ Request (application/json)
+
+        {
+            "staffname": "pml",
+            "password": "66666"
+        }
+
++ Response 200 (application/json)
+
+        {
+            "msg": "Logged in successfully"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "msg": "You have logged in as pml"
+        }
+
++ Response 401 (application/json)
+
+### Staff Logout [POST /api/staff/logout]
+
++ Response 200 (application/json)
+
+    + Header
+
+            Location: /api/staff/login
+
+### Configure Order [PUT /api/staff/configure/{orderid}/orderconstate]
+
++ Request (application/json)
+
+    + Body
+        
+            {
+                "orderconstate": "1"
+            }
+            
++ Response 200 (application/json)
+
+    + Header
+
+            Location: /api/staff
+
+    + Body
+
+            {}
+
++ Response 401 (application/json)
+
++ Response 404 (application/json)
+
+        {
+            "msg": "order not found"
+        }
+        
+### Complete Order [PUT /api/staff/complete/{orderid}/ordercomstate]
+
++ Request (application/json)
+
+    + Body
+        
+            {
+                "ordercomstate": "1"
+            }
+            
++ Response 200 (application/json)
+
+    + Header
+
+            Location: /api/staff
+
+    + Body
+
+            {}
+
++ Response 401 (application/json)
+
++ Response 404 (application/json)
+
+        {
+            "msg": "order not found"
+        }
+        
+## Group Customer [/api/customer]
+
+### Login [POST /api/cuetomer/login]
+
++ Request (application/json)
+
+        {
+            "tablenum": "999",
+            "IPaddr": "xxx.xxx.xxx.xxx"
+        }
+
++ Response 200 (application/json)
+ + Header
+
+            Location: /api/customer/menu
+            
+    + Body
+    
+            {}
++ Response 400 (application/json)
+
+### Create Order [POST /api/customer/createorder]
++ Request (application/json)
+
+    + Body
+
+            {
+                "list": "mlxg,xiaohu,ming,uzi,letme",
+                "tableid": "999",
+                "price": "1235",
+                "orderid": "008",
+                "ingredientsconstate": "0",
+                "ingredientscomstate": "0",
+                "ordertime": "2018-05-03 20:00"
+            }
+
++ Response 201 (application/json)
+
+    + Header
+
+            Location: /api/customer/showlist
+            
+    + Body
+    
+            {}
+
++ Response 400 (application/json)
+
+        {
+            "msg": "bad username"
+        }
+
+### Show List [GET /api/customer/showlist/orderid]
+
++ Response 200 (application/json)
+            
+        [
+            {"tableid": "999"},
+            {"list": "mlxg,xiaohu,ming,uzi,letme"},
+            {"orderid": "008"},
+            {"price": "1235"},
+            {"ordertime": "2018-05-03 20:00"},
+            {"predict time": "20min"}
+        ]
+            
++ Response 401 (application/json)
