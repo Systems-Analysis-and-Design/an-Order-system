@@ -1,0 +1,77 @@
+extends layout
+block head-content
+  link(rel='stylesheet', href='/stylesheets/index.css')
+  script(src='/javascripts/check.js')
+  script(src='/javascripts/login.js')
+
+block content
+  //轮播框-背景
+  div(data-ride='carousel')#carousel.carousel.slide
+    ol.carousel-indicators
+      li(data-target='#carousel', data-slide-to='0').active
+      li(data-target='#carousel', data-slide-to='1')
+      li(data-target='#carousel', data-slide-to='2')
+    div(role='listbox').carousel-inner
+      .carousel-item.active
+        img(src='/images/slide1.png').card-img-top
+      .carousel-item
+        img(src='/images/slide2.png').card-img-top
+      .carousel-item
+        img(src='/images/slide3.png').card-img-top
+      .container.card-img-overlay.login-box.jumbotron
+        h1= title
+        p 今天您皮了吗？
+        //模态框实现登录、注册
+        button(type='button', data-toggle='modal', data-target='#login').btn.btn-primary 皮一下
+        p 还没有皮皮怪？ 
+          a(data-toggle='modal', data-target='#regist').btn.btn-secondary.super-link 点击炼制！
+        //登录框
+        .modal.fade#login
+          .modal-dialog
+            form(name='login').modal-content
+              .modal-header
+                button(type='button', data-dismiss='modal').close &times;
+              .modal-body
+                .form-group.row
+                  label(for='username').col-sm-2.form-control-label 用户名
+                  input(type='text').form-control#username.col-sm-9
+                  img
+                .form-group.row
+                  label(for='password').col-sm-2.form-control-label 密码
+                  input(type='password').form-control#password.col-sm-9
+                  img
+                .form-group.row.form-result
+              .modal-footer.form-group.row
+                  input(type='submit', value='登录', name='login').btn.btn-secondary.mx-auto
+        //注册框
+        .modal.fade#regist
+          .modal-dialog
+            form(name='regist').modal-content
+              .modal-header
+                button(type='button', data-dismiss='modal').close &times;
+              .modal-body
+                .form-group.row
+                  label(for='upUsername').col-sm-3.form-control-label 用户名
+                  input(type='text', placeholder='6~18位英文字母、数字或下划线，字母开头').form-control#upUsername.col-sm-8
+                  img
+                .form-group.row
+                  label(for='upPassword').col-sm-3.form-control-label 密码
+                  input(type='password', placeholder='6~12位数字、大小写字母、中划线、下划线').form-control#upPassword.col-sm-8
+                  img
+                .form-group.row
+                  label(for='repassword').col-sm-3.form-control-label 重复密码
+                  input(type='password', placeholder='再次输入密码').form-control#repassword.col-sm-8
+                  img
+                .form-group.row
+                  label(for='phone').col-sm-3.form-control-label 电话
+                  input(type='text', placeholder='11位数字，不能以0开头').form-control#phone.col-sm-8
+                  img
+                .form-group.row
+                  label(for='email').col-sm-3.form-control-label 邮箱
+                  input(type='text', placeholder='不能含有数字').form-control#email.col-sm-8
+                  img
+                .form-group.row.form-result
+              .modal-footer.form-group.row
+                input(type='submit', value='注册', name='regist').btn.btn-secondary.mx-auto
+
+

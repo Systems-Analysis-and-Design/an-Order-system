@@ -1,0 +1,38 @@
+body {
+  
+}
+
+.login-box {
+  position: absolute;
+  margin: 0;
+  width: 300px;
+  height: 250px;
+  top: 20%;
+  left: 10%;
+  background-color:rgba(50, 50, 50, 0.5);
+  color: white;
+}
+
+.super-link {
+  background-color:rgba(50, 50, 50, 0.2);
+}
+
+.modal {
+  color: black;
+}
+
+.form-result {
+  color: red;
+  float: none;
+  display: table;
+  margin: 0px auto 0px auto;
+}
+
+.modal-body img {
+  position: absolute;
+  margin: 0px 0px;
+  right: 5px;
+  width: 35px;
+  height: 35px;
+  opacity: 0;
+}
