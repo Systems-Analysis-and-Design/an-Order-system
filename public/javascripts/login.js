@@ -17,7 +17,7 @@ function submitLoginForm() {
       async: true,
       data: $("[name='login']").serialize(),
       cache: false,
-      url: "/",
+      url: "?login",
       success: function(result) {
         $("#login form-result").text("");
         switch(result) {
@@ -48,7 +48,7 @@ function submitRegistForm() {
       async: true,
       data: $("[name='regist']").serialize(),
       dataType: "json",
-      url: "/regist",
+      url: "?regist",
       success: function(result) {
         switch(result) {
           case "success": success("注册");
