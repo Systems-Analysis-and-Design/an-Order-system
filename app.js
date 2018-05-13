@@ -8,14 +8,12 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 var settings = require('./settings');
-var flash = require('connect-flash');
 
 var app = express();
 
 //初始化View
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
-app.use(flash());
 
 //app.use(favicon(__dirname + '/public/images/favicon.ico'));
 app.use(logger('dev'));
