@@ -12,7 +12,7 @@ module.exports = function(app) {
   app.post('/regist', checkNotLogin);
   app.post('/regist', function (req, res) {
     var name = req.body.name,
-      password = req.body.password,
+      password = req.body.password;
 
     //生成密码的 md5 值
     var md5 = crypto.createHash('md5'),
