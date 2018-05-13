@@ -2,12 +2,14 @@ var fs = require('fs');
 var path = require('path');
 var crypto = require('crypto'),
   User = require('../models/user.js');
+var mime = require('../models/mime');
 
 module.exports = function(app) {
   /* GET home page. */
   app.get('/', function(req, res, next) {
     res.render('home', { title: '皮皮怪点餐' });
   });
+
 
   //app.post('/regist', checkNotLogin);
   app.post('/regist', function (req, res) {
@@ -18,7 +20,7 @@ module.exports = function(app) {
     var md5 = crypto.createHash('md5'),
       password = md5.update(req.body.password).digest('hex');
     var newUser = new User({
-      name: name,
+      name: req.body.username,
       password: password,
       phone: req.body.phone,
       email: req.body.email
@@ -66,5 +68,8 @@ module.exports = function(app) {
   //   }
   //   next();
   // }
+  app.use(function (req, res) {    //获取css,js,img
+    return res.sendFile(__dirname + '../public' + req.url);
+  });
 
 }
