@@ -48,6 +48,7 @@ function isAllCorrect(form) {    //全部合法才能提交
 }
 
 function success(operation) {    //登录或注册操作成功后禁止用户修改信息
+    console.log("tner");
     $(".modal-body input").attr("readonly", "readonly");
     $(".modal-footer input").attr("disabled", "disabled");
     countDownToJumpPage(operation);
