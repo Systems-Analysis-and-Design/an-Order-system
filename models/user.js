@@ -30,6 +30,7 @@ User.prototype.save = function (callback) {
             //将用户数据插入 users 集合
             collection.insert(user, {safe: true}, function (err, user) {
                 mongodb.close();
+                //成功！err 为 null，并返回存储后的用户文档
                 return err ? callback(err) : callback(null, user.ops[0]);
             });
         });
@@ -38,7 +39,6 @@ User.prototype.save = function (callback) {
 
 //读取用户信息
 User.get = function (name, callback) {
-    //打开数据库
     mongodb.open(function (err, db) {
         if (err) {
             return callback(err);//错误，返回 err 信息
