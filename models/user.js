@@ -28,14 +28,9 @@ User.prototype.save = function (callback) {
                 return callback(err);//错误，返回 err 信息
             }
             //将用户数据插入 users 集合
-            collection.insert(user, {
-                safe: true
-            }, function (err, user) {
+            collection.insert(user, {safe: true}, function (err, user) {
                 mongodb.close();
-                if (err) {
-                    return callback(err);//错误，返回 err 信息
-                }
-                callback(null, user[0]);//成功！err 为 null，并返回存储后的用户文档
+                return err ? callback(err) : callback(null, user.ops[0]);
             });
         });
     });
@@ -55,14 +50,9 @@ User.get = function (name, callback) {
                 return callback(err);//错误，返回 err 信息
             }
             //查找用户名（name键）值为 name 一个文档
-            collection.findOne({
-                name: name
-            }, function (err, user) {
+            collection.findOne({name: name}, function (err, user) {
                 mongodb.close();
-                if (err) {
-                    return callback(err);//失败！返回 err 信息
-                }
-                callback(null, user);//成功！返回查询的用户信息
+                return err ? callback(err) : callback(null, user.ops[0]);
             });
         });
     });

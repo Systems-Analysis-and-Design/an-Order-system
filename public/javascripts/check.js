@@ -26,7 +26,7 @@ function checkValidity() {    //检查合法性
             flag = /^[1-9]\d{10}$/.test(value);
             break;
         case "email":
-            flag = /^[a-zA-Z_\-]+@(([a-zA-Z_\-])+\.)+[a-zA-Z]{2,4}$/.test(value);
+            flag = /^[a-zA-Z_\-0-9]+@(([a-zA-Z_\-0-9])+\.)+[a-zA-Z0-9]{2,4}$/.test(value);
             break;
     }
     showValidity(flag, objId);
