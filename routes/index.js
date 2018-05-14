@@ -41,6 +41,28 @@ module.exports = function(app) {
       });
     } else if(type == 'login') {
       //登录表单处理
+         var md5 = crypto.createHash('md5');
+      var password = md5.update(req.body.password).digest('hex');
+      var name = req.body.username;
+       User.get(name, function (err, user) {
+        if (err) {
+            return res.json(err);
+        }
+        else if (user) {
+            if(user.password == password){
+              req.session.user = user;
+              return res.json("success");
+            }
+            else{
+              return res.json("wrongPassword");
+            }
+        }
+        else{
+          return res.json("notFound");
+         
+        }
+      
+      });
     }
   });
 
