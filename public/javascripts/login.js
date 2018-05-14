@@ -19,7 +19,7 @@ function submitLoginForm() {
       cache: false,
       url: "?login",
       success: function(result) {
-        $("#login form-result").text("");
+        $("#login .form-result").text("");
         switch(result) {
           case "success": success("登录");
             break;
