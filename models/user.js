@@ -52,7 +52,7 @@ User.get = function (name, callback) {
             //查找用户名（name键）值为 name 一个文档
             collection.findOne({name: name}, function (err, user) {
                 mongodb.close();
-                return err ? callback(err) : callback(null, user.ops[0]);
+                return err ? callback(err) : callback(null, user);
             });
         });
     });
