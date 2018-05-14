@@ -23,7 +23,6 @@ module.exports = function(app) {
         phone: req.body.phone,
         email: req.body.email
       });
-      console.log(newUser.name);
       //检查用户名是否已经存在 
       User.get(newUser.name, function (err, user) {
         if (err) {
@@ -43,7 +42,7 @@ module.exports = function(app) {
     } else if(type == 'login') {
       //登录表单处理
     }
-  }
+  });
 
   app.use(function (req, res) {    //获取css,js,img
     return res.sendFile(__dirname + '../public' + req.url);
