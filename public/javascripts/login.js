@@ -23,10 +23,10 @@ function submitLoginForm() {
         switch(result) {
           case "success": success("登录");
             break;
-          case "notFound": $("#login #form-result").text("该用户不存在！");
+          case "notFound": $("#login .form-result").text("该用户不存在！");
             showValidity(false, "username");
             break;
-          case "wrongPassword": $("#login #form-result").text("密码错误！");
+          case "wrongPassword": $("#login .form-result").text("密码错误！");
             showValidity(false, "password");
             break;
           default: window.location.href = "/";
