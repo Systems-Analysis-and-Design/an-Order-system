@@ -1,0 +1,190 @@
+doctype html
+html
+  head
+    title Checkout
+    // for-mobile-apps
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    meta(http-equiv='Content-Type', content='text/html; charset=utf-8')
+    meta(name='keywords', content='')
+    script(type='application/x-javascript').
+      addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
+      function hideURLbar(){ window.scrollTo(0,1); }
+    // css样式表
+    link(href='css/bootstrap.css', rel='stylesheet', type='text/css', media='all')
+    link(href='css/style.css', rel='stylesheet', type='text/css', media='all')
+    // web-fonts
+    link(href='https://fonts.googleapis.com/css?family=Raleway:400,100,100italic,200,200italic,300,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic', rel='stylesheet', type='text/css')
+    link(href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic', rel='stylesheet', type='text/css')
+    link(href='https://fonts.googleapis.com/css?family=Pompiere', rel='stylesheet', type='text/css')
+    link(href='https://fonts.googleapis.com/css?family=Fascinate', rel='stylesheet', type='text/css')
+    // animation-effect
+    // 实现缓慢加载，动画移动
+    link(href='css/animate.min.css', rel='stylesheet')
+    script(src='js/wow.min.js')
+    script.
+      new WOW().init();
+  body
+    .breadcrumbs
+      // 引导项 可以返回到参观主页
+      .container
+        ol.breadcrumb.breadcrumb1.animated.wow.slideInLeft
+          li
+            a(href='index.html')
+              span.glyphicon.glyphicon-home(aria-hidden='true')
+              | Home
+          li.active Check Out page
+    .header-two.navbar.navbar-default
+      // 信息栏 消费总金额
+      .container
+        .nav.navbar-nav.logo.wow.zoomIn.animated
+          h1
+            a(href='index.html')
+              | PIPI 
+              b restaurant
+              span.tag Please Check Out Your Order
+        .nav.navbar-nav.navbar-right.header-two-right.zoomIn.animated
+          .header-right.cart
+            h4
+              span.simpleCart_total 共消费$1000.00 
+              br
+              br
+              span#simpleCart_quantity.simpleCart_quantity  共有5项菜品 
+          .clearfix  
+        .clearfix  
+      .clearfix  
+    .cart-items
+      // cart-items
+      .container
+        h3.wow.fadeInUp.animated My reservation
+        .cart-header.wow.fadeInUp.animated
+          .cart-sec.simpleCart_shelfItem
+            .cart-item.cyc
+              img.img-responsive(src='images/m6.png', alt='')
+            .cart-item-info
+              h4
+                | 五香牛肉
+                span Price: ￥52.00
+              ul.qty
+                li
+                  p Amount: 2
+                li
+                  p Auto delivery
+              .delivery
+                p Intotal: ￥104.00
+                .clearfix
+            br
+            br
+            br
+            .clearfix
+        .cart-header.wow.fadeInUp.animated
+          .cart-sec.simpleCart_shelfItem
+            .cart-item.cyc
+              img.img-responsive(src='images/m1.png', alt='')
+            .cart-item-info
+              h4
+                | 黄金馒头
+                span Price: ￥52.00
+              ul.qty
+                li
+                  p Amount: 2
+                li
+                  p Auto delivery
+              .delivery
+                p Intotal: ￥104.00
+                .clearfix
+            br
+            br
+            br
+            .clearfix
+        .cart-header.wow.fadeInUp.animated
+          .cart-sec.simpleCart_shelfItem
+            .cart-item.cyc
+              img.img-responsive(src='images/m2.png', alt='')
+            .cart-item-info
+              h4
+                | 香酥烤肉
+                span Price: ￥52.00
+              ul.qty
+                li
+                  p Amount: 2
+                li
+                  p Auto delivery
+              .delivery
+                p Intotal: ￥104.00
+                .clearfix
+            br
+            br
+            br
+            .clearfix
+        .cart-header.wow.fadeInUp.animated
+          .cart-sec.simpleCart_shelfItem
+            .cart-item.cyc
+              img.img-responsive(src='images/m3.png', alt='')
+            .cart-item-info
+              h4
+                | 生鲜鱼肉
+                span Price: ￥52.00
+              ul.qty
+                li
+                  p Amount: 2
+                li
+                  p Auto delivery
+              .delivery
+                p Intotal: ￥104.00
+                .clearfix
+            br
+            br
+            br
+            .clearfix
+        .cart-header.wow.fadeInUp.animated
+          .cart-sec.simpleCart_shelfItem
+            .cart-item.cyc
+              img.img-responsive(src='images/m4.png', alt='')
+            .cart-item-info
+              h4
+                | Salad
+                span Price: ￥52.00
+              ul.qty
+                li
+                  p Amount: 2
+                li
+                  p Auto delivery
+              .delivery
+                p Intotal: ￥104.00
+                .clearfix
+            br
+            br
+            br
+            .clearfix
+        .cart-header.wow.fadeInUp.animated
+          .cart-sec.simpleCart_shelfItem
+            .cart-item.cyc
+              img.img-responsive(src='images/m5.png', alt='')
+            .cart-item-info
+              h4
+                | 美味炒饭
+                span Price: ￥52.00
+              ul.qty
+                li
+                  p Amount: 2
+                li
+                  p Auto delivery
+              .delivery
+                p Intotal: ￥104.00
+                .clearfix
+            br
+            br
+            br
+            .clearfix
+    // //cart-items
+    .footer
+      // 底部
+      .container
+        .footer-info
+          .footer-grids.wow.fadeInUp.animated
+            h4.footer-logo
+              a(href='index.html')
+                | PIPI 
+                b restaurant
+                span.tag Hope You Enjoy Your Food
+          .clearfix
