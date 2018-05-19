@@ -1,0 +1,210 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='x-ua-compatible', content='ie=edge')
+    meta(name='viewport', content='width=device-width,\
+    minimum-scale=1.0,maximum-scale=1.0,user-scalable=no')
+    title 皮皮怪餐馆
+    link(rel='stylesheet', href='css/bootstrap.min.css')
+    script(src='js/jquery.min.js')
+    script(src='js/bootstrap.min.js')
+    link(href='css/style.css', type='text/css', rel='stylesheet')
+    //
+      <link rel="stylesheet" href="css/style_cart.css">
+    script(src='http://apps.bdimg.com/libs/jquery/1.9.1/jquery.min.js')
+    script(src='js/cart.js')
+    style.
+      /* Make the image fully responsive */
+      .carousel-inner img {
+      width: 100%;
+      height: 100%;
+      }
+  body
+    .container
+      .row.clearfix
+        .col-md-12.column
+          #demo.carousel.slide(data-ride='carousel')
+            // 指示符
+            ul.carousel-indicators
+              li.active(data-target='#demo', data-slide-to='0')
+              li(data-target='#demo', data-slide-to='1')
+              li(data-target='#demo', data-slide-to='2')
+            // 轮播图片
+            .carousel-inner
+              .carousel-item.active
+                img(src='images/01.png')
+                .carousel-caption
+                  h3 风土乡情
+                  p Cras justo odio.
+              .carousel-item
+                img(src='images/02.png')
+                .carousel-caption
+                  h3 异域美食
+                  p Cras justo odio.
+              .carousel-item
+                img(src='images/03.png')
+                .carousel-caption
+                  h3 风味小吃
+                  p Cras justo odio.
+            // 左右切换按钮
+            a.carousel-control-prev(href='#demo', data-slide='prev')
+              span.carousel-control-prev-icon
+            a.carousel-control-next(href='#demo', data-slide='next')
+              span.carousel-control-next-icon
+          .alert.alert-info(role='alert')
+            strong Welcome !
+            |  皮皮怪餐馆欢迎您的光临！！
+          .row.clearfix
+            .column(class='col-md-1.5')
+              // Nav tabs
+              ul.nav.nav-pills.nav-stacked(role='tablist')
+                li.nav-item
+                  a.nav-link.active(href='#snack', role='tab', data-toggle='tab') 经典小吃
+                li.nav-item
+                  a.nav-link(href='#drink', role='tab', data-toggle='tab') 饮尿
+                li.nav-item
+                  a.nav-link(href='#rice', role='tab', data-toggle='tab') 主食
+                li.nav-item
+                  a.nav-link(href='#noodle', role='tab', data-toggle='tab') 面食
+            .col-md-9.column
+              // Tab panes
+              .tab-content
+                #snack.tab-pane.active(role='tabpanel')
+                  p 经典小吃是各个地方的特色小吃聚集在一起，让你体验不同的地域小吃风采。
+                  #content.list
+                    ul.list-group
+                      li.list-group-item
+                        a(href='detail.html')
+                          img.list-pic(src='images/m2.png')
+                        .shop-list-mid
+                          .tit
+                            | 五香牛肉
+                          .am-gallery-desc ￥60
+                        .list-cart
+                          .d-stock
+                            a.decrease -
+                            input#num.text_box(readonly='', name='', type='text', value='0')
+                            a.increase.add-button(href='#0', data-price='60', data-proid='1', data-proname='五香牛肉', data-proimg='images/m2.png') +
+                      li.list-group-item
+                        a(href='detail.html')
+                          img.list-pic(src='images/m1.png')
+                        .shop-list-mid
+                          .tit
+                            | 黄金馒头
+                          .am-gallery-desc ￥52
+                        .list-cart
+                          .d-stock
+                            a.decrease -
+                            input#num.text_box(readonly='', name='', type='text', value='0')
+                            a.increase.add-button(href='#0', data-price='52', data-proid='2', data-proname='黄金馒头', data-proimg='images/m1.png') +
+                #drink.tab-pane(role='tabpanel')
+                  p 饮尿是为很多人知道的一种不健康饮品，一般只有在沙漠里面才会尝试到，在这里也可以尝试，只需一分钟36度新鲜感受。
+                  #content.list
+                    ul.list-group
+                      li.list-group-item
+                        a(href='detail.html')
+                          img.list-pic(src='images/1.jpg')
+                        .shop-list-mid
+                          .tit
+                            | 苹果汁
+                          .am-gallery-desc ￥30
+                        .list-cart
+                          .d-stock
+                            a.decrease -
+                            input#num.text_box(readonly='', name='', type='text', value='0')
+                            a.increase.add-button(href='#0', data-price='30', data-proid='3', data-proname='苹果汁', data-proimg='images/1.png') +
+                #rice.tab-pane(role='tabpanel')
+                  p 米饭颗粒饱满，能满足大部分的能量需求，怕吃不饱的就点我。
+                  #content.list
+                    ul.list-group
+                      li.list-group-item
+                        a(href='detail.html')
+                          img.list-pic(src='images/03.jpg')
+                        .shop-list-mid
+                          .tit
+                            | 春卷
+                          .am-gallery-desc ￥20
+                        .list-cart
+                          .d-stock
+                            a.decrease -
+                            input#num.text_box(readonly='', name='', type='text', value='0')
+                            a.increase.add-button(href='#0', data-price='20', data-proid='4', data-proname='春卷', data-proimg='images/03.jpg') +
+                #noodle.tab-pane(role='tabpanel')
+                  p 面食是北方人多爱吃的一种食物，丰富多样色彩鲜艳，口味丰富，是爽口的不二选择。
+                  #content.list
+                    ul.list-group
+                      li.list-group-item
+                        a(href='detail.html')
+                          img.list-pic(src='images/m3.jpg')
+                        .shop-list-mid
+                          .tit
+                            | 小面
+                          .am-gallery-desc ￥10
+                        .list-cart
+                          .d-stock
+                            a.decrease -
+                            input#num.text_box(readonly='', name='', type='text', value='0')
+                            a.increase.add-button(href='#0', data-price='10', data-proid='5', data-proname='小面', data-proimg='images/m3.png') +
+        .cd-cart-container.empty
+          a.cd-cart-trigger(href='#0')
+            // 购物车
+            ul.count
+              // cart items count
+              //
+                <li>0</li>
+                <li>0</li>
+            // .count
+          .cd-cart
+            .wrapper
+              header
+                h2 购物车
+              .body
+                ul
+                  // products added to the cart will be inserted here using JavaScript
+              footer
+                a.checkout(href='checkout.html')
+                  em
+                    | 结算 - ￥
+                    span 0
+          // .cd-cart
+        script.
+          $(function() {
+          $('.increase').click(function() {
+          var self = $(this);
+          var current_num = parseInt(self.siblings('input').val());
+          current_num += 1;
+          if (current_num > 0) {
+          self.siblings(".decrease").fadeIn();
+          self.siblings(".text_box").fadeIn();
+          }
+          self.siblings('input').val(current_num);
+          update_item(self.siblings('input').data('item-id'));
+          })
+          $('.decrease').click(function() {
+          var self = $(this);
+          var current_num = parseInt(self.siblings('input').val());
+          if (current_num > 0) {
+          current_num -= 1;
+          if (current_num < 1) {
+          self.fadeOut();
+          self.siblings(".text_box").fadeOut();
+          }
+          self.siblings('input').val(current_num);
+          update_item(self.siblings('input').data('item-id'));
+          }
+          })
+          $('.list-jsk').click(function() {
+          var self = $(this);
+          var current_num = parseInt(self.siblings('input').val());
+          if (current_num > 0) {
+          current_num -= 1;
+          if (current_num < 1) {
+          self.fadeOut();
+          self.siblings(".text_box").fadeOut();
+          }
+          self.siblings('input').val(current_num);
+          update_item(self.siblings('input').data('item-id'));
+          }
+          })
+          })
