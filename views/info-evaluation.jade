@@ -1,0 +1,45 @@
+extends user
+append head-content
+  script(src='/javascripts/info-evaluation.js')
+block info-page
+  .card
+    .card-block
+      h4(name='evaluation') 菜品信息
+      input(type='submit', value='保存', name='evaluation').btn.btn-secondary
+      table(name='evaluation').table.table-hover
+        thead
+          tr
+            th 流水号
+            th 订单详情
+            th 总体评价
+            th 味道
+            th 上餐速度
+            th 服务态度
+            th 操作
+        tbody
+          each item in evaluation
+            tr.alert
+              td(name='serialNumber')
+                span #{item.serialNumber}
+                input(type='text')
+              td(name='orderDetails')
+                span #{item.orderDetails}
+                input(type='text')
+              td(name='totalEvaluation')
+                span #{item.totalEvaluation}
+                input(type='text')
+              td(name='taste')
+                span #{item.taste}
+                input(type='text')
+              td(name='speedOfProduction')
+                span #{item.speedOfProduction}
+                input(type='text')
+              td(name='serviceAttitude')
+                span #{item.serviceAttitude}
+                input(type='text')
+              td.btn-td
+                .btn-circle.btn-circle-td
+                  .btn-line
+                  a(href='#').deleteRow
+                    .btn-square
+                    img(src='/images/cross.png')

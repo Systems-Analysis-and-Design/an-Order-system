@@ -1,0 +1,25 @@
+extends layout
+block head-content
+  link(rel='stylesheet', href='/stylesheets/businessPage.css')
+  script(src='/javascripts/businessPage.js')
+block content
+  .head.border.container-fluid
+    .logo
+      img
+    .head-contents
+      a(href='#').btn.btn-link #{user.name}
+      a(href='?op=logout').btn.btn-link 注销
+  .contents.container-fluid
+    .con-left.container-fluid.border.border-top-0.border-borrom-0
+      .list-group
+        a(href='?username=#{user.name}&info=personal', name='personal').list-group-item.border-left-0.border-right-0.border-top-0 个人信息
+        a(href='?username=#{user.name}&info=ingredients', name='ingredients').list-group-item.border-left-0.border-right-0.border-top-0 食材信息
+        a(href='?username=#{user.name}&info=menu', name='menu').list-group-item.border-left-0.border-right-0.border-top-0 菜品信息
+        a(href='?username=#{user.name}&info=accounts', name='accounts').list-group-item.border-left-0.border-right-0.border-top-0 账目信息
+        a(href='?username=#{user.name}&info=evaluation', name='evaluation').list-group-item.border-left-0.border-right-0.border-top-0 评价信息
+        a(href='?username=#{user.name}&info=employee', name='employee').list-group-item.border-left-0.border-right-0.border-top-0 员工信息
+    .con-right.container-fluid
+      .info-pages
+        block info-page
+  .footer.container-fluid
+    img

@@ -1,0 +1,42 @@
+extends user
+append head-content
+  script(src='/javascripts/checkForm.js')
+  script(src='/javascripts/info-personal.js')
+block info-page
+  .card
+    .card-block
+      form(name='personal-account')
+        .form-header
+          h4.card-title 账号信息
+        .form-body
+          .form-group.row
+            label(for='username').col-sm-2.form-control-label 用户名
+            input(type='text', name='username', value='#{user.name}', disabled).form-control#username.col-sm-4
+          .form-group.row
+            label(for='phone').col-sm-2.form-control-label 电话
+            input(type='text', value='#{user.phone}', name='phone').form-control#phone.col-sm-4
+            img
+          .form-group.row
+            label(for='email').col-sm-2.form-control-label 邮箱
+            input(type='text', value='#{user.email}', name='email').form-control#email.col-sm-4
+            img
+        .form-footer
+          .form-group.row
+            input(type='submit', value='保存', name='personal-account' disabled).btn.btn-secondary.mx-auto
+  .card
+    .card-block
+      form(name='personal-store')
+          .form-header
+            h4.card-title 店铺信息
+          .form-body
+            .form-group.row
+              label(for='storeName').col-sm-1.form-control-label 店铺名
+              input(type='text', name='storeName', value='#{user.storeName}').form-control#storeName.col-sm-4
+              img
+            .form-group.row
+              label(for='storeAddress').col-sm-1.form-control-label 地址
+              input(type='text', value='#{user.storeAddress}', name='storeAddress').form-control#storeAddress.col-sm-4
+              img
+          .form-footer
+            .form-group.row
+              input(type='submit', value='保存', name='personal-store' disabled).btn.btn-secondary.mx-auto

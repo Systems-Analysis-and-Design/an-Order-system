@@ -1,0 +1,44 @@
+extends user
+append head-content
+  script(src='/javascripts/info-menu.js')
+block info-page
+  .card
+    .card-block
+      h4(name='menu') 菜品信息
+      input(type='submit', value='保存', name='menu').btn.btn-secondary
+      table.table.table-hover
+        thead
+          tr
+            th #
+            th 名称
+            th 主料
+            th 成本
+            th 售价
+            th 操作
+        tbody
+          each item, i in menu
+            tr.alert
+              th(scope='row') #{i}
+              td(name='name')
+                span #{item.name}
+                input(type='text')
+              td(name='ingredients')
+                span #{item.ingredients}
+                input(type='text')
+              td(name='cost')
+                span #{item.cost}
+                input(type='text')
+              td(name='price')
+                span #{item.price}
+                input(type='text')
+              td.btn-td
+                .btn-circle.btn-circle-td
+                  .btn-line
+                  a(href='#').deleteRow
+                    .btn-square
+                    img(src='/images/cross.png')
+      .btn-circle
+        .btn-line
+        a(href='#')#addRow
+          .btn-square
+          img(src='/images/plus.png')
