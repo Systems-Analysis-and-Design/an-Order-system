@@ -1,7 +1,7 @@
 extends layout
 block head-content
-  link(rel='stylesheet', href='/stylesheets/index.css')
-  script(src='/javascripts/check.js')
+  link(rel='stylesheet', href='/stylesheets/businessLogin.css')
+  script(src='/javascripts/checkForm.js')
   script(src='/javascripts/login.js')
 
 block content
@@ -29,9 +29,9 @@ block content
         .modal.fade#login
           .modal-dialog
             form(name='login').modal-content
-              .modal-header
+              .modal-header.form-header
                 button(type='button', data-dismiss='modal').close &times;
-              .modal-body
+              .modal-body.form-body
                 .form-group.row
                   label(for='username').col-sm-2.form-control-label 用户名
                   input(type='text', name='username').form-control#username.col-sm-9
@@ -40,16 +40,18 @@ block content
                   label(for='password').col-sm-2.form-control-label 密码
                   input(type='password', name='password').form-control#password.col-sm-9
                   img
-                .form-group.row.form-result
-              .modal-footer.form-group.row
-                  input(type='submit', value='登录', name='login').btn.btn-secondary.mx-auto
+              .modal-footer.form-footer
+                .form-group.row.mx-auto
+                  //小bug：点击后按钮变大
+                  input(type='submit', value='登录', name='login').btn.btn-secondary.col-sm-12
+                  .form-result
           //注册框
         .modal.fade#regist
           .modal-dialog
             form(name='regist').modal-content
-              .modal-header
+              .modal-header.form-header
                 button(type='button', data-dismiss='modal').close &times;
-              .modal-body
+              .modal-body.form-body
                 .form-group.row
                   label(for='upUsername').col-sm-3.form-control-label 用户名
                   input(type='text', placeholder='6~18位英文字母、数字或下划线，字母开头', name='username').form-control#upUsername.col-sm-8
@@ -70,6 +72,16 @@ block content
                   label(for='email').col-sm-3.form-control-label 邮箱
                   input(type='text', placeholder='example@163.com', name='email').form-control#email.col-sm-8
                   img
-                .form-group.row.form-result
-              .modal-footer.form-group.row
-                input(type='submit', value='注册', name='regist').btn.btn-secondary.mx-auto
+                .form-group.row
+                  label(for='storeName').col-sm-3.form-control-label 店名
+                  input(type='text', placeholder='皮皮餐馆', name='storeName').form-control#storeName.col-sm-8
+                  img
+                .form-group.row
+                  label(for='storeAddress').col-sm-3.form-control-label 店地址
+                  input(type='text', placeholder='P城', name='storeAddress').form-control#storeAddress.col-sm-8
+                  img
+              .modal-footer.form-footer
+                .form-group.row.mx-auto
+                  //小bug：点击后按钮变大
+                  input(type='submit', value='注册', name='regist').btn.btn-secondary.col-sm-12
+                  .form-result
