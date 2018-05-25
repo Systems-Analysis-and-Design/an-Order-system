@@ -1,12 +1,17 @@
 (function() {
+  var public = {
+    waitTime: 5
+  }
+
   $(function() {
-    $(".modal-body input").blur(checkValidity)
+    $(".form-body input").blur(checkValidity)
     .blur();
+    $(".form-header button").click(clearInfo);
     $("[name='login']").submit(submitLoginForm);
     $("[name='regist']").submit(submitRegistForm);
-});
+  });
 
-function submitLoginForm() {
+  function submitLoginForm() {
     if(!isAllCorrect("login")) {    //不合要求则阻止提交
       $("#login .form-result").text("存在非法格式！");
       return false;
@@ -17,7 +22,7 @@ function submitLoginForm() {
       async: true,
       data: $("[name='login']").serialize(),
       cache: false,
-      url: "?login",
+      url: "?op=login",
       success: function(result) {
         $("#login .form-result").text("");
         switch(result) {
@@ -35,9 +40,9 @@ function submitLoginForm() {
     });
     
     return false; //阻止submit提交
-} 
+  } 
 
-function submitRegistForm() {
+  function submitRegistForm() {
     if(!isAllCorrect("regist")) {    //不合要求则阻止提交
       $("#regist .form-result").text("存在非法格式！");
       return false;
@@ -48,7 +53,7 @@ function submitRegistForm() {
       async: true,
       data: $("[name='regist']").serialize(),
       dataType: "json",
-      url: "?regist",
+      url: "?op=regist",
       success: function(result) {
         switch(result) {
           case "success": success("注册");
@@ -60,7 +65,34 @@ function submitRegistForm() {
         }
       }
     });
-    
     return false; //阻止submit提交
+  }
+
+  function clearInfo() {
+    $(this).parent().siblings(".form-footer").find(".form-result").text("");
+  }
+
+  //响应success回调函数
+  function success(operation) {    //登录或注册操作成功后禁止用户修改信息
+      $(".form-body input").attr("readonly", "readonly");
+      $(".form-footer input").attr("disabled", "disabled");
+      countDownToJumpPage(operation);
+  }
+
+  function countDownToJumpPage(operation) {    //倒计时跳转页面
+      if(public.waitTime-- <= 0) {
+          clearTimeout(public.clock);
+          //跳转到主页
+          window.location.href = 'user/?username=' + ((operation == "登录") ? $("#username").val() : $("#upUsername").val()) + '&info=personal';
+          return;
+      }
+      var result;
+      if(operation == "登录") {
+          result = $("#login .form-result");
+      } else {
+          result = $("#regist .form-result");
+      }
+      result.text(operation + "成功！" + public.waitTime + "秒后跳转页面");
+      public.clock = setTimeout(countDownToJumpPage.bind(null, operation), 1000);
   }
 })();
