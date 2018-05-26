@@ -16,7 +16,7 @@ Employee.prototype.save = function (callback) {
     	account: this.account,
         password: this.password,
         name: this.name,
-        age: this.age
+        age: this.age,
         phone:this.phone,
         position: this.position
     };
