@@ -71,7 +71,7 @@
       async: true,
       data: $("[name='newEmployee']").serialize(),
       dataType: "json",
-      url: "?username=" + $(".head-contents:first-child").text() + "&info=employee&op=new",
+      url: "?username=" + $(".head-contents a").first().text() + "&info=employee&op=new",
       success: function(result) {
         window.location.reload();
       }
@@ -112,7 +112,7 @@
         async: true,
         data: data,
         dataType: "json",
-        url: "?username=" + $(".head-contents:first-child").text() + "&info=employee&op=save",
+        url: "?username=" + $(".head-contents a").first().text() + "&info=employee&op=save",
         success: function(result) {
           window.location.reload();
         }
