@@ -21,7 +21,7 @@
         async: true,
         data: $(this).serialize(),
         dataType: "json",
-        url: "?username=" + $(".head-contents:first-child").text() + "&info=" + $(this).attr("name"),
+        url: "?username=" + $(".head-contents a").first().text() + "&info=" + $(this).attr("name"),
         success: function(result) {
           window.location.reload();
         }
