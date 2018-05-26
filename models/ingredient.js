@@ -9,7 +9,7 @@ function Ingredient(ingredient) {
 };
 
 //存储用户信息
-User.prototype.save = function (callback) {
+Ingredient.prototype.save = function (callback) {
     //要存入数据库的用户文档
     var ingredient = {
         name: this.name,
