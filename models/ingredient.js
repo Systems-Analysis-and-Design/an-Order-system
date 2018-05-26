@@ -39,7 +39,7 @@ Ingredient.prototype.save = function (callback) {
 };
 
 //读取用户信息
-User.get = function (name, callback) {
+Ingredient.get = function (name, callback) {
     mongodb.open(function (err, db) {
         if (err) {
             return callback(err);//错误，返回 err 信息
