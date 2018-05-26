@@ -76,21 +76,39 @@ module.exports = function(app) {
     var op = req.query.op;
     if (op == "logout") {
       req.session.user = null;
+      return res.redirect('/');
     }
     else {
       if(req.session.user) {
         if(req.session.user.name == req.query.username && req.query.info) {
           //防止通过改url访问他人数据
-
+          var name = req.session.user.name;
+          console.log(name);
+          var show = new Object();
+          console.log('1');
+          User.get(name, function (err, user) {
+            console.log('2');
+            console.log(user);
+            if (user) { 
+              console.log('3');
+              show.name = user.name;
+              show.phone = user.phone;
+              show.email = user.email;
+              show.storeName = user.storeName;
+              show.storeAddress = user.storeAddress;
+              console.log('4');
+              return res.render('info-' + req.query.info, { user: show });
+            }
+          });
           // Test
           //待修改-根据请求的info页返回相应数据
           //user
-          var user = new Object();
-          user.name = req.session.user.name;
-          user.phone = req.session.user.phone;
-          user.email = req.session.user.email;
-          user.storeName = req.session.user.storeName;
-          user.storeAddress = req.session.user.storeAddress;
+          // var user = new Object();
+          // user.name = req.session.user.name;
+          // user.phone = req.session.user.phone;
+          // user.email = req.session.user.email;
+          // user.storeName = req.session.user.storeName;
+          // user.storeAddress = req.session.user.storeAddress;
           //返回对象数组
           //ingredients
           var ingredients = new Array();
@@ -145,13 +163,13 @@ module.exports = function(app) {
           itemOut.cost = 5;
           itemOut.note = "两个月的份";
           accountsOut[0] = itemOut;
-          return res.render('info-' + req.query.info, {user: user, ingredients: ingredients, menu: menu, evaluation: evaluation, employee: employee, accountsIn: accountsIn, accountsOut: accountsOut});
+          //return res.render('info-' + req.query.info, {user: show, ingredients: ingredients, menu: menu, evaluation: evaluation, employee: employee, accountsIn: accountsIn, accountsOut: accountsOut});
           // Test
         }
-      return res.redirect('/user?username=' + req.session.user.name + '&info=personal');
+        else  return res.redirect('/user?username=' + req.session.user.name + '&info=personal');
       }
     }
-    return res.redirect('/');
+   
   });
 
   //修改表单
