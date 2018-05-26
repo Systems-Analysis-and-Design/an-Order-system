@@ -247,7 +247,7 @@
       async: true,
       data: allData,
       dataType: "json",
-      url: "?username=" + $(".head-contents:first-child").text() + "&info=accounts",
+      url: "?username=" + $(".head-contents a").first().text() + "&info=accounts",
       success: function(result) {
         window.location.reload();
       }
