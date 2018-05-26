@@ -198,6 +198,7 @@ module.exports = function(app) {
         }
       }); 
     }
+     return res.json('success');
   });
 
 
