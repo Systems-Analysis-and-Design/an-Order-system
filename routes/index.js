@@ -23,7 +23,9 @@ module.exports = function(app) {
         name: req.body.username,
         password: password,
         phone: req.body.phone,
-        email: req.body.email
+        email: req.body.email,
+        storeName: req.body.storeName,
+        storeAddress: req.body.storeAddress
       });
       //检查用户名是否已经存在 
       User.get(newUser.name, function (err, user) {
