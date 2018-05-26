@@ -58,7 +58,7 @@
         async: true,
         data: data,
         dataType: "json",
-        url: "?username=" + $(".head-contents:first-child").text() + "&info=evaluation",
+        url: "?username=" + $(".head-contents a").first().text() + "&info=evaluation",
         success: function(result) {
           window.location.reload();
         }
