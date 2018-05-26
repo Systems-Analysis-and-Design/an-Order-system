@@ -25,7 +25,7 @@ body {
   color: red;
   float: none;
   display: table;
-  margin: 0px auto 0px auto;
+  margin: 5px auto 5px auto;
 }
 
 .modal-body img {
