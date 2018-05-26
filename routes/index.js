@@ -2,6 +2,7 @@ var fs = require('fs');
 var path = require('path');
 var crypto = require('crypto');
 var User = require('../models/user');
+var Menu = require('../models/menu');
 
 module.exports = function(app) {
   /* GET home page. */
