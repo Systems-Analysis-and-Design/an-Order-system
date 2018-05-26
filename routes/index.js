@@ -83,20 +83,14 @@ module.exports = function(app) {
         if(req.session.user.name == req.query.username && req.query.info) {
           //防止通过改url访问他人数据
           var name = req.session.user.name;
-          console.log(name);
           var show = new Object();
-          console.log('1');
           User.get(name, function (err, user) {
-            console.log('2');
-            console.log(user);
             if (user) { 
-              console.log('3');
               show.name = user.name;
               show.phone = user.phone;
               show.email = user.email;
               show.storeName = user.storeName;
               show.storeAddress = user.storeAddress;
-              console.log('4');
               return res.render('info-' + req.query.info, { user: show });
             }
           });
