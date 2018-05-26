@@ -12,6 +12,7 @@ function Ingredient(ingredient) {
 Ingredient.prototype.save = function (callback) {
     //要存入数据库的用户文档
     var ingredient = {
+        owner:this.owner,
         name: this.name,
         price: this.price,
         cost:this.cost,
@@ -23,7 +24,7 @@ Ingredient.prototype.save = function (callback) {
             return callback(err);//错误，返回 err 信息
         }
         //读取 users 集合
-        db.collection(this.owner + 'ingredients', function (err, collection) {
+        db.collection(ingredient.owner + '_ingredients', function (err, collection) {
             if (err) {
                 mongodb.close();
                 return callback(err);//错误，返回 err 信息
@@ -45,7 +46,7 @@ Ingredient.get = function (name, callback) {
             return callback(err);//错误，返回 err 信息
         }
         //读取 users 集合
-        db.collection(this.owner + 'ingredients', function (err, collection) {
+        db.collection(ingredient.owner + '_ingredients', function (err, collection) {
             if (err) {
                 mongodb.close();
                 return callback(err);//错误，返回 err 信息

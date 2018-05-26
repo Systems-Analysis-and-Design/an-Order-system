@@ -13,6 +13,7 @@ function Employee(employee) {
 Employee.prototype.save = function (callback) {
     //要存入数据库的用户文档
     var employee = {
+        owner:this.owner,
     	account: this.account,
         password: this.password,
         name: this.name,
@@ -25,8 +26,7 @@ Employee.prototype.save = function (callback) {
         if (err) {
             return callback(err);//错误，返回 err 信息
         }
-        //读取  employees 集合
-        db.collection(this.owner + 'employees', function (err, collection) {
+        db.collection(employee.owner + '_employees', function (err, collection) {
             if (err) {
                 mongodb.close();
                 return callback(err);//错误，返回 err 信息
@@ -48,7 +48,7 @@ Employee.get = function (account, callback) {
             return callback(err);//错误，返回 err 信息
         }
         //读取 employees 集合
-        db.collection(this.owner + 'employees', function (err, collection) {
+        db.collection(employee.owner + '_employees', function (err, collection) {
             if (err) {
                 mongodb.close();
                 return callback(err);//错误，返回 err 信息

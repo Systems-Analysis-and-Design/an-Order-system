@@ -12,6 +12,7 @@ function Menu(menu) {
 Menu.prototype.save = function (callback) {
 
     var menu = {
+        owner:this.owner,
         name: this.name,
         ingredients: this.ingredients,
         cost: this.cost,
@@ -23,7 +24,7 @@ Menu.prototype.save = function (callback) {
             return callback(err);//错误，返回 err 信息
         }
         //读取 menu 集合
-        db.collection(this.owner+'menu', function (err, collection) {
+        db.collection(menu.owner+'_menu', function (err, collection) {
             if (err) {
                 mongodb.close();
                 return callback(err);//错误，返回 err 信息
@@ -45,7 +46,7 @@ Menu.get = function (name, callback) {
             return callback(err);//错误，返回 err 信息
         }
         //读取 menu 集合
-        db.collection(this.owner+'menu', function (err, collection) {
+        db.collection(menu.owner+'_menu', function (err, collection) {
             if (err) {
                 mongodb.close();
                 return callback(err);//错误，返回 err 信息
