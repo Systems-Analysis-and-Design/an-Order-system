@@ -62,4 +62,20 @@ User.get = function (name, callback) {
     });
 };
 
+User.update = function (name, up, callback) {
+    mongodb.open(function (err, db) {
+        if (err) {
+            return callback(err);//错误，返回 err 信息
+        }
+        db.collection('users', function (err, collection) {
+            if (err) {
+                mongodb.close();
+                return callback(err);//错误，返回 err 信息
+            }
+            collection.update({'name': name}, up, function (err) {
+                mongodb.close();
+            });
+        });
+    });
+}
 module.exports = User;

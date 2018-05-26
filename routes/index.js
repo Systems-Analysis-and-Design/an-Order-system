@@ -5,6 +5,7 @@ var User = require('../models/user');
 var Menu = require('../models/menu');
 var Employee = require('../models/employee');
 var Ingredient = require('../models/ingredient');
+var mongodb = require('../models/db');
 
 module.exports = function(app) {
   /* GET home page. */
@@ -15,6 +16,7 @@ module.exports = function(app) {
   app.post('/', function (req, res) {
     //表单类型
     var op = req.query.op;
+    var info = req.query.info;
     var md5 = crypto.createHash('md5');
     var password = md5.update(req.body.password).digest('hex');
     if (op == 'regist') {
@@ -25,7 +27,7 @@ module.exports = function(app) {
         phone: req.body.phone,
         email: req.body.email,
         storeName: req.body.storeName,
-        storeAddress: req.body.storeAddress
+        storeAddress:req.body.storeAddress
       });
       //检查用户名是否已经存在 
       User.get(newUser.name, function (err, user) {
@@ -65,6 +67,7 @@ module.exports = function(app) {
         }
       });
     }
+
   });
 
 
@@ -86,8 +89,8 @@ module.exports = function(app) {
           user.name = req.session.user.name;
           user.phone = req.session.user.phone;
           user.email = req.session.user.email;
-          user.storeName = "皮皮怪餐馆";
-          user.storeAddress = "P城";
+          user.storeName = req.session.user.storeName;
+          user.storeAddress = req.session.user.storeAddress;
           //返回对象数组
           //ingredients
           var ingredients = new Array();
@@ -154,13 +157,35 @@ module.exports = function(app) {
   //修改表单
   app.post('/user', function(req, res, next) {
     // Test
-    console.log(req.body);
-    return res.json("success");
-    //第1行数据
-    // console.log(req.body['data[0][name]']);
-    // console.log(req.body['data[0][price]']);
-    // console.log(req.body['data[0][cost]']);
-    // console.log(req.body['data[0][stock]']);
+    var info = req.query.info;
+    if (info == 'personal-store') {
+      var name = req.query.username;
+      var up = {
+          $set: {
+            'storeName': req.body.storeName,
+            'storeAddress': req.body.storeAddress
+          }
+        };
+      User.update(name, up, function (err, user) {
+        if (err) {
+          return res.json(err);
+        }
+        });  
+    }
+    else if (info == 'personal-account') {
+      var name = req.query.username;
+      var up = {
+        $set: {
+          'phone': req.body.phone,
+          'email': req.body.email
+        }
+      };
+      User.update(name, up, function (err, user) {
+        if (err) {
+          return res.json(err);
+        }
+      }); 
+    }
   });
 
 
