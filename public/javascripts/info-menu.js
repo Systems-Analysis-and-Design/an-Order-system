@@ -110,7 +110,7 @@
         async: true,
         data: data,
         dataType: "json",
-        url: "?username=" + $(".head-contents:first-child").text() + "&info=menu",
+        url: "?username=" + $(".head-contents a").first().text() + "&info=menu",
         success: function(result) {
           window.location.reload();
         }
