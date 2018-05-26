@@ -5,6 +5,8 @@ function User(user) {
     this.password = user.password;
     this.phone = user.phone;
     this.email = user.email;
+    this.storeName = user.storeName;
+    this.storeAddress = user.storeAddress;
 };
 
 //存储用户信息
@@ -14,7 +16,9 @@ User.prototype.save = function (callback) {
         name: this.name,
         password: this.password,
         phone:this.phone,
-        email: this.email
+        email: this.email,
+        storeName: this.storeName,
+        storeAddress: this.storeAddress
     };
     //打开数据库
     mongodb.open(function (err, db) {
