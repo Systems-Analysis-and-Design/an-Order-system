@@ -1,0 +1,352 @@
+body {
+  width: 100%;
+  height: 100%;
+}
+
+.head {
+  height: 60px;
+  background-color: #fafafa;
+}
+
+.logo {
+  width: 10%;
+  height: 100%;
+  float: left;
+}
+
+.head-contents {
+  width: 90%;
+  height: 100%;
+  float: right;
+}
+
+.head-contents a {
+  margin: 10px 5px;
+  float: right;
+}
+
+.contents {
+  height: 100%;
+  padding: 0;
+}
+
+.con-left {
+  width: 10%;
+  min-width: 80px;
+  max-width: 200px;
+  height: 1280px;
+  padding: 0;
+  float: left;
+  text-align: center;
+  background-color: #fafafa;
+}
+
+.con-left a {
+  color: gray;
+  background-color: inherit;
+}
+
+.con-left a:hover {
+  color: rgba(255, 109, 0, 0.87);
+  background-color: rgb(237, 240, 242);
+}
+
+a.a-selected{
+  color: rgb(255, 109, 0);
+}
+
+.con-right {
+  width: 90%;
+  min-width: 500px;
+  max-width: 1780px;
+  height: auto;
+  padding: 0px 0px;
+  float: left;
+  background: -webkit-gradient(linear,left top,left bottom,from(rgba(0,0,0,.2)),to(rgba(0,0,0,0)));
+}
+
+.info-pages {
+  margin: 1% 1%;
+}
+
+.card {
+  min-width: 380px;
+  padding: 10px 10px;
+  z-index: 0;
+}
+
+form {
+  width: 500px;
+}
+
+.form-body label {
+  min-width: 100px;
+  margin: 10px 10px;
+  font-size: 20px;
+}
+
+.form-body input {
+  min-width: 250px;
+  margin: 10px 10px;
+}
+
+.form-body img {
+  position: relative;
+  margin: 0px 0px;
+  top: 10px;
+  width: 35px;
+  height: 35px;
+  opacity: 0;
+}
+
+.delete {
+  display: none;
+}
+
+.btn-circle {
+  box-sizing: border-box;
+  display: inline-block;
+  position: relative;
+  left: 47%;
+  text-align: center;
+  padding: 0px 0px;
+  margin: 0px 0px;
+  width: 70px;
+  height: 70px;
+}
+
+td.btn-td {
+  padding: 0px;
+  width: 0px;
+}
+
+td.btn-td .btn-circle-td {
+  width: 50px;
+  height: 50px;
+  position: relative;
+  left: 0%;
+}
+
+.btn-line {
+  content: "";
+  display: block;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #fff;
+  width: 100%;
+  height: 1px;
+  position: absolute;
+  top: 50%;
+  z-index: 0;
+}
+
+.btn-circle a {
+  display: block;
+  text-decoration: none;
+  background-color: #f7f7f7;
+  margin: 21.5%;
+  padding: 0px;
+  width: 57%;
+  height: 57%;
+  position: relative;
+  border-radius: 50%;
+  border: solid 1px transparent;
+  box-sizing: border-box;
+  box-shadow: 0px 3px 8px #aaa, inset 0px 2px 3px #fff;
+  cursor: pointer;
+}
+
+.btn-circle a:hover {
+  background-color: #f5f5f5;
+}
+
+.btn-circle a:active {
+  box-shadow: none;
+  border: solid 1px #a7a7a7;
+}
+
+.btn-square {
+  content: "";
+  display: block;
+  background: #fff;
+  border-top: 2px solid #ddd;
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  bottom: -5px;
+  right: -5px;
+  z-index: -1;
+  border-radius: 50%;
+  box-shadow: inset 0px 8px 48px #ddd;
+}
+
+.btn-circle img {
+  position: absolute;
+  top: 15%;
+  right: 12%;
+  height: 75%;
+  width: 75%;
+}
+
+thead th {
+  width: 20%;
+}
+
+thead th:first-child {
+  width: 10%;
+}
+
+thead th:last {
+  width: 10%;
+}
+
+[name='evaluation'] thead th {
+  width: 10%;
+}
+
+[name='evaluation'] thead th:nth-child(2) {
+  width: 27%;
+}
+
+[name='evaluation'] thead th:nth-child(3) {
+  width: 27%;
+}
+
+[name='evaluation'] thead th:first-child {
+  width: 8%;
+}
+
+[name='evaluation'] thead th:last {
+  width: 8%;
+}
+
+td input, .info-item input {
+  display: none;
+  padding: 0px;
+  border-width: 0px;
+  width: 100%;
+}
+
+h4[name='ingredients'], h4[name='menu'], h4[name='evaluation'], h4[name='employee'], h4[name='accounts'] {
+  display: inline-block;
+  width: 50%;
+}
+
+input[name='ingredients'], input[name='menu'], input[name='evaluation'], input[name='employee'], input[name='accounts'] {
+  float: right;
+  margin-bottom: 10px;
+}
+
+#accordion-employee {
+  width: 50%;
+  margin: 1% auto;
+}
+
+.panel {
+  padding: 0px;
+}
+
+h4.panel-title {
+  text-align: center;
+  padding: 0px;
+  margin: 0px;
+}
+
+h4.panel-title a {
+  display: inline-block;
+  width: 100%;
+  padding: 1%;
+}
+
+h4.panel-title a:hover {
+  text-decoration: none;
+}
+
+.panel-title img {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+}
+
+@keyframes rotate {
+  0% {transform:rotate(0deg);}
+  100% {transform:rotate(180deg);}
+}
+
+img.icon {
+  right: 1%;
+}
+
+.img-rotate {
+  animation: rotate 0.5s 1;
+  -webkit-animation: rotate 0.5s 1;
+}
+
+img.avatar {
+  left: 1%;
+}
+
+#accordion-employee .panel-collapse {
+  padding: 1% 5%;
+}
+
+.info-item div {
+  display: inline-block;
+}
+
+.info-item-val span {
+  padding-left: 0px;
+}
+
+.panel .btn-circle {
+  left: 45%;
+}
+
+.IO-overview {
+  margin-top: 20px;
+}
+
+.IO-overview h4 {
+  text-align: center;
+  width: 33%;
+}
+
+[name='accounts-in'] thead th {
+  width: 15%
+}
+[name='accounts-in'] thead th:nth-child(2) {
+  width: 20%;
+}
+[name='accounts-in'] thead th:nth-child(3) {
+  width: 10%;
+}
+[name='accounts-in'] thead th:nth-child(4) {
+  width: 10%;
+}
+[name='accounts-in'] thead th:first-child {
+  width: 7.5%;
+}
+[name='accounts-in'] thead th:last {
+  width: 7.5%;
+}
+
+
+[name='accounts-out'] thead th:nth-child(2) {
+  width: 20%
+}
+[name='accounts-out'] thead th:nth-child(3) {
+  width: 40%
+}
+[name='accounts-out'] thead th:nth-child(4) {
+  width: 20%
+}
+[name='accounts-out'] thead th:first-child {
+  width: 10%;
+}
+[name='accounts-out'] thead th:last {
+  width: 10%;
+}
+
+.border-line {
+  border: 1px solid rgba(0,0,0,.125);
+  width: 100%;
+}
