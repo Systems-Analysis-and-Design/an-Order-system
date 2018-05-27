@@ -61,5 +61,21 @@ Employee.get = function (account, callback) {
         });
     });
 };
+Employee.update = function (account, up, callback) {
+    mongodb.open(function (err, db) {
+        if (err) {
+            return callback(err);//错误，返回 err 信息
+        }
+        db.collection(employee.owner + '_employeess', function (err, collection) {
+            if (err) {
+                mongodb.close();
+                return callback(err);//错误，返回 err 信息
+            }
+            collection.update({'account': account}, up, function (err) {
+                mongodb.close();
+            });
+        });
+    });
+};
 
 module.exports = Employee;
