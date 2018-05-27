@@ -66,17 +66,17 @@ Employee.get = function (name, username, callback) {
     
 };
 
-Employee.update = function (name, up, callback) {
+Employee.update = function (name,username, up, callback) {
     mongodb.open(function (err, db) {
         if (err) {
             return callback(err);//错误，返回 err 信息
         }
-        db.collection(employee.owner + '_employees', function (err, collection) {
+        db.collection(name + '_employees', function (err, collection) {
             if (err) {
                 mongodb.close();
                 return callback(err);//错误，返回 err 信息
             }
-            collection.update({ 'username':name }, up, function (err) {
+            collection.update({ 'username':username }, up, function (err) {
                 mongodb.close();
             });
         });
