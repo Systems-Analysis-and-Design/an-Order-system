@@ -251,7 +251,7 @@ module.exports = function(app) {
     }
     else if (info == 'employee') {
       var op = req.query.op;
-      if (op == 'nem') {
+      if (op == 'new') {
         
       }
       else if (op == 'save') {
