@@ -38,17 +38,19 @@ Employee.prototype.save = function (callback) {
                 return err ? callback(err) : callback(null, employee.ops[0]);
             });
         });
+        mongodb.close();
     });
+    
 };
 
 //读取员工信息
-Employee.get = function (username, callback) {
+Employee.get = function (name, username, callback) {
     mongodb.open(function (err, db) {
         if (err) {
             return callback(err);//错误，返回 err 信息
         }
         //读取 employees 集合
-        db.collection(employee.owner + '_employees', function (err, collection) {
+        db.collection(name + '_employees', function (err, collection) {
             if (err) {
                 mongodb.close();
                 return callback(err);//错误，返回 err 信息
@@ -59,10 +61,12 @@ Employee.get = function (username, callback) {
                 return err ? callback(err) : callback(null, employee);
             });
         });
+        mongodb.close();
     });
+    
 };
 
-Employee.update = function (username, up, callback) {
+Employee.update = function (name, up, callback) {
     mongodb.open(function (err, db) {
         if (err) {
             return callback(err);//错误，返回 err 信息
@@ -72,11 +76,13 @@ Employee.update = function (username, up, callback) {
                 mongodb.close();
                 return callback(err);//错误，返回 err 信息
             }
-            collection.update({ 'username': username }, up, function (err) {
+            collection.update({ 'username':name }, up, function (err) {
                 mongodb.close();
             });
         });
+        mongodb.close();
     });
+    
 };
 
 module.exports = Employee;
