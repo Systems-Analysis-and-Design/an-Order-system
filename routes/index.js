@@ -290,7 +290,6 @@ module.exports = function(app) {
         });
       }
       else if (op == 'save') {
-        console.log(req.body);
         var arr = Object.keys(req.body);
         var len = arr.length / 7;
         var name = req.query.username;
