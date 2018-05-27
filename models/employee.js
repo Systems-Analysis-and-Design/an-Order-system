@@ -1,9 +1,8 @@
-
 var mongodb = require('./db');
 
 function Employee(employee) {
 	this.owner = employee.owner;
-    this.usernmae = employee.username;
+    this.username = employee.username;
     this.password = employee.password;
     this.name = employee.name;
     this.age = employee.age;
@@ -14,7 +13,7 @@ function Employee(employee) {
 Employee.prototype.save = function (callback) {
     //要存入数据库的用户文档
     var employee = {
-        owner:this.owner,
+        owner: this.owner,
     	username: this.username,
         password: this.password,
         name: this.name,
@@ -27,7 +26,6 @@ Employee.prototype.save = function (callback) {
         if (err) {
             return callback(err);//错误，返回 err 信息
         }
-        //读取  employees 集合
         db.collection(employee.owner + '_employees', function (err, collection) {
             if (err) {
                 mongodb.close();
@@ -44,7 +42,7 @@ Employee.prototype.save = function (callback) {
 };
 
 //读取员工信息
-Employee.get = function (username, callback) {
+Employee.get = function (account, callback) {
     mongodb.open(function (err, db) {
         if (err) {
             return callback(err);//错误，返回 err 信息
@@ -56,24 +54,25 @@ Employee.get = function (username, callback) {
                 return callback(err);//错误，返回 err 信息
             }
             //查找账户（值为 account 一个文档
-            collection.findOne({username: username}, function (err, employee) {
+            collection.findOne({account: account}, function (err, employee) {
                 mongodb.close();
                 return err ? callback(err) : callback(null, employee);
             });
         });
     });
 };
-Employee.update = function (username, up, callback) {
+
+Employee.update = function (account, up, callback) {
     mongodb.open(function (err, db) {
         if (err) {
             return callback(err);//错误，返回 err 信息
         }
-        db.collection(employee.owner + '_employeess', function (err, collection) {
+        db.collection(employee.owner + '_employees', function (err, collection) {
             if (err) {
                 mongodb.close();
                 return callback(err);//错误，返回 err 信息
             }
-            collection.update({'username': username}, up, function (err) {
+            collection.update({ 'account': account }, up, function (err) {
                 mongodb.close();
             });
         });
