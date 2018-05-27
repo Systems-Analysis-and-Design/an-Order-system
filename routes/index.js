@@ -41,8 +41,9 @@ module.exports = function(app) {
             if (err) {
                 return res.json(err);
             }
-            req.session.user = user;
-            return res.json("success");
+          req.session.user = user;
+
+          return res.json("success");
         });
       });
     }
@@ -56,6 +57,35 @@ module.exports = function(app) {
         else if (user) {
             if(user.password == password){
               req.session.user = user;
+
+
+
+
+//TEST  --------------------------------------------------------------------------------------
+              // mongodb.open(function (err, db) {
+              //   if (err) {
+              //     return callback(err);//错误，返回 err 信息
+              //   }
+              //   //读取 users 集合
+              //   db.collection('users', function (err, collection) {
+              //     if (err) {
+              //       mongodb.close();
+              //       return callback(err);//错误，返回 err 信息
+              //     }
+              //     //查找用户名（name键）值为 name 一个文档
+                  
+              //     collection.find().toArray(function (err, result) {
+              //       console.log(result);
+              //       mongodb.close();
+              //     });
+              //   });
+              // });
+
+
+//------------------------------------------------------------------------------
+
+
+
               return res.json("success");
             }
             else {
@@ -74,96 +104,117 @@ module.exports = function(app) {
   //管理页
   app.get('/user', function(req, res, next) {
     var op = req.query.op;
+    var info = req.query.info;
     if (op == "logout") {
       req.session.user = null;
       return res.redirect('/');
     }
     else {
-      if(req.session.user) {
-        if(req.session.user.name == req.query.username && req.query.info) {
-          //防止通过改url访问他人数据
-          var name = req.session.user.name;
-          var show = new Object();
-          User.get(name, function (err, user) {
-            if (user) { 
-              show.name = user.name;
-              show.phone = user.phone;
-              show.email = user.email;
-              show.storeName = user.storeName;
-              show.storeAddress = user.storeAddress;
-              return res.render('info-' + req.query.info, { user: show });
+        if (req.session.user) {
+          if (req.session.user.name == req.query.username && req.query.info) {
+            //防止通过改url访问他人数据
+          if (info == 'personal') {
+            var name = req.session.user.name;
+            var show = new Object();
+            User.get(name, function (err, user) {
+              if (user) {
+                show.name = user.name;
+                show.phone = user.phone;
+                show.email = user.email;
+                show.storeName = user.storeName;
+                show.storeAddress = user.storeAddress;
+                return res.render('info-' + req.query.info, { user: show });
+              }
+            });
             }
-          });
-          // Test
-          //待修改-根据请求的info页返回相应数据
-          //user
-          // var user = new Object();
-          // user.name = req.session.user.name;
-          // user.phone = req.session.user.phone;
-          // user.email = req.session.user.email;
-          // user.storeName = req.session.user.storeName;
-          // user.storeAddress = req.session.user.storeAddress;
-          //返回对象数组
-          //ingredients
-          var ingredients = new Array();
-          var ingredient = new Object();
-          ingredient.name = "咸鱼";
-          ingredient.price = 648;
-          ingredient.cost = 6;
-          ingredient.stock = 0;
-          ingredients[0] = ingredient;
-          //menu
-          var menu = new Array();
-          var item = new Object();
-          item.name = "咸鱼煲汤";
-          item.ingredients = "咸鱼";
-          item.cost = 6;
-          item.price = 10;
-          menu[0] = item;
-          //evaluation
-          var evaluation = new Array();
-          var item = new Object();
-          item.serialNumber = "0001";
-          item.orderDetails = "咸鱼煲汤不要鱼加辣";
-          item.taste = "超级棒";
-          item.speedOfProduction = "超级快";
-          item.serviceAttitude = "超级皮";
-          item.totalEvaluation = "要上天";
-          evaluation[0] = item;
-          //employee
-          var employee = new Array();
-          var item = new Object();
-          item.id = "0001";
-          item.username = "test001";
-          item.post = "厨师";
-          item.name = "皮蛋";
-          item.age = 18;
-          item.phone = "12345678912"
-          employee[0] = item;
-          //accounts
-          var accountsIn = new Array();
-          var itemIn = new Object();
-          itemIn.name = "咸鱼煲汤";
-          itemIn.cost = 1;
-          itemIn.price = 18;
-          itemIn.soldNum = 1000;
-          itemIn.income = 18000;
-          itemIn.netIncome = 17000;
-          accountsIn[0] = itemIn;
-          var accountsOut = new Array();
-          var itemOut = new Object();
-          itemOut.id = 1;
-          itemOut.event = "发工资";
-          itemOut.cost = 5;
-          itemOut.note = "两个月的份";
-          accountsOut[0] = itemOut;
-          //return res.render('info-' + req.query.info, {user: show, ingredients: ingredients, menu: menu, evaluation: evaluation, employee: employee, accountsIn: accountsIn, accountsOut: accountsOut});
-          // Test
+          else if (info == 'menu') {
+            var menu = new Array();
+            var item = new Object();
+            item.name = "咸鱼煲汤";
+            item.ingredients = "咸鱼";
+            item.cost = 6;
+            item.price = 10;
+            menu[0] = item;
+          }
+
+          else if (info == 'ingredients') {
+            var ingredients = new Array();
+            var ingredient = new Object();
+            ingredient.name = "咸鱼";
+            ingredient.price = 648;
+            ingredient.cost = 6;
+            ingredient.stock = 0;
+            ingredients[0] = ingredient;
+          }
+
+          else if (info == 'evaluation') {
+            var evaluation = new Array();
+            var item = new Object();
+            item.serialNumber = "0001";
+            item.orderDetails = "咸鱼煲汤不要鱼加辣";
+            item.taste = "超级棒";
+            item.speedOfProduction = "超级快";
+            item.serviceAttitude = "超级皮";
+            item.totalEvaluation = "要上天";
+            evaluation[0] = item;
+          }
+
+          else if (info == 'employee') {
+            var name = req.session.user.name;
+            var show = new Object();
+            show.name = name;
+            mongodb.open(function (err, db) {
+              //读取 users 集合
+              db.collection(name + '_employees', function (err, collection) {
+                var query = {};
+                var amount;
+                collection.count(query,function (err, total) { 
+                  amount = total;
+                 // console.log(amount);
+                });
+                var employee = new Array();
+                collection.find().toArray(function (err, result) {
+                  for (var i = 0; i < amount; i++) {
+                    var item = new Object();
+                    item.id = (i+1).toString();
+                    item.username = result[i].username;
+                    item.post = result[i].post;
+                    item.name = result[i].name;
+                    item.age = result[i].age;
+                    item.phone = result[i].phone;
+                    employee[i] = item;
+                  }
+                  //console.log(employee);
+                  return res.render('info-' + req.query.info, { user:show, employee: employee });
+                  mongodb.close();
+                });
+              });
+            });
+          }
+
+          else if (info == 'accounts') {
+            var accountsIn = new Array();
+            var itemIn = new Object();
+            itemIn.name = "咸鱼煲汤";
+            itemIn.cost = 1;
+            itemIn.price = 18;
+            itemIn.soldNum = 1000;
+            itemIn.income = 18000;
+            itemIn.netIncome = 17000;
+            accountsIn[0] = itemIn;
+            var accountsOut = new Array();
+            var itemOut = new Object();
+            itemOut.id = 1;
+            itemOut.event = "发工资";
+            itemOut.cost = 5;
+            itemOut.note = "两个月的份";
+            accountsOut[0] = itemOut;
+          }
         }
-        else  return res.redirect('/user?username=' + req.session.user.name + '&info=personal');
+        else return res.redirect('/user?username=' + req.session.user.name + '&info=personal');
       }
-    }
-   
+          //return res.render('info-' + req.query.info, {user: show, ingredients: ingredients, menu: menu, evaluation: evaluation, employee: employee, accountsIn: accountsIn, accountsOut: accountsOut});
+      }
   });
 
   //修改表单
@@ -198,7 +249,17 @@ module.exports = function(app) {
         }
       }); 
     }
-     return res.json('success');
+    else if (info == 'employee') {
+      var op = req.query.op;
+      if (op == 'nem') {
+        
+      }
+      else if (op == 'save') {
+        
+      }
+    }
+
+    return res.json('success');
   });
 
 
