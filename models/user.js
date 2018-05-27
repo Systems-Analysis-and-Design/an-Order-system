@@ -77,5 +77,5 @@ User.update = function (name, up, callback) {
             });
         });
     });
-}
+};
 module.exports = User;
