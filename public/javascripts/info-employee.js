@@ -83,11 +83,10 @@
     var data = new Array();
       $(".isUpdate, .delete").each(function() {
         var rowJSON = "{";
-        rowJSON += "\"id\":\"" + $(this).find("[name='id']").text() + "\",";
+        rowJSON += "\"username\":\"" + $(this).find("[name='username']").text() + "\",";
         if ($(this).hasClass("delete")) {
           rowJSON += "\"op\":\"delete\"";
         } else {
-          rowJSON += "\"username\":\"" + $(this).find("[name='username']").text() + "\",";
           rowJSON += "\"post\":\"" + $(this).find("[name='post']").text() + "\",";
           rowJSON += "\"name\":\"" + $(this).find("[name='name']").text() + "\",";
           rowJSON += "\"age\":" + $(this).find("[name='age']").text() + ",";
