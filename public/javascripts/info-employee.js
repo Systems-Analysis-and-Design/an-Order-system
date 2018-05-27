@@ -83,14 +83,16 @@
     var data = new Array();
       $(".isUpdate, .delete").each(function() {
         var rowJSON = "{";
+        rowJSON += "\"id\":\"" + $(this).find("[name='id']").text() + "\",";
         rowJSON += "\"username\":\"" + $(this).find("[name='username']").text() + "\",";
+        rowJSON += "\"post\":\"" + $(this).find("[name='post']").text() + "\",";
+        rowJSON += "\"name\":\"" + $(this).find("[name='name']").text() + "\",";
+        rowJSON += "\"age\":" + $(this).find("[name='age']").text() + ",";
+        rowJSON += "\"phone\":\"" + $(this).find("[name='phone']").text() + "\",";
         if ($(this).hasClass("delete")) {
           rowJSON += "\"op\":\"delete\"";
         } else {
-          rowJSON += "\"post\":\"" + $(this).find("[name='post']").text() + "\",";
-          rowJSON += "\"name\":\"" + $(this).find("[name='name']").text() + "\",";
-          rowJSON += "\"age\":" + $(this).find("[name='age']").text() + ",";
-          rowJSON += "\"phone\":\"" + $(this).find("[name='phone']").text() + "\",";
+          
           rowJSON += "\"op\":\"save\"";
         }
         rowJSON += "}";
