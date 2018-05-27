@@ -224,16 +224,16 @@ module.exports = function(app) {
     if (info == 'personal-store') {
       var name = req.query.username;
       var up = {
-          $set: {
-            'storeName': req.body.storeName,
-            'storeAddress': req.body.storeAddress
-          }
-        };
+        $set: {
+          'storeName': req.body.storeName,
+          'storeAddress': req.body.storeAddress
+        }
+      };
       User.update(name, up, function (err, user) {
         if (err) {
           return res.json(err);
         }
-        });  
+      });
     }
     else if (info == 'personal-account') {
       var name = req.query.username;
@@ -247,7 +247,7 @@ module.exports = function(app) {
         if (err) {
           return res.json(err);
         }
-      }); 
+      });
     }
     else if (info == 'employee') {
       var op = req.query.op;
@@ -284,16 +284,47 @@ module.exports = function(app) {
         Employee.get(newEmployee.owner, newEmployee.username, function (err, employee) {
           newEmployee.save(function (err, employee) {
             if (err) {
-            return res.json(err);
-           }
+              return res.json(err);
+            }
+          });
         });
-       });
       }
       else if (op == 'save') {
-        
+        console.log(req.body);
+        var arr = Object.keys(req.body);
+        var len = arr.length / 7;
+        var name = req.query.username;
+        for (var i = 0; i < len; i++) {
+          if (req.body['data[' + i + '][op]'] == 'save') {
+            var up = {
+              $set: {
+                'post': req.body['data[' + i + '][post]'],
+                'name': req.body['data[' + i + '][name]'],
+                'age': req.body['data[' + i + '][age]'],
+                'phone': req.body['data[' + i + '][phone]']
+              }
+            };
+            var username = req.body['data[' + i + '][username]'];
+            Employee.update(name, username, up, function (err, employee) {
+              if (err) {
+                return res.json(err);
+              }
+            });
+          }
+          else if (req.body['data[' + i + '][op]'] == 'delete') {
+            var username = req.body['data[' + i + '][username]'];
+             mongodb.open(function (err, db) {
+               db.collection(name + '_employees', function (err, collection) {
+                 collection.remove({'username': username}, function (err) {
+                    mongodb.close();
+                  });
+               });
+               mongodb.close();
+              });
+          }
+        }
       }
     }
-
     return res.json('success');
   });
 
