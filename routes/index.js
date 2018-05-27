@@ -184,11 +184,11 @@ module.exports = function(app) {
                     item.phone = result[i].phone;
                     employee[i] = item;
                   }
-                  //console.log(employee);
                   return res.render('info-' + req.query.info, { user:show, employee: employee });
                   mongodb.close();
                 });
               });
+              mongodb.close();
             });
           }
 
@@ -251,8 +251,43 @@ module.exports = function(app) {
     }
     else if (info == 'employee') {
       var op = req.query.op;
+      var name = req.query.username;
       if (op == 'new') {
-        
+        var newEmployee = new Employee({
+          owner: name,
+          username: req.body.username,
+          password: req.body.password,
+          name: req.body.name,
+          age: req.body.age,
+          phone: req.body.phone,
+          post: req.body.post
+        });
+        //检查用户名是否已经存在
+        // mongodb.open(function (err, db) {
+        //   if (err) {
+        //     mongodb.close();
+        //     return callback(err);//错误，返回 err 信息
+        //   }
+        //   //读取 employees 集合
+        //   db.collection(newEmployee.owner + '_employees', function (err, collection) {
+        //     if (err) {
+        //       mongodb.close();
+        //       return callback(err);//错误，返回 err 信息
+        //     }
+        //     //查找账户（值为 account 一个文档
+        //     collection.insert(newEmployee, { safe: true }, function (err, employee) {
+        //       mongodb.close();
+        //     });
+        //   });
+        //   mongodb.close();
+        // });
+        Employee.get(newEmployee.owner, newEmployee.username, function (err, employee) {
+          newEmployee.save(function (err, employee) {
+            if (err) {
+            return res.json(err);
+           }
+        });
+       });
       }
       else if (op == 'save') {
         
