@@ -324,6 +324,16 @@ module.exports = function(app) {
         }
       }
     }
+     else if (info == 'menu') {
+      var name = req.query.username;
+      var up = req.body;
+      console.log('1');
+      Menu.gg(name, up, function (err) {
+        if (err) {
+           return res.json(err);
+         }
+      });
+    }
     return res.json('success');
   });
 
