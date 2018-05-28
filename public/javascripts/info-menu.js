@@ -85,12 +85,12 @@
       $(".isUpdate, .delete").each(function() {
         var rowJSON = "{";
         rowJSON += "\"name\":\"" + $(this).children("[name='name']").text() + "\",";
+        rowJSON += "\"ingredients\":\"" + $(this).children("[name='ingredients']").text() + "\",";
+        rowJSON += "\"cost\":" + $(this).children("[name='cost']").text() + ",";
+        rowJSON += "\"price\":" + $(this).children("[name='price']").text() + ",";
         if ($(this).hasClass("delete")) {
           rowJSON += "\"op\":\"delete\"";
         } else {
-          rowJSON += "\"ingredients\":\"" + $(this).children("[name='ingredients']").text() + "\",";
-          rowJSON += "\"cost\":" + $(this).children("[name='cost']").text() + ",";
-          rowJSON += "\"price\":" + $(this).children("[name='price']").text() + ",";
           rowJSON += "\"op\":\"save\"";
         }
         rowJSON += "}";
@@ -111,8 +111,11 @@
         data: data,
         dataType: "json",
         url: "?username=" + $(".head-contents a").first().text() + "&info=menu",
-        success: function(result) {
+        success: function (result) {
+          setTimeout(function () {
           window.location.reload();
+           }, 1000);
+          
         }
       });
     } else {
