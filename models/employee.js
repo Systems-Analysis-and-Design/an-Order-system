@@ -10,63 +10,8 @@ function Employee(employee) {
     this.post = employee.post;
 };
 
-Employee.prototype.save = function (callback) {
-    //要存入数据库的用户文档
-    var employee = {
-        owner: this.owner,
-    	username: this.username,
-        password: this.password,
-        name: this.name,
-        age: this.age,
-        phone:this.phone,
-        post: this.post
-    };
-    //打开数据库
-    mongodb.open(function (err, db) {
-        if (err) {
-            return callback(err);//错误，返回 err 信息
-        }
-        db.collection(employee.owner + '_employees', function (err, collection) {
-            if (err) {
-                mongodb.close();
-                return callback(err);//错误，返回 err 信息
-            }
-            //将员工数据插入 employees 集合
-            collection.insert(employee, {safe: true}, function (err, employee) {
-                mongodb.close();
-                //成功！err 为 null，并返回存储后的用户文档
-                return err ? callback(err) : callback(null, employee.ops[0]);
-            });
-        });
-        mongodb.close();
-    });
-    
-};
 
-//读取员工信息
-Employee.get = function (name, username, callback) {
-    mongodb.open(function (err, db) {
-        if (err) {
-            return callback(err);//错误，返回 err 信息
-        }
-        //读取 employees 集合
-        db.collection(name + '_employees', function (err, collection) {
-            if (err) {
-                mongodb.close();
-                return callback(err);//错误，返回 err 信息
-            }
-            //查找账户（值为 account 一个文档
-            collection.findOne({username: username}, function (err, employee) {
-                mongodb.close();
-                return err ? callback(err) : callback(null, employee);
-            });
-        });
-        mongodb.close();
-    });
-    
-};
-
-Employee.update = function (name,username, up, callback) {
+Employee.gg = function (name, up, callback) { 
     mongodb.open(function (err, db) {
         if (err) {
             return callback(err);//错误，返回 err 信息
@@ -76,13 +21,42 @@ Employee.update = function (name,username, up, callback) {
                 mongodb.close();
                 return callback(err);//错误，返回 err 信息
             }
-            collection.update({ 'username':username }, up, function (err) {
-                mongodb.close();
-            });
+            var arr = Object.keys(up);
+            var len = arr.length / 7;
+            for (var i = 0; i < len; i++) { 
+                console.log(up);
+                var username1 = up['data[' + i + '][username]'];
+                var name1 = up['data[' + i + '][name]'];
+                var age1 = up['data[' + i + '][age]'];
+                var phone1 = up['data[' + i + '][phone]'];
+                var post1 = up['data[' + i + '][post]'];
+                if (up['data[' + i + '][op]'] == 'save') {
+                    var up1 = {
+                        $set: {
+                            'post': post1,
+                            'name': name1,
+                            'age': age1,
+                            'phone':phone1
+                        }
+                    };
+                    collection.update({ 'username': username1 }, up1, function (err) {
+                        if (err) {
+                            return res.json(err);
+                        }
+                    });
+                }
+                else if (up['data[' + i + '][op]'] == 'delete') {
+                            collection.remove({ 'username': username1 }, function (err) {});
+                }
+                if (i == len - 1) {
+                    setTimeout(function () {
+                        mongodb.close();
+                    }, 500);
+                }
+            }
         });
-        mongodb.close();
     });
-    
 };
+
 
 module.exports = Employee;
