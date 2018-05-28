@@ -114,8 +114,10 @@
         data: data,
         dataType: "json",
         url: "?username=" + $(".head-contents a").first().text() + "&info=employee&op=save",
-        success: function(result) {
-          window.location.reload();
+        success: function (result) {
+          setTimeout(function () {
+            window.location.reload();
+          }, 1000);
         }
       });
   }
