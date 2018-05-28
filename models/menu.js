@@ -8,72 +8,76 @@ function Menu(menu) {
     this.price = menu.price;
 };
 
-
-Menu.prototype.save = function (callback) {
-
-    var menu = {
-        owner:this.owner,
-        name: this.name,
-        ingredients: this.ingredients,
-        cost: this.cost,
-        price: this.price
-    };
-    //打开数据库
+Menu.gg = function (name, up, callback) {
     mongodb.open(function (err, db) {
         if (err) {
+            mongodb.close();
             return callback(err);//错误，返回 err 信息
         }
-        //读取 menu 集合
-        db.collection(menu.owner+'_menu', function (err, collection) {
+        db.collection(name + '_menu', function (err, collection) {
             if (err) {
                 mongodb.close();
                 return callback(err);//错误，返回 err 信息
             }
-            //将数据插入 menu 集合
-            collection.insert(menu, { safe: true }, function (err, user) {
-                mongodb.close();
-                //成功！err 为 null，并返回存储后的用户文档
-                return err ? callback(err) : callback(null, menu.ops[0]);
-            });
+            var arr = Object.keys(up);
+            var len = arr.length / 5;
+           for (var i = 0; i < len; i++) {
+                var menuname1 = up['data[' + i + '][name]'];
+                var ingredients1 = up['data[' + i + '][ingredients]'];
+                var cost1 = up['data[' + i + '][cost]'];
+                var price1 = up['data[' + i + '][price]'];
+
+                if (up['data[' + i + '][op]'] == 'save') {
+
+                    collection.findOne({ name: menuname1 }, function (err, menu) {
+                        if (menu) {
+                            var up1 = {
+                                $set: {
+                                    'ingredients': ingredients1,
+                                    'cost': cost1,
+                                    'price': price1
+                                }
+                            };
+                            collection.update({ 'name': menuname1 }, up1, function (err) {
+                                if (err) {
+                                    return callback(err);//错误，返回 err 信息
+                                }
+                            });
+                        }
+                        else {
+                            var newMenu = new Menu({
+                                owner: name,
+                                name: menuname1,
+                                ingredients: ingredients1,
+                                cost: cost1,
+                                price: price1
+                            });
+                            collection.insert(newMenu, { safe: true }, function (err) {
+                                console.log(newMenu);
+                                if (err) {
+                                    console.log(err);
+                                    return callback(err);//错误，返回 err 信息
+                                }
+                              //  console.log('2');
+                            });
+                        }
+                    });
+                }
+                else if (up['data[' + i + '][op]'] == 'delete') {
+                    collection.remove({ 'name': menuname1 }, function (err) { });
+               }
+               if (i == len - 1) {
+                   setTimeout(function () {
+                       mongodb.close();
+                   }, 500);
+                   
+               }
+            }
+            
         });
+       
     });
 };
 
-//读取信息
-Menu.get = function (name, callback) {
-    mongodb.open(function (err, db) {
-        if (err) {
-            return callback(err);//错误，返回 err 信息
-        }
-        //读取 menu 集合
-        db.collection(menu.owner+'_menu', function (err, collection) {
-            if (err) {
-                mongodb.close();
-                return callback(err);//错误，返回 err 信息
-            }
-            //查找值为 name 一个文档
-            collection.findOne({ name: name }, function (err, menu) {
-                mongodb.close();
-                return err ? callback(err) : callback(null, menu);
-            });
-        });
-    });
-};
 
-Menu.update = function (name, up, callback) {
-    mongodb.open(function (err, db) {
-        if (err) {
-            return callback(err);//错误，返回 err 信息
-        }
-        db.collection(menu.owner + '_menu', function (err, collection) {
-            if (err) {
-                mongodb.close();
-                return callback(err);//错误，返回 err 信息
-            }
-            collection.update({ 'name': name }, up, function (err) {
-                mongodb.close();
-            });
-        });
-    });
-};
 module.exports = Menu;
