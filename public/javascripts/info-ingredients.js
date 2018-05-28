@@ -120,7 +120,9 @@
         dataType: "json",
         url: "?username=" + $(".head-contents a").first().text() + "&info=ingredients",
         success: function(result) {
-          window.location.reload();
+          setTimeout(function () {
+            window.location.reload();     
+                   }, 800);
         }
       });
     } else {
