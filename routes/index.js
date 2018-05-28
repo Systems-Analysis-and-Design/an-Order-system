@@ -341,6 +341,15 @@ module.exports = function(app) {
          }
       });
     }
+    else if(info == 'ingredients'){
+      var up = req.body;
+      console.log(up);
+      Ingredient.operation(req.query.username, up, function (err) {
+        if (err) {
+           return res.json(err);
+         }
+      });
+    }
     return res.json('success');
   });
 
