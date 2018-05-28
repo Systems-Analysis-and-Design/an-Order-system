@@ -281,13 +281,16 @@ module.exports = function(app) {
         //   });
         //   mongodb.close();
         // });
-        Employee.get(newEmployee.owner, newEmployee.username, function (err, employee) {
+       Employee.get(newEmployee.owner, newEmployee.username, function (err, employee) {
           newEmployee.save(function (err, employee) {
             if (err) {
               return res.json(err);
             }
           });
         });
+        setTimeout(function () {
+          mongodb.close();
+        }, 500);
       }
       else if (op == 'save') {
         var arr = Object.keys(req.body);
@@ -312,14 +315,18 @@ module.exports = function(app) {
           }
           else if (req.body['data[' + i + '][op]'] == 'delete') {
             var username = req.body['data[' + i + '][username]'];
-             mongodb.open(function (err, db) {
-               db.collection(name + '_employees', function (err, collection) {
-                 collection.remove({'username': username}, function (err) {
-                    mongodb.close();
-                  });
-               });
-               mongodb.close();
+            mongodb.open(function (err, db) {
+              db.collection(name + '_employees', function (err, collection) {
+                collection.remove({ 'username': username }, function (err) {
+                });
               });
+            });
+          }
+          if (i == len - 1) {
+            setTimeout(function () {
+              mongodb.close();
+            }, 500);
+
           }
         }
       }
