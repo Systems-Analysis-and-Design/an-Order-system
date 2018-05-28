@@ -263,72 +263,33 @@ module.exports = function(app) {
           post: req.body.post
         });
         //检查用户名是否已经存在
-        // mongodb.open(function (err, db) {
-        //   if (err) {
-        //     mongodb.close();
-        //     return callback(err);//错误，返回 err 信息
-        //   }
-        //   //读取 employees 集合
-        //   db.collection(newEmployee.owner + '_employees', function (err, collection) {
-        //     if (err) {
-        //       mongodb.close();
-        //       return callback(err);//错误，返回 err 信息
-        //     }
-        //     //查找账户（值为 account 一个文档
-        //     collection.insert(newEmployee, { safe: true }, function (err, employee) {
-        //       mongodb.close();
-        //     });
-        //   });
-        //   mongodb.close();
-        // });
-       Employee.get(newEmployee.owner, newEmployee.username, function (err, employee) {
-          newEmployee.save(function (err, employee) {
+        mongodb.open(function (err, db) {
+          if (err) {
+            mongodb.close();
+            return callback(err);//错误，返回 err 信息
+          }
+          //读取 employees 集合
+          db.collection(newEmployee.owner + '_employees', function (err, collection) {
             if (err) {
-              return res.json(err);
+              mongodb.close();
+              return callback(err);//错误，返回 err 信息
             }
+            //查找账户（值为 account 一个文档
+            collection.insert(newEmployee, { safe: true }, function (err, employee) {
+              mongodb.close();
+            });
           });
-        });
-        setTimeout(function () {
           mongodb.close();
-        }, 500);
+        });
       }
       else if (op == 'save') {
-        var arr = Object.keys(req.body);
-        var len = arr.length / 7;
-        var name = req.query.username;
-        for (var i = 0; i < len; i++) {
-          if (req.body['data[' + i + '][op]'] == 'save') {
-            var up = {
-              $set: {
-                'post': req.body['data[' + i + '][post]'],
-                'name': req.body['data[' + i + '][name]'],
-                'age': req.body['data[' + i + '][age]'],
-                'phone': req.body['data[' + i + '][phone]']
-              }
-            };
-            var username = req.body['data[' + i + '][username]'];
-            Employee.update(name, username, up, function (err, employee) {
-              if (err) {
-                return res.json(err);
-              }
-            });
-          }
-          else if (req.body['data[' + i + '][op]'] == 'delete') {
-            var username = req.body['data[' + i + '][username]'];
-            mongodb.open(function (err, db) {
-              db.collection(name + '_employees', function (err, collection) {
-                collection.remove({ 'username': username }, function (err) {
-                });
-              });
-            });
-          }
-          if (i == len - 1) {
-            setTimeout(function () {
-              mongodb.close();
-            }, 500);
-
-          }
-        }
+        var up = req.body;
+        var name1 = req.query.username;
+        Employee.gg(name1, up, function (err) {
+          // if (err) {
+          //   return res.json(err);
+          // }
+        });   
       }
     }
      else if (info == 'menu') {
