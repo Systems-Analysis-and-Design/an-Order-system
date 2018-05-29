@@ -128,13 +128,35 @@ module.exports = function(app) {
             });
             }
           else if (info == 'menu') {
-            var menu = new Array();
-            var item = new Object();
-            item.name = "咸鱼煲汤";
-            item.ingredients = "咸鱼";
-            item.cost = 6;
-            item.price = 10;
-            menu[0] = item;
+            
+            var name = req.session.user.name;
+            var show = new Object();
+            show.name = name;
+            mongodb.open(function (err, db) {
+              //读取 users 集合
+              db.collection(name + '_menu', function (err, collection) {
+                var query = {};
+                var amount;
+                collection.count(query, function (err, total) {
+                  amount = total;
+                  // console.log(amount);
+                });
+                var menus = new Array();
+                collection.find().toArray(function (err, result) {
+                  for (var i = 0; i < amount; i++) {
+                    var item = new Object();
+                    item.name = result[i].name;
+                    item.ingredients = result[i].ingredients;
+                    item.cost = result[i].cost;
+                    item.price = result[i].price;
+                    menus[i] = item;
+                  }
+                  return res.render('info-' + req.query.info, { user: show, menu: menus });
+                  mongodb.close();
+                });
+              });
+              mongodb.close();
+            });
           }
 
           else if (info == 'ingredients') {
