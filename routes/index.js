@@ -160,13 +160,33 @@ module.exports = function(app) {
           }
 
           else if (info == 'ingredients') {
-            var ingredients = new Array();
-            var ingredient = new Object();
-            ingredient.name = "咸鱼";
-            ingredient.price = 648;
-            ingredient.cost = 6;
-            ingredient.stock = 0;
-            ingredients[0] = ingredient;
+            var name = req.session.user.name;
+            var show = new Object();
+            show.name = name;
+            mongodb.open(function (err, db) {
+              db.collection(name + '_ingredients', function (err, collection) {
+                var query = {};
+                var amount;
+                collection.count(query,function (err, total) { 
+                  amount = total;
+                });
+                var ingredients = new Array();
+                collection.find().toArray(function (err, result) {
+                  for (var i = 0; i < amount; i++) {
+                    var item = new Object();
+                    //item.id = (i+1).toString();
+                    item.name = result[i].name;
+                    item.price = result[i].price;
+                    item.cost = result[i].cost;
+                    item.stock = result[i].stock;
+                    ingredients[i] = item;
+                  }
+                  return res.render('info-' + req.query.info, { user:show, ingredients: ingredients });
+                  mongodb.close();
+                });
+              });
+              mongodb.close();
+            });
           }
 
           else if (info == 'evaluation') {
