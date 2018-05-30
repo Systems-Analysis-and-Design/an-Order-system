@@ -48,7 +48,7 @@ module.exports = function(app) {
         });
       });
     }
-    else if(op == 'login') {
+    else if(op == 'managerLogin') {
       //登录表单处理
       var name = req.body.username;
       User.get(name, function (err, user) {
@@ -97,6 +97,10 @@ module.exports = function(app) {
           return res.json("notFound");
         }
       });
+    }
+    else if(op == 'employeeLogin') {
+      //员工登录
+      return res.json("success");
     }
 
   });
@@ -372,7 +376,22 @@ module.exports = function(app) {
     }
     return res.json('success');
   });
+  
+  app.get('/employee', function(req, res, next) {
+    var paidOrder = new Array();
+    var item = new Object();
+    item.orderNumber = "0002";
+    item.name = "咸鱼煲汤";
+    item.tabelNumber = 12;
+    item.note = "不要鱼，加辣";
+    paidOrder[0] = item;
+    return res.render('employee-chef', {paidOrder: paidOrder});
+  });
 
+  app.post('/employee', function(req, res, next) {
+    console.log(req.body);
+    res.json("success");
+  });
 
   app.use(function (req, res) {    //获取css,js,img
     return res.sendFile(__dirname + '../public' + req.url);
