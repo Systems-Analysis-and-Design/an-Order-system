@@ -9,6 +9,7 @@
     $("input[name='employee']").click(saveChanges);
     $("#uploadImg").change(previewImg);
     $("[name='imgUpload']").submit(uploadImg);
+    $(".avatar").each(fixImgSrc);
     $("#accordion-employee").on("click", ".avatar", function(e) {
       e.stopPropagation();
       $(this).attr("id", "waitingImg");
@@ -67,6 +68,11 @@
     }
   }
 
+  function fixImgSrc() {
+    imgSrc = "http://" + window.location.host + "/" + $(this).attr("src");
+    $(this).attr("src", imgSrc);
+  }
+
   function previewImg() {
     var img = $(this).get(0).files[0];
     var reader = new FileReader();
@@ -96,7 +102,7 @@
         success: function(result) {
           //返回在服务器的存储路径
           $("#imgUpload").modal('hide');
-          $("#waitingImg").attr("src", result);
+          $("#waitingImg").attr("src", "http://" + window.location.host + "/" + result);
           $("#waitingImg").removeAttr("id");
         }
       });
@@ -125,9 +131,11 @@
 
   function saveChanges() {
     var data = new Array();
-      $(".isUpdate, .delete").each(function() {
+    $(".isUpdate, .delete").each(function () {
+      var len = ("http://" + window.location.host + "/").length;
+      var imgSrc = $(this).find(".avatar").attr("src").slice(len);
         var rowJSON = "{";
-        rowJSON += "\"imgSrc\":\"" + $(this).find(".avatar").attr("src") + "\",";
+        rowJSON += "\"imgSrc\":\"" + imgSrc+ "\",";
         rowJSON += "\"username\":\"" + $(this).find("[name='username']").text() + "\",";
         rowJSON += "\"post\":\"" + $(this).find("[name='post']").text() + "\",";
         rowJSON += "\"name\":\"" + $(this).find("[name='name']").text() + "\",";
@@ -139,6 +147,7 @@
           rowJSON += "\"op\":\"save\"";
         }
         rowJSON += "}";
+        console.log(rowJSON);
         data.push(rowJSON);
       });
       //判断有无修改
