@@ -21,5 +21,20 @@ block content
     .con-right.container-fluid
       .info-pages
         block info-page
+        .modal.fade#imgUpload
+          .modal-dialog
+            form(name='imgUpload').modal-content
+              .modal-header.form-header
+                button(type='button', data-dismiss='modal').close &times;
+              .modal-body.form-body
+                .form-group.row
+                  img.previewImg.referenceImg.mx-auto
+                .form-group.row
+                  input(type='file', accept='image/jpeg, image/png')#uploadImg.mx-auto
+              .modal-footer.form-footer
+                .form-group.row.mx-auto
+                  //小bug：点击后按钮变大
+                  input(type='submit', value='确定', name='imgUpload').btn.btn-secondary.col-sm-12
+                  .form-result
   .footer.container-fluid
     img
