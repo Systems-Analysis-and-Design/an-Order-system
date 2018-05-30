@@ -187,6 +187,10 @@ td.btn-td .btn-circle-td {
   width: 75%;
 }
 
+td {
+  vertical-align: middle !important;
+}
+
 thead th {
   width: 20%;
 }
@@ -196,6 +200,28 @@ thead th:first-child {
 }
 
 thead th:last {
+  width: 10%;
+}
+
+[name='menu'] thead th {
+  width: 15%;
+}
+
+[name='menu'] thead th:last {
+  width: 10%;
+}
+
+.referenceImg {
+  width: 200px !important;
+  height: 150px !important;
+  opacity: 1 !important;
+}
+
+#uploadImg {
+  width: 50%;
+}
+
+[name='evaluation'] thead th {
   width: 10%;
 }
 
