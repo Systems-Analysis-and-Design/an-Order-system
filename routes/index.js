@@ -218,7 +218,7 @@ module.exports = function(app) {
                 collection.find().toArray(function (err, result) {
                   for (var i = 0; i < amount; i++) {
                     var item = new Object();
-                    item.id = (i+1).toString();
+                    item.imgSrc = result[i].imgSrc;
                     item.username = result[i].username;
                     item.post = result[i].post;
                     item.name = result[i].name;
@@ -260,9 +260,23 @@ module.exports = function(app) {
   });
 
   //修改表单
-  app.post('/user', function(req, res, next) {
+ var upload = multer({ dest: 'public/images/upload' });
+
+  //修改表单
+  app.post('/user', upload.single('img'), function (req, res, next) {
     // Test
     var info = req.query.info;
+    var op1 = req.query.op;
+    if (op1 == 'uploadImg') { 
+      var filename = req.file.originalname;
+      var mime = filename.split('.').pop();
+      //使用新文件名 防止图片文件名相同 
+      fs.renameSync('./public/images/upload/' + req.file.filename, './public/images/upload/' + req.file.filename + '.' + mime); 
+      var newpath = 'images/upload/' + req.file.filename + '.' + mime;
+
+      console.log(newpath);
+      return res.json(newpath);
+    }
     if (info == 'personal-store') {
       var name = req.query.username;
       var up = {
@@ -297,6 +311,7 @@ module.exports = function(app) {
       if (op == 'new') {
         var newEmployee = new Employee({
           owner: name,
+          imgSrc: '',
           username: req.body.username,
           password: req.body.password,
           name: req.body.name,
