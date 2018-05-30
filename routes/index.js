@@ -130,7 +130,7 @@ module.exports = function(app) {
             }
           else if (info == 'menu') {
             
-            var name = req.session.user.name;
+           var name = req.session.user.name;
             var show = new Object();
             show.name = name;
             mongodb.open(function (err, db) {
@@ -147,6 +147,8 @@ module.exports = function(app) {
                   for (var i = 0; i < amount; i++) {
                     var item = new Object();
                     item.name = result[i].name;
+                    item.class = result[i].class;
+                    item.imgSrc = result[i].imgSrc;
                     item.ingredients = result[i].ingredients;
                     item.cost = result[i].cost;
                     item.price = result[i].price;
@@ -353,7 +355,6 @@ module.exports = function(app) {
      else if (info == 'menu') {
       var name = req.query.username;
       var up = req.body;
-      console.log('1');
       Menu.gg(name, up, function (err) {
         if (err) {
            return res.json(err);
