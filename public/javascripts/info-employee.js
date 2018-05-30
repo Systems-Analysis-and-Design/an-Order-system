@@ -7,6 +7,13 @@
     $("#accordion-employee").on("click", ".deleteCard", deleteCard);
     $("[name='newEmployee']").submit(newEmployee);
     $("input[name='employee']").click(saveChanges);
+    $("#uploadImg").change(previewImg);
+    $("[name='imgUpload']").submit(uploadImg);
+    $("#accordion-employee").on("click", ".avatar", function(e) {
+      e.stopPropagation();
+      $(this).attr("id", "waitingImg");
+      $("#imgUpload").modal('show');
+    });
   });
   
   var panelIndex = 0;
@@ -56,8 +63,45 @@
       $(this).find("span").text($(this).find("input").val());
       //弱合法性检查
       $(this).find("span").each(check);
-      $(this).parent().addClass("isUpdate");
+      $(this).parents(".panel").addClass("isUpdate");
     }
+  }
+
+  function previewImg() {
+    var img = $(this).get(0).files[0];
+    var reader = new FileReader();
+    reader.addEventListener("load", function() {
+      $(".previewImg").attr("src", reader.result);
+    }, false);
+    if($(this).get(0).files.length) {
+      reader.readAsDataURL(img);
+    } else {
+      $(".previewImg").removeAttr("src");
+    }
+  }
+
+  function uploadImg() {
+    if($("#uploadImg").get(0).files[0] != undefined) {
+      $("#waitingImg").parents(".panel").addClass("isUpdate");
+      var formData = new FormData();
+      formData.append('img', $("#uploadImg").get(0).files[0]);
+      $.ajax({
+        type: "POST",
+        cache: false,
+        async: false,
+        data: formData,
+        processData: false,   //必须false才会避开jQuery对 formdata 的默认处理 
+        contentType: false,   //必须false才会自动加上正确的Content-Type 
+        url: "?username=" + $(".head-contents a").first().text() + "&op=uploadImg",
+        success: function(result) {
+          //返回在服务器的存储路径
+          $("#imgUpload").modal('hide');
+          $("#waitingImg").attr("src", result);
+          $("#waitingImg").removeAttr("id");
+        }
+      });
+    }
+    return false;
   }
 
   function deleteCard() {
@@ -83,7 +127,7 @@
     var data = new Array();
       $(".isUpdate, .delete").each(function() {
         var rowJSON = "{";
-        rowJSON += "\"id\":\"" + $(this).find("[name='id']").text() + "\",";
+        rowJSON += "\"imgSrc\":\"" + $(this).find(".avatar").attr("src") + "\",";
         rowJSON += "\"username\":\"" + $(this).find("[name='username']").text() + "\",";
         rowJSON += "\"post\":\"" + $(this).find("[name='post']").text() + "\",";
         rowJSON += "\"name\":\"" + $(this).find("[name='name']").text() + "\",";
@@ -92,7 +136,6 @@
         if ($(this).hasClass("delete")) {
           rowJSON += "\"op\":\"delete\"";
         } else {
-          
           rowJSON += "\"op\":\"save\"";
         }
         rowJSON += "}";
@@ -114,7 +157,7 @@
         data: data,
         dataType: "json",
         url: "?username=" + $(".head-contents a").first().text() + "&info=employee&op=save",
-        success: function (result) {
+        success: function(result) {
           setTimeout(function () {
             window.location.reload();
           }, 1000);
