@@ -6,7 +6,45 @@
     $("tbody").on("dblclick", "td", editTd);
     $("tbody").on("blur", "td input", saveTd);
     $("input[name='menu']").click(saveTable);
+    $("#uploadImg").change(previewImg);
+    $("[name='imgUpload']").submit(uploadImg);
   });
+
+  function previewImg() {
+    var img = $(this).get(0).files[0];
+    var reader = new FileReader();
+    reader.addEventListener("load", function() {
+      $(".previewImg").attr("src", reader.result);
+    }, false);
+    if($(this).get(0).files.length) {
+      reader.readAsDataURL(img);
+    } else {
+      $(".previewImg").removeAttr("src");
+    }
+  }
+
+  function uploadImg() {
+    if($("#uploadImg").get(0).files[0] != undefined) {
+      var formData = new FormData();
+      formData.append('img', $("#uploadImg").get(0).files[0]);
+      $.ajax({
+        type: "POST",
+        cache: false,
+        async: false,
+        data: formData,
+        processData: false,   //必须false才会避开jQuery对 formdata 的默认处理 
+        contentType: false,   //必须false才会自动加上正确的Content-Type 
+        url: "?username=" + $(".head-contents a").first().text() + "op=uploadImg",
+        success: function(result) {
+          //返回在服务器的存储路径
+          $("#imgUpload").modal('hide');
+          $("#waitingImg img").attr("src", result);
+          $("#waitingImg").removeAttr("id");
+        }
+      });
+    }
+    return false;
+  }
 
   function check() {
     name = $(this).parent().attr("name");
@@ -27,7 +65,7 @@
   function hasCompletedLastRow() {
     var hasCompletedLastRow = true;
     $("tr").not(".delete").last().children().not(".btn-td").each(function() {
-      if (!$(this).text()) {
+      if (($(this).attr("name") != 'img' && !$(this).text()) || ($(this).attr("name") == 'img' && !$(this).find("img").attr("src")) ) {
         hasCompletedLastRow = false;
       }
     });
@@ -40,12 +78,14 @@
       var lastId = parseInt($("tr").not(".delete").last().find("th").text());
       var id = isNaN(lastId) ? 1 : lastId + 1;
       $("tbody").append("<tr class='alert'>" +
-                        "<th scope='row'>" + id + "</th>" +
+                        //"<th scope='row'>" + id + "</th>" +
+                        "<td name='img'><img class='referenceImg'></td>" + 
+                        "<td name='class'><span></span><input type = 'text'></td>" + 
                         "<td name='name'><span></span><input type = 'text'></td>" + 
                         "<td name='ingredients'><span></span><input type = 'text'></td>" + 
                         "<td name='cost'><span></span><input type = 'text'></td>" + 
                         "<td name='price'><span></span><input type = 'text'></td>" + 
-                        "<td class='btn-td'><div class ='btn-circle btn-circle-td'><div class='btn-line'></div><a href='#' class='deleteRow'><div class='btn-square'></div><img src='/images/cross.png'></a></div></td>");
+                        "<td class='btn-td'><div class ='btn-circle btn-circle-td'><div class='btn-line'></div><a href='#' class='deleteRow'><div class='btn-square'></div><img src='/images/cross.png'></a></div></td></tr>");
     } else {
       //反馈信息
     }
@@ -54,16 +94,21 @@
   function deleteRow() {
     $(this).parents("tr").addClass("delete");
     //更新往后的ID
-    $(this).parents("tr").nextAll().each(function() {
-      $(this).find("th").text(parseInt($(this).find("th").text()) - 1);
-    });
+    // $(this).parents("tr").nextAll().each(function() {
+    //   $(this).find("th").text(parseInt($(this).find("th").text()) - 1);
+    // });
   }
 
   function editTd() {
-    $(this).find("input").show();
-    $(this).find("span").hide();
-    $(this).find("input").focus();
-    $(this).find("input").val($(this).find("span").text());
+    if($(this).attr("name") != 'img') {
+      $(this).find("input").show();
+      $(this).find("span").hide();
+      $(this).find("input").focus();
+      $(this).find("input").val($(this).find("span").text());
+    } else {
+      $(this).attr("id", "waitingImg");
+      $("#imgUpload").modal('show');
+    }
   }
 
   function saveTd() {
@@ -85,6 +130,8 @@
       $(".isUpdate, .delete").each(function() {
         var rowJSON = "{";
         rowJSON += "\"name\":\"" + $(this).children("[name='name']").text() + "\",";
+        rowJSON += "\"imgSrc\":\"" + $(this).children("[name='img'] img").attr("src") + "\",";
+        rowJSON += "\"class\":\"" + $(this).children("[name='class']").text() + "\",";
         rowJSON += "\"ingredients\":\"" + $(this).children("[name='ingredients']").text() + "\",";
         rowJSON += "\"cost\":" + $(this).children("[name='cost']").text() + ",";
         rowJSON += "\"price\":" + $(this).children("[name='price']").text() + ",";
@@ -110,12 +157,11 @@
         async: true,
         data: data,
         dataType: "json",
-        url: "?username=" + $(".head-contents a").first().text() + "&info=menu",
-        success: function (result) {
+        url: "?username=" + $(".head-contents a").first().text() + "&info=menu&op=save",
+        success: function(result) {
           setTimeout(function () {
           window.location.reload();
            }, 1000);
-          
         }
       });
     } else {
