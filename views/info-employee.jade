@@ -13,7 +13,7 @@ block info-page
             .panel-heading
               h4.panel-title
                 a(data-toggle='collapse', data-parent='#accordion-employee')
-                  img.avatar
+                  img(src='#{item.imgSrc}').avatar
                   span #{item.name}
                   img(src='/images/down.png').icon
             .panel-collapse.collapse.in.border.border-left-0.border-right-0.border-bottom-0
