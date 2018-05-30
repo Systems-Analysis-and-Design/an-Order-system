@@ -376,3 +376,24 @@ img.avatar {
   border: 1px solid rgba(0,0,0,.125);
   width: 100%;
 }
+
+
+h4[name='paidOrder'] {
+  text-align: center;
+}
+
+[name='paidOrder'] th:nth-child(1) {
+  width: 15%;
+}
+[name='paidOrder'] th:nth-child(2) {
+  width: 10%;
+}
+[name='paidOrder'] th:nth-child(3) {
+  width: 20%;
+}
+[name='paidOrder'] th:nth-child(4) {
+  width: 40%;
+}
+[name='paidOrder'] th:nth-child(5) {
+  width: 15%;
+}
