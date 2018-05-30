@@ -1,7 +1,8 @@
 var mongodb = require('./db');
 
 function Employee(employee) {
-	this.owner = employee.owner;
+    this.owner = employee.owner;
+    this.imgSrc = employee.imgSrc;
     this.username = employee.username;
     this.password = employee.password;
     this.name = employee.name;
@@ -25,6 +26,8 @@ Employee.gg = function (name, up, callback) {
             var len = arr.length / 7;
             for (var i = 0; i < len; i++) { 
                 console.log(up);
+
+                var img1 = up['data[' + i + '][imgSrc]'];
                 var username1 = up['data[' + i + '][username]'];
                 var name1 = up['data[' + i + '][name]'];
                 var age1 = up['data[' + i + '][age]'];
@@ -33,6 +36,7 @@ Employee.gg = function (name, up, callback) {
                 if (up['data[' + i + '][op]'] == 'save') {
                     var up1 = {
                         $set: {
+                            'imgSrc': img1,
                             'post': post1,
                             'name': name1,
                             'age': age1,
