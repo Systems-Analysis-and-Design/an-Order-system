@@ -1,6 +1,7 @@
 var fs = require('fs');
 var path = require('path');
 var crypto = require('crypto');
+var multer = require('multer');
 var User = require('../models/user');
 var Menu = require('../models/menu');
 var Employee = require('../models/employee');
