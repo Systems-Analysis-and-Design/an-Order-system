@@ -25,6 +25,7 @@
 
   function uploadImg() {
     if($("#uploadImg").get(0).files[0] != undefined) {
+      $("#waitingImg").parents("tr").addClass("isUpdate");
       var formData = new FormData();
       formData.append('img', $("#uploadImg").get(0).files[0]);
       $.ajax({
@@ -130,7 +131,7 @@
       $(".isUpdate, .delete").each(function() {
         var rowJSON = "{";
         rowJSON += "\"name\":\"" + $(this).children("[name='name']").text() + "\",";
-        rowJSON += "\"imgSrc\":\"" + $(this).children("[name='img'] img").attr("src") + "\",";
+        rowJSON += "\"imgSrc\":\"" + $(this).find(".referenceImg").attr("src") + "\",";
         rowJSON += "\"class\":\"" + $(this).children("[name='class']").text() + "\",";
         rowJSON += "\"ingredients\":\"" + $(this).children("[name='ingredients']").text() + "\",";
         rowJSON += "\"cost\":" + $(this).children("[name='cost']").text() + ",";
