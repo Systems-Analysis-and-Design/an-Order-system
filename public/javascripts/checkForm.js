@@ -8,11 +8,14 @@ function checkValidity() {    //检查合法性
   if (value == "") return;
   var objId = $(this).attr("id"), flag;
   switch(objId) {
-    case "username":
+    case "mUsername":
     case "upUsername":
+    case "emUsername":
+    case "eUsername":
       flag = /^[a-zA-Z]\w{5,17}$/.test(value);
       break;
-    case "password":
+    case "mPassword":
+    case "ePassword":
     case "upPassword":
       flag = /[a-zA-Z_0-9-]{6,12}/.test(value);
       break;
