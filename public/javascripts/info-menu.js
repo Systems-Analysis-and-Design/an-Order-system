@@ -34,7 +34,7 @@
         data: formData,
         processData: false,   //必须false才会避开jQuery对 formdata 的默认处理 
         contentType: false,   //必须false才会自动加上正确的Content-Type 
-        url: "?username=" + $(".head-contents a").first().text() + "op=uploadImg",
+        url: "?username=" + $(".head-contents a").first().text() + "&op=uploadImg",
         success: function(result) {
           //返回在服务器的存储路径
           $("#imgUpload").modal('hide');
