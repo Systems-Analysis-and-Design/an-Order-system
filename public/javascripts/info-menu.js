@@ -7,6 +7,7 @@
     $("tbody").on("blur", "td input", saveTd);
     $("input[name='menu']").click(saveTable);
     $("#uploadImg").change(previewImg);
+    $(".referenceImg").each(fixImgSrc);
     $("[name='imgUpload']").submit(uploadImg);
   });
 
@@ -39,7 +40,7 @@
         success: function(result) {
           //返回在服务器的存储路径
           $("#imgUpload").modal('hide');
-          $("#waitingImg img").attr("src", result);
+          $("#waitingImg").attr("src", "http://" + window.location.host + "/" + result);
           $("#waitingImg").removeAttr("id");
         }
       });
@@ -62,6 +63,11 @@
       }
     }
   }
+  function fixImgSrc() {
+    imgSrc = "http://" + window.location.host + "/" + $(this).attr("src");
+    $(this).attr("src", imgSrc);
+  }
+
 
   function hasCompletedLastRow() {
     var hasCompletedLastRow = true;
@@ -107,7 +113,7 @@
       $(this).find("input").focus();
       $(this).find("input").val($(this).find("span").text());
     } else {
-      $(this).attr("id", "waitingImg");
+      $(this).find(".referenceImg").attr("id", "waitingImg");
       $("#imgUpload").modal('show');
     }
   }
@@ -129,9 +135,11 @@
       //json化修改的数据
       var data = new Array();
       $(".isUpdate, .delete").each(function() {
+        var len = ("http://" + window.location.host + "/").length;
+        var imgSrc = $(this).find(".referenceImg").attr("src").slice(len);
         var rowJSON = "{";
         rowJSON += "\"name\":\"" + $(this).children("[name='name']").text() + "\",";
-        rowJSON += "\"imgSrc\":\"" + $(this).find(".referenceImg").attr("src") + "\",";
+        rowJSON += "\"imgSrc\":\"" + imgSrc + "\",";
         rowJSON += "\"class\":\"" + $(this).children("[name='class']").text() + "\",";
         rowJSON += "\"ingredients\":\"" + $(this).children("[name='ingredients']").text() + "\",";
         rowJSON += "\"cost\":" + $(this).children("[name='cost']").text() + ",";
@@ -158,7 +166,7 @@
         async: true,
         data: data,
         dataType: "json",
-        url: "?username=" + $(".head-contents a").first().text() + "&info=menu&op=save",
+        url: "?username=" + $(".head-contents a").first().text() + "&info=menu",
         success: function(result) {
           setTimeout(function () {
           window.location.reload();
@@ -170,3 +178,4 @@
     }
   }
 })();
+
