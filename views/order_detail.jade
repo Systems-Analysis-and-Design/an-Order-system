@@ -1,0 +1,36 @@
+extends layout
+append head-content
+  script(src='/javascripts/order_detail.js')
+  
+block content
+  .card
+    .card-block
+      h4 订单详情
+      table.table
+        thead
+            tr
+            th #
+            th 名称
+            th 价格
+            th 数目
+        tbody
+          .code-data
+            var ingredients = #{ingredients}
+          each ingredient, i in ingredients
+            tr.alert
+              th(scope='row') #{i}
+            tr
+                td
+                    span #{ingredient.name}
+                td
+                    span #{ingredient.price}
+                td
+                    span #{ingredient.cost}
+                td.stock
+                    span #{ingredient.stock}
+
+    label
+        | 总计:
+        span#priceTotal.label.label-pill.label-primary 50.00 
+    .footer
+        button.btn.btn-primary.btn-lg.btn-block(type='button') 支付 
