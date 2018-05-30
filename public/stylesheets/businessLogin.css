@@ -36,3 +36,14 @@ body {
   height: 35px;
   opacity: 0;
 }
+
+a[name='employeeLogin'] {
+  position: absolute;
+  text-decoration: none;
+  right: 2%;
+  bottom: 5%;
+}
+
+.form-group label {
+  margin: 1% 0px;
+}
