@@ -3,7 +3,9 @@ var mongodb = require('./db');
 function Menu(menu) {
     this.owner = menu.owner;
     this.name = menu.name;
+    this.imgSrc = menu.imgSrc;
     this.ingredients = menu.ingredients;
+    this.class = menu.class;
     this.cost = menu.cost;
     this.price = menu.price;
 };
@@ -20,12 +22,14 @@ Menu.gg = function (name, up, callback) {
                 return callback(err);//错误，返回 err 信息
             }
             var arr = Object.keys(up);
-            var len = arr.length / 5;
+            var len = arr.length / 7;
            for (var i = 0; i < len; i++) {
                 var menuname1 = up['data[' + i + '][name]'];
+                var imgSrc1 = up['data[' + i + '][imgSrc]'];
                 var ingredients1 = up['data[' + i + '][ingredients]'];
                 var cost1 = up['data[' + i + '][cost]'];
                 var price1 = up['data[' + i + '][price]'];
+                var class1 = up['data[' + i + '][class]'];
 
                 if (up['data[' + i + '][op]'] == 'save') {
 
@@ -34,8 +38,10 @@ Menu.gg = function (name, up, callback) {
                             var up1 = {
                                 $set: {
                                     'ingredients': ingredients1,
+                                    'imgSrc' :imgSrc1,
                                     'cost': cost1,
-                                    'price': price1
+                                    'price': price1,
+                                    'class':class1
                                 }
                             };
                             collection.update({ 'name': menuname1 }, up1, function (err) {
@@ -48,6 +54,8 @@ Menu.gg = function (name, up, callback) {
                             var newMenu = new Menu({
                                 owner: name,
                                 name: menuname1,
+                                class:class1,
+                                imgSrc:imgSrc1,
                                 ingredients: ingredients1,
                                 cost: cost1,
                                 price: price1
