@@ -1,27 +1,20 @@
-doctype html
-html(lang='en')
-  head
-    meta(charset='utf-8')
-    meta(http-equiv='x-ua-compatible', content='ie=edge')
+extends layout
+block head-content
     meta(name='viewport', content='width=device-width,\
     minimum-scale=1.0,maximum-scale=1.0,user-scalable=no')
-    title 皮皮怪餐馆
-    link(rel='stylesheet', href='css/bootstrap.min.css')
-    script(src='js/jquery.min.js')
-    script(src='js/bootstrap.min.js')
-    link(href='css/style.css', type='text/css', rel='stylesheet')
-    //
-      <link rel="stylesheet" href="css/style_cart.css">
-    script(src='http://apps.bdimg.com/libs/jquery/1.9.1/jquery.min.js')
-    script(src='js/cart.js')
+    <link rel="stylesheet" href="stylesheets/tab.css">
+    <link rel="stylesheet" href="stylesheets/bootstrap.css">
+    link(rel='stylesheet', href='stylesheets/style.css')
+    link(rel='stylesheet', href='stylesheets/style_cart.css')
+    script(src='javascripts/js_cart.js')
     style.
       /* Make the image fully responsive */
       .carousel-inner img {
       width: 100%;
       height: 100%;
       }
-  body
-    .container
+block content
+    #box.container
       .row.clearfix
         .col-md-12.column
           #demo.carousel.slide(data-ride='carousel')
@@ -56,7 +49,7 @@ html(lang='en')
             strong Welcome !
             |  皮皮怪餐馆欢迎您的光临！！
           .row.clearfix
-            .column(class='col-md-1.5')
+            .col-md-3.column
               // Nav tabs
               ul.nav.nav-pills.nav-stacked(role='tablist')
                 li.nav-item
@@ -71,140 +64,72 @@ html(lang='en')
               // Tab panes
               .tab-content
                 #snack.tab-pane.active(role='tabpanel')
-                  p 经典小吃是各个地方的特色小吃聚集在一起，让你体验不同的地域小吃风采。
-                  #content.list
-                    ul.list-group
-                      li.list-group-item
-                        a(href='detail.html')
-                          img.list-pic(src='images/m2.png')
-                        .shop-list-mid
-                          .tit
-                            | 五香牛肉
-                          .am-gallery-desc ￥60
-                        .list-cart
-                          .d-stock
-                            a.decrease -
-                            input#num.text_box(readonly='', name='', type='text', value='0')
-                            a.increase.add-button(href='#0', data-price='60', data-proid='1', data-proname='五香牛肉', data-proimg='images/m2.png') +
-                      li.list-group-item
-                        a(href='detail.html')
-                          img.list-pic(src='images/m1.png')
-                        .shop-list-mid
-                          .tit
-                            | 黄金馒头
-                          .am-gallery-desc ￥52
-                        .list-cart
-                          .d-stock
-                            a.decrease -
-                            input#num.text_box(readonly='', name='', type='text', value='0')
-                            a.increase.add-button(href='#0', data-price='52', data-proid='2', data-proname='黄金馒头', data-proimg='images/m1.png') +
+                  ul#list.list-group
+                    li.list-group-item
+                      .row
+                        .col-md-6
+                          a(href='detail.html')
+                            img.img-responsive(src='images/01.png').card-img-top
+                        .col-md-6
+                          .shop-list-mid
+                            .tit
+                              | 黄金卷膜
+                            .am-gallery-desc ￥60
+                          ul.btn-numbox
+                            li
+                              ul.count
+                                li
+                                  span#num-jian
+                                    a.decrease-button(href='#0', class='num=jian', data-price='52', data-proid='2', data-proname='黄金馒头', data-proimg='images/m1.png') +
+                                li
+                                  input#input-num.input-num(type='text', value='0')
+                                li
+                                  span#num-jia
+                                    a.add-button(href='#0', class='num=jia', data-price='52', data-proid='2', data-proname='黄金馒头', data-proimg='images/m1.png') +
+                            li
+                              span.kucun （库存:54）
                 #drink.tab-pane(role='tabpanel')
                   p 饮尿是为很多人知道的一种不健康饮品，一般只有在沙漠里面才会尝试到，在这里也可以尝试，只需一分钟36度新鲜感受。
-                  #content.list
-                    ul.list-group
-                      li.list-group-item
-                        a(href='detail.html')
-                          img.list-pic(src='images/1.jpg')
-                        .shop-list-mid
-                          .tit
-                            | 苹果汁
-                          .am-gallery-desc ￥30
-                        .list-cart
-                          .d-stock
-                            a.decrease -
-                            input#num.text_box(readonly='', name='', type='text', value='0')
-                            a.increase.add-button(href='#0', data-price='30', data-proid='3', data-proname='苹果汁', data-proimg='images/1.png') +
                 #rice.tab-pane(role='tabpanel')
                   p 米饭颗粒饱满，能满足大部分的能量需求，怕吃不饱的就点我。
-                  #content.list
-                    ul.list-group
-                      li.list-group-item
-                        a(href='detail.html')
-                          img.list-pic(src='images/03.jpg')
-                        .shop-list-mid
-                          .tit
-                            | 春卷
-                          .am-gallery-desc ￥20
-                        .list-cart
-                          .d-stock
-                            a.decrease -
-                            input#num.text_box(readonly='', name='', type='text', value='0')
-                            a.increase.add-button(href='#0', data-price='20', data-proid='4', data-proname='春卷', data-proimg='images/03.jpg') +
                 #noodle.tab-pane(role='tabpanel')
                   p 面食是北方人多爱吃的一种食物，丰富多样色彩鲜艳，口味丰富，是爽口的不二选择。
-                  #content.list
-                    ul.list-group
-                      li.list-group-item
-                        a(href='detail.html')
-                          img.list-pic(src='images/m3.jpg')
-                        .shop-list-mid
-                          .tit
-                            | 小面
-                          .am-gallery-desc ￥10
-                        .list-cart
-                          .d-stock
-                            a.decrease -
-                            input#num.text_box(readonly='', name='', type='text', value='0')
-                            a.increase.add-button(href='#0', data-price='10', data-proid='5', data-proname='小面', data-proimg='images/m3.png') +
-        .cd-cart-container.empty
-          a.cd-cart-trigger(href='#0')
-            // 购物车
-            ul.count
-              // cart items count
-              //
-                <li>0</li>
-                <li>0</li>
-            // .count
-          .cd-cart
-            .wrapper
-              header
-                h2 购物车
-              .body
-                ul
-                  // products added to the cart will be inserted here using JavaScript
-              footer
-                a.checkout(href='checkout.html')
-                  em
-                    | 结算 - ￥
-                    span 0
-          // .cd-cart
+      .cd-cart-container.empty
+        a.cd-cart-trigger(href='#0')
+          | 购物车
+          ul.count
+            // cart items count
+            li 0
+            li 0
+          // .count
+        .cd-cart
+          .wrapper
+            header
+              h2 购物车
+              span.undo
+                | 已删除 
+                a(href='#0') 恢复
+            .body
+              ul
+                // products added to the cart will be inserted here using JavaScript
+            footer
+              a#handin.btn.checkout(href='#{username}/handin/?id=#{id}&order=detail')
+                em
+                  | 结算 - ￥
+                  span 0
+        // .cd-cart
         script.
-          $(function() {
-          $('.increase').click(function() {
-          var self = $(this);
-          var current_num = parseInt(self.siblings('input').val());
-          current_num += 1;
-          if (current_num > 0) {
-          self.siblings(".decrease").fadeIn();
-          self.siblings(".text_box").fadeIn();
+          var num_jia = document.getElementById("num-jia");
+          var num_jian = document.getElementById("num-jian");
+          var input_num = document.getElementById("input-num");
+          num_jia.onclick = function() {
+          input_num.value = parseInt(input_num.value) + 1;
           }
-          self.siblings('input').val(current_num);
-          update_item(self.siblings('input').data('item-id'));
-          })
-          $('.decrease').click(function() {
-          var self = $(this);
-          var current_num = parseInt(self.siblings('input').val());
-          if (current_num > 0) {
-          current_num -= 1;
-          if (current_num < 1) {
-          self.fadeOut();
-          self.siblings(".text_box").fadeOut();
+          num_jian.onclick = function() {
+          if (input_num.value <= 0) {
+          input_num.value = 0;
+          } else {
+          input_num.value = parseInt(input_num.value) - 1;
           }
-          self.siblings('input').val(current_num);
-          update_item(self.siblings('input').data('item-id'));
           }
-          })
-          $('.list-jsk').click(function() {
-          var self = $(this);
-          var current_num = parseInt(self.siblings('input').val());
-          if (current_num > 0) {
-          current_num -= 1;
-          if (current_num < 1) {
-          self.fadeOut();
-          self.siblings(".text_box").fadeOut();
-          }
-          self.siblings('input').val(current_num);
-          update_item(self.siblings('input').data('item-id'));
-          }
-          })
-          })
+

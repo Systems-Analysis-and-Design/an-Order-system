@@ -1,17 +1,23 @@
 jQuery(document).ready(function($){
-	var cartWrapper = $('.cd-cart-container');  //将DOM元素转换为jQUery元素 便于使用函数
+	$(function() {
+		$("#handin").click(handin);
+	});
+	
+	var cartWrapper = $('.cd-cart-container');
 	//product id - you don't need a counter in your real project but you can use your real product id
 	var productId = 0;
 
 	if( cartWrapper.length > 0 ) {
 		//store jQuery objects
 		var cartBody = cartWrapper.find('.body')
-		var cartList = cartBody.find('ul').eq(0); //eq定位 0 表示第一个
+		var cartList = cartBody.find('ul').eq(0);
 		var cartTotal = cartWrapper.find('.checkout').find('span');
-		var cartTrigger = cartWrapper.children('.cd-cart-trigger'); // 得到所有的子class
+		var cartTrigger = cartWrapper.children('.cd-cart-trigger');
 		var cartCount = cartTrigger.children('.count')
 		//var addToCartBtn = $('.cd-add-to-cart');
 		var addToCartBtn = $('.add-button');
+		var undo = cartWrapper.find('.undo');
+		var undoTimeoutId;
 
 		//add product to cart
 		addToCartBtn.on('click', function(event){
@@ -19,18 +25,59 @@ jQuery(document).ready(function($){
 			addToCart($(this));
 		});
 
+		//open/close cart
+		cartTrigger.on('click', function(event){
+			event.preventDefault();
+			toggleCart();
+		});
 
 		//close cart when clicking on the .cd-cart-container::before (bg layer)
-		// cartWrapper.on('click', function(event){
-		// 	if( $(event.target).is($(this)) ) toggleCart(true);
-		// });
+		cartWrapper.on('click', function(event){
+			if( $(event.target).is($(this)) ) toggleCart(true);
+		});
 
 		//delete an item from the cart
+		cartList.on('click', '.delete-item', function(event){
+			event.preventDefault();
+			removeProduct($(event.target).parents('.product'));
+		});
+
 		//update item quantity
+		cartList.on('change', 'select', function(event){
+			quickUpdateCart();
+		});
 
 		//reinsert item deleted from the cart
+		undo.on('click', 'a', function(event){
+			clearInterval(undoTimeoutId);
+			event.preventDefault();
+			cartList.find('.deleted').addClass('undo-deleted').one('webkitAnimationEnd oanimationend msAnimationEnd animationend', function(){
+				$(this).off('webkitAnimationEnd oanimationend msAnimationEnd animationend').removeClass('deleted undo-deleted').removeAttr('style');
+				quickUpdateCart();
+			});
+			undo.removeClass('visible');
+		});
 	}
 
+	function toggleCart(bool) {
+		var cartIsOpen = ( typeof bool === 'undefined' ) ? cartWrapper.hasClass('cart-open') : bool;
+		
+		if( cartIsOpen ) {
+			cartWrapper.removeClass('cart-open');
+			//reset undo
+			clearInterval(undoTimeoutId);
+			undo.removeClass('visible');
+			cartList.find('.deleted').remove();
+
+			setTimeout(function(){
+				cartBody.scrollTop(0);
+				//check if cart empty to hide it
+				if( Number(cartCount.find('li').eq(0).text()) == 0) cartWrapper.addClass('empty');
+			}, 500);
+		} else {
+			cartWrapper.addClass('cart-open');
+		}
+	}
 
 	function addToCart(trigger) {
 		var cartIsEmpty = cartWrapper.hasClass('empty');
@@ -58,11 +105,13 @@ jQuery(document).ready(function($){
 		
 		var quantity = $("#cd-product-"+proid).text();
 		var select='',productAdded='';
-
+		
+		//console.log(Number(quantity));
+		//console.log(quantity);
 		
 		if(quantity==''){
 			var select = '<span class="select">x<i id="cd-product-'+proid+'">1</i></span>';
-			var productAdded = $('<li class="product"><div class="product-image"><a href="#0"><img src="'+proimg+'" alt="placeholder"></a></div><div class="product-details"><h3><a href="#0">'+proname+'</a></h3><span class="price">￥'+price+'</span><div class="actions"><a href="#0" class="delete-item">删除</a><div class="quantity"><label for="cd-product-'+ proid +'">件数</label>'+select+'</div></div></div></li>');
+			var productAdded = $('<li class="product"><div class="product-details"><h3><a href="#0">'+proname+'</a></h3><span class="price">￥'+price+'</span><div class="actions"><a href="#0" class="delete-item">删除</a><div class="quantity"><label for="cd-product-'+ proid +'">件数</label>'+select+'</div></div></div></li>');
 			cartList.prepend(productAdded);
 		}else{
 			quantity = parseInt(quantity);
@@ -75,7 +124,42 @@ jQuery(document).ready(function($){
 		//cartList.prepend(productAdded);
 	}
 
+	function removeProduct(product) {
+		clearInterval(undoTimeoutId);
+		cartList.find('.deleted').remove();
+		
+		var topPosition = product.offset().top - cartBody.children('ul').offset().top ,
+			productQuantity = Number(product.find('.quantity').find('.select').find('i').text()),
+			productTotPrice = Number(product.find('.price').text().replace('￥', '')) * productQuantity;
+		
+		product.css('top', topPosition+'px').addClass('deleted');
 
+		//update items count + total price
+		updateCartTotal(productTotPrice, false);
+		updateCartCount(true, -productQuantity);
+		undo.addClass('visible');
+
+		//wait 8sec before completely remove the item
+		undoTimeoutId = setTimeout(function(){
+			undo.removeClass('visible');
+			cartList.find('.deleted').remove();
+		}, 8000);
+	}
+
+	function quickUpdateCart() {
+		var quantity = 0;
+		var price = 0;
+		
+		cartList.children('li:not(.deleted)').each(function(){
+			var singleQuantity = Number($(this).find('.select').find('i').text());
+			quantity = quantity + singleQuantity;
+			price = price + singleQuantity*Number($(this).find('.price').text().replace('￥', ''));
+		});
+
+		cartTotal.text(price.toFixed(2));
+		cartCount.find('li').eq(0).text(quantity);
+		cartCount.find('li').eq(1).text(quantity+1);
+	}
 
 	function updateCartCount(emptyCart, quantity) {
 		if( typeof quantity === 'undefined' ) {
@@ -112,4 +196,16 @@ jQuery(document).ready(function($){
 	function updateCartTotal(price, bool) {
 		bool ? cartTotal.text( (Number(cartTotal.text()) + Number(price)).toFixed(2) )  : cartTotal.text( (Number(cartTotal.text()) - Number(price)).toFixed(2) );
 	}
+	
+	function handin(){
+		//alert(productId);
+		var dishes = new Array();
+		for(var k=0; k<productId; k++){
+			dishes[k] = "llalalalala";
+		}
+		var order= JSON.stringify(dishes);
+		alert(JSON.stringify(dishes));
+	}
+	
+	
 });
