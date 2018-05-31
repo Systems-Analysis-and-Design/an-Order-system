@@ -22,30 +22,55 @@ block content
         h1= title
         p 今天您皮了吗？
         //模态框实现登录、注册
-        button(type='button', data-toggle='modal', data-target='#login').btn.btn-primary 皮一下
+        button(type='button', data-toggle='modal', data-target='#managerLogin').btn.btn-primary 皮一下
         p 还没有皮皮怪？ 
           a(data-toggle='modal', data-target='#regist').btn.btn-secondary.super-link 点击炼制！
-        //登录框
-        .modal.fade#login
+        //店主登录框
+        .modal.fade#managerLogin
           .modal-dialog
-            form(name='login').modal-content
+            form(name='managerLogin').modal-content
               .modal-header.form-header
                 button(type='button', data-dismiss='modal').close &times;
               .modal-body.form-body
                 .form-group.row
-                  label(for='username').col-sm-2.form-control-label 用户名
-                  input(type='text', name='username').form-control#username.col-sm-9
+                  label(for='username').col-sm-3.form-control-label 用户名
+                  input(type='text', name='username').form-control#mUsername.col-sm-8
                   img
                 .form-group.row
-                  label(for='password').col-sm-2.form-control-label 密码
-                  input(type='password', name='password').form-control#password.col-sm-9
+                  label(for='password').col-sm-3.form-control-label 密码
+                  input(type='password', name='password').form-control#mPassword.col-sm-8
                   img
               .modal-footer.form-footer
                 .form-group.row.mx-auto
                   //小bug：点击后按钮变大
-                  input(type='submit', value='登录', name='login').btn.btn-secondary.col-sm-12
+                  input(type='submit', value='登录', name='managerLogin').btn.btn-secondary.col-sm-12
                   .form-result
-          //注册框
+                  a(href='#' name='employeeLogin') 员工登录
+        //店员登录框
+        .modal.fade#employeeLogin
+          .modal-dialog
+            form(name='employeeLogin').modal-content
+              .modal-header.form-header
+                button(type='button', data-dismiss='modal').close &times;
+              .modal-body.form-body
+                .form-group.row
+                  label(for='managerUsername').col-sm-3.form-control-label 店主账户
+                  input(type='text', name='managerUsername').form-control#emUsername.col-sm-8
+                  img
+                .form-group.row
+                  label(for='username').col-sm-3.form-control-label 用户名
+                  input(type='text', name='username').form-control#eUsername.col-sm-8
+                  img
+                .form-group.row
+                  label(for='password').col-sm-3.form-control-label 密码
+                  input(type='password', name='password').form-control#ePassword.col-sm-8
+                  img
+              .modal-footer.form-footer
+                .form-group.row.mx-auto
+                  //小bug：点击后按钮变大
+                  input(type='submit', value='登录', name='employeeLogin').btn.btn-secondary.col-sm-12
+                  .form-result
+        //注册框
         .modal.fade#regist
           .modal-dialog
             form(name='regist').modal-content
