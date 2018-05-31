@@ -100,7 +100,40 @@ module.exports = function(app) {
     }
     else if(op == 'employeeLogin') {
       //员工登录
-      return res.json("success");
+     console.log(req.body);
+      var owner1 = req.body.managerUsername;
+      var name1 = req.body.username;
+      var password1 = req.body.password;
+      mongodb.open(function (err, db) {
+        if (err) {
+            return callback(err);//错误，返回 err 信息
+        }
+        db.collection(owner1+"_employees", function (err, collection1) {
+          if (err) {
+            mongodb.close();
+            return callback(err);//错误，返回 err 信息
+          }
+
+          collection1.findOne({username: name1}, function (err, employee) {
+            if (err) {
+              return res.json(err);
+            }
+            else if (employee) {
+              if(employee.password == password1){
+                return res.json("success");
+              }
+              else {
+                return res.json("wrongPassword");
+              }
+            }
+            else {
+              return res.json("notFound");
+            }
+            mongodb.close();
+          });
+        });
+        mongodb.close(); 
+      }); 
     }
 
   });
