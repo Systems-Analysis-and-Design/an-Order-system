@@ -90,8 +90,8 @@ Main Components
 .cd-cart-trigger {
     /* button that triggers the cart content */
     z-index: 3;
-    height: 72px;
-    width: 72px;
+    height: 75px;
+    width: 73px;
     /* replace text with image */
     text-indent: 100%;
     color: transparent;
@@ -112,7 +112,7 @@ Main Components
     transform: translateX(-50%) translateY(-50%);
     height: 100%;
     width: 100%;
-    background-image: url(../images/cart.jpg);
+    background-image: url(../images/cart.png);
     -webkit-transition: opacity .2s, -webkit-transform .2s;
     transition: opacity .2s, -webkit-transform .2s;
     transition: opacity .2s, transform .2s;
@@ -352,7 +352,7 @@ Main Components
     content: '';
     height: 24px;
     width: 24px;
-    background-image: url(../images/cart.jpg);
+    background-image: url(../images/cart.png);
     opacity: 0;
     -webkit-transition: opacity .2s;
     transition: opacity .2s;
@@ -433,27 +433,31 @@ Main Components
     display: inline-block;
     float: left;
     /* the image height determines the height of the list item - in this case height = width */
-    width: 50px;
 }
 
 .cd-cart .product-image img {
     display: block;
     width: 50px;
+    height: 100px;
     margin: 0 auto;
+    width: 100%;
+    height: 200%;
 }
 
 .cd-cart .product-details {
     position: relative;
     display: inline-block;
-    float: right;
+    float: left;
     width: calc( 100% - 50px);
     padding: 0.3em 0 0 0.5em;
+    height: 50px;
 }
 
 .cd-cart .product-details::after {
     clear: both;
     content: "";
     display: block;
+    height: 50px;
 }
 
 .cd-cart h3,
@@ -642,7 +646,7 @@ Main Components
         font-size: 1.6rem;
     }
     .cd-cart .product-image {
-        width: 90px;
+        width: 50px;
     }
     .cd-cart .product-details {
         padding: 1.4em 0 0 1em;
