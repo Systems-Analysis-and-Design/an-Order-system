@@ -2,11 +2,11 @@ extends layout
 block head-content
     meta(name='viewport', content='width=device-width,\
     minimum-scale=1.0,maximum-scale=1.0,user-scalable=no')
-    <link rel="stylesheet" href="stylesheets/tab.css">
-    <link rel="stylesheet" href="stylesheets/bootstrap.css">
-    link(rel='stylesheet', href='stylesheets/style.css')
-    link(rel='stylesheet', href='stylesheets/style_cart.css')
-    script(src='javascripts/js_cart.js')
+    link(rel="stylesheet", href="./../stylesheets/bootstrap.css")
+    link(rel='stylesheet', href='./../stylesheets/style.css')
+    link(rel='stylesheet', href='./../stylesheets/style_cart.css')
+    script(src='./../javascripts/js_cart.js')
+    script(src='./../javascripts/client.js')
     style.
       /* Make the image fully responsive */
       .carousel-inner img {
@@ -26,17 +26,17 @@ block content
             // 轮播图片
             .carousel-inner
               .carousel-item.active
-                img(src='images/01.png')
+                img(src='./../images/01.png')
                 .carousel-caption
                   h3 风土乡情
                   p Cras justo odio.
               .carousel-item
-                img(src='images/02.png')
+                img(src='./../images/02.png')
                 .carousel-caption
                   h3 异域美食
                   p Cras justo odio.
               .carousel-item
-                img(src='images/03.png')
+                img(src='./../images/03.png')
                 .carousel-caption
                   h3 风味小吃
                   p Cras justo odio.
@@ -63,39 +63,21 @@ block content
             .col-md-9.column
               // Tab panes
               .tab-content
+                
                 #snack.tab-pane.active(role='tabpanel')
-                  ul#list.list-group
-                    li.list-group-item
-                      .row
-                        .col-md-6
-                          a(href='detail.html')
-                            img.img-responsive(src='images/01.png').card-img-top
-                        .col-md-6
-                          .shop-list-mid
-                            .tit
-                              | 黄金卷膜
-                            .am-gallery-desc ￥60
-                          ul.btn-numbox
-                            li
-                              ul.count
-                                li
-                                  span#num-jian
-                                    a.decrease-button(href='#0', class='num=jian', data-price='52', data-proid='2', data-proname='黄金馒头', data-proimg='images/m1.png') +
-                                li
-                                  input#input-num.input-num(type='text', value='0')
-                                li
-                                  span#num-jia
-                                    a.add-button(href='#0', class='num=jia', data-price='52', data-proid='2', data-proname='黄金馒头', data-proimg='images/m1.png') +
-                            li
-                              span.kucun （库存:54）
+                  ul.list-group
                 #drink.tab-pane(role='tabpanel')
                   p 饮尿是为很多人知道的一种不健康饮品，一般只有在沙漠里面才会尝试到，在这里也可以尝试，只需一分钟36度新鲜感受。
+                  ul.list-group
                 #rice.tab-pane(role='tabpanel')
                   p 米饭颗粒饱满，能满足大部分的能量需求，怕吃不饱的就点我。
+                  ul.list-group
                 #noodle.tab-pane(role='tabpanel')
                   p 面食是北方人多爱吃的一种食物，丰富多样色彩鲜艳，口味丰富，是爽口的不二选择。
+                  ul.list-group
       .cd-cart-container.empty
         a.cd-cart-trigger(href='#0')
+          //- img(src='/images/cart.png')
           | 购物车
           ul.count
             // cart items count
@@ -113,23 +95,36 @@ block content
               ul
                 // products added to the cart will be inserted here using JavaScript
             footer
-              a#handin.btn.checkout(href='#{username}/handin/?id=#{id}&order=detail')
+              #code-username #{username}
+              #code-id #{id}
+              a#handin.btn.checkout
                 em
                   | 结算 - ￥
                   span 0
-        // .cd-cart
-        script.
-          var num_jia = document.getElementById("num-jia");
-          var num_jian = document.getElementById("num-jian");
-          var input_num = document.getElementById("input-num");
-          num_jia.onclick = function() {
-          input_num.value = parseInt(input_num.value) + 1;
-          }
-          num_jian.onclick = function() {
-          if (input_num.value <= 0) {
-          input_num.value = 0;
-          } else {
-          input_num.value = parseInt(input_num.value) - 1;
-          }
-          }
+      ul.list-group#code-data
+          each item, i in menu
+            li.list-group-item
+              .row
+                .code-class #{item.class}
+                .code-cost #{item.cost}
+                .col-md-6
+                  .boy
+                    img.img-responsive(src='#{item.imgSrc}').card-img-top
+                .col-md-6
+                  .shop-list-mid
+                    .tit
+                      | #{item.name}
+                    .am-gallery-desc ￥  #{item.price}
+                    ul.count
+                      li.decreaseNum
+                          a.decrease-button(href='#0', class='num=jian', data-cost='#{item.cost}', data-price='#{item.price}', data-proid='#{i}', data-proname='#{item.name}',data-proimg='#{item.imgSrc}')
+                            img(src="/images/reduce.png").board
+                      li
+                        label.label-num(type='number') 0
+                      li.addNum
+                          a.add-button(href='#0', class='num=jia', data-cost='#{item.cost}' data-price='#{item.price}', data-proid='#{i}', data-proname='#{item.name}',data-proimg='#{item.imgSrc}')
+                            img(src="/images/plus-g.png").board
 
+                    //- <a href="#0" class="num=jia add-button" data-price="52" data-proid="2" data-proname="黄金馒头" data-proimg="images/m1.png">+</a>
+        // .cd-cart
+        
