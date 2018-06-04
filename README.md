@@ -12,3 +12,13 @@
 5.李佳、李辉旭新建相关数据表，编写管理界面后台响应；
 
 6.李果、李伟杜、李开锋进行点菜界面和数据传递的重构；
+
+
+
+```
+# install dependencies
+npm install
+
+#start the demo
+npm start
+```
