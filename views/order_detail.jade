@@ -1,5 +1,5 @@
 extends layout
-  
+  script(src='./../javascripts/order_detail.js')
 block content
   .card
     .card-block
@@ -30,4 +30,4 @@ block content
         | 总计:
         span#priceTotal.label.label-pill.label-primary #{totalprice}
     .footer
-        button.btn.btn-primary.btn-lg.btn-block(type='button') 支付 
+        button.btn.btn-primary.btn-lg.btn-block(type='button')#post 支付 
