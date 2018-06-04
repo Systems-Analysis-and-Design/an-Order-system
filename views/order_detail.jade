@@ -1,6 +1,4 @@
 extends layout
-append head-content
-  script(src='/javascripts/order_detail.js')
   
 block content
   .card
@@ -14,23 +12,23 @@ block content
             th 价格
             th 数目
         tbody
-          .code-data
-            var ingredients = #{ingredients}
-          each ingredient, i in ingredients
+          each item, i in menu_list
             tr.alert
               th(scope='row') #{i}
-            tr
-                td
-                    span #{ingredient.name}
-                td
-                    span #{ingredient.price}
-                td
-                    span #{ingredient.cost}
-                td.stock
-                    span #{ingredient.stock}
+              td(name='name')
+                span #{item.name}
+                
+              td(name='price')
+                span #{item.price}
+                
+              td(name='number')
+                span #{item.number}
+                
+              
 
     label
         | 总计:
-        span#priceTotal.label.label-pill.label-primary 50.00 
+        span#priceTotal.label.label-pill.label-primary #{totalprice}
     .footer
-        button.btn.btn-primary.btn-lg.btn-block(type='button') 支付 
+        a#pay(href='/#{username}/?id=#{stream_id}&order=finish')
+          button.btn.btn-primary.btn-lg.btn-block(type='button') 支付 
