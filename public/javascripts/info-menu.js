@@ -104,16 +104,15 @@
 
   function editTd() {
     if ($(this).find("input").get(0) != null) {
-      if ($(this).attr("name") != 'img') {
-        $(this).find("input").show();
-        $(this).find("span").hide();
-        $(this).find("input").focus();
-        $(this).find("input").val($(this).find("span").text());
-      } else {
-        $(this).find(".referenceImg").attr("id", "waitingImg");
-        $("#imgUpload").modal('show');
-      }
-    }  
+      $(this).find("input").show();
+      $(this).find("span").hide();
+      $(this).find("input").focus();
+      $(this).find("input").val($(this).find("span").text());
+    }
+    else if ($(this).attr("name") == 'img') {
+      $(this).find(".referenceImg").attr("id", "waitingImg");
+      $("#imgUpload").modal('show');
+    }
   }
 
   function saveTd() {
