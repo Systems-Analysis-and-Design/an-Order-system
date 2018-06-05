@@ -4,8 +4,7 @@ append head-content
 block info-page
   .card
     .card-block
-      h4(name='evaluation') 菜品信息
-      input(type='submit', value='保存', name='evaluation').btn.btn-secondary
+      h4(name='evaluation') 评价信息
       table(name='evaluation').table.table-hover
         thead
           tr
@@ -15,7 +14,6 @@ block info-page
             th 味道
             th 上餐速度
             th 服务态度
-            th 操作
         tbody
           each item in evaluation
             tr.alert
@@ -37,9 +35,5 @@ block info-page
               td(name='serviceAttitude')
                 span #{item.serviceAttitude}
                 input(type='text')
-              td.btn-td
-                .btn-circle.btn-circle-td
-                  .btn-line
-                  a(href='#').deleteRow
-                    .btn-square
-                    img(src='/images/cross.png')
+          
+
