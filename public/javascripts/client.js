@@ -11,7 +11,7 @@
     function fixClassify() {
         var itemClass = $(this).find(".code-class").text();
         console.log($(this).html());
-        $("#" + itemClass + " ul").append($(this).html());
+        $("#" + itemClass).append($(this).html());
     }
 
     function addNum() {
