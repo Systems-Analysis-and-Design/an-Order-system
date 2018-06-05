@@ -1,6 +1,7 @@
 extends user
 append head-content
   script(src='/javascripts/info-employee.js')
+  script(src='/javascripts/checkForm.js')
 block info-page
   .card
     .card-header
@@ -28,7 +29,6 @@ block info-page
                   p 账号：
                 div(name='username').info-item-val.col-8
                   span.alert #{item.username}
-                  input(type='text')
               .info-item
                 .info-item-p.col-4
                   p 职位：
@@ -72,31 +72,31 @@ block info-page
         .modal-body.form-body
           .form-group.row
             label(for='username').col-sm-3.form-control-label 用户名
-            input(type='text', placeholder='6~18位英文字母、数字或下划线，字母开头', name='username').form-control#username.col-sm-8
+            input(type='text', placeholder='6~18位英文字母、数字或下划线，字母开头', name='username').form-control#username.col-sm-7
             img
           .form-group.row
             label(for='password').col-sm-3.form-control-label 密码
-            input(type='password', placeholder='6~12位数字、大小写字母、中划线、下划线', name='password').form-control#password.col-sm-8
+            input(type='password', placeholder='6~12位数字、大小写字母、中划线、下划线', name='password').form-control#password.col-sm-7
             img
           .form-group.row
             label(for='repassword').col-sm-3.form-control-label 重复密码
-            input(type='password', placeholder='再次输入密码', name='repassword').form-control#repassword.col-sm-8
+            input(type='password', placeholder='再次输入密码', name='repassword').form-control#repassword.col-sm-7
             img
           .form-group.row
             label(for='name').col-sm-3.form-control-label 姓名
-            input(type='text', placeholder='皮蛋', name='name').form-control#name.col-sm-8
+            input(type='text', placeholder='皮蛋', name='name').form-control#name.col-sm-7
             img
           .form-group.row
             label(for='age').col-sm-3.form-control-label 年龄
-            input(type='number', placeholder='18', name='age').form-control#age.col-sm-8
+            input(type='number', placeholder='18', name='age').form-control#age.col-sm-7
             img
           .form-group.row
             label(for='phone').col-sm-3.form-control-label 电话
-            input(type='text', placeholder='11位数字，不能以0开头', name='phone').form-control#phone.col-sm-8
+            input(type='text', placeholder='11位数字，不能以0开头', name='phone').form-control#phone.col-sm-7
             img
           .form-group.row
             label(for='post').col-sm-3.form-control-label 职位
-            input(type='text', placeholder='厨师', name='post').form-control#post.col-sm-8
+            input(type='text', placeholder='厨师', name='post').form-control#post.col-sm-7
             img
         .modal-footer.form-footer
           .form-group.row.mx-auto
