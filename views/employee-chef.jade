@@ -1,38 +1,36 @@
-extends layout
-append head-content
-  link(rel='stylesheet', href='/stylesheets/businessPage.css')
-  script(src='/javascripts/employee-chef.js')
-block content
-  .card
-    .card-block
-      h4(name='paidOrder') 已支付订单
-      table(name='paidOrder').table.table-hover
-        thead
-          tr
-            th 订单号
-            th 桌号
-            th 菜名
-            th 备注
-            th 操作
-        tbody
-          each item in paidOrder
-            tr.alert
-              td(name='orderNumber')
-                span #{item.orderNumber}
-              td(name='tabelNumber')
-                span #{item.tabelNumber}
-              td(name='name')
-                span #{item.name}
-              td(name='note')
-                span #{item.note}
-              td.btn-td
-                .btn-circle.btn-circle-td
-                  .btn-line
-                  a(href='#').cancelled
-                    .btn-square
-                    img(src='/images/cross.png')
-                .btn-circle.btn-circle-td
-                  .btn-line
-                  a(href='#').completed
-                    .btn-square
-                    img(src='/images/correct2.png')
+(function() {
+  $(function() {
+    //å®šæ—¶åˆ·æ–°
+    autoRefresh();
+    $("tbody").on("click", ".completed", changeOrderState);
+  });
+
+  function autoRefresh() {
+    // setTimeout(function() {
+    //   window.location.reload();
+    // }, 5000);
+  }
+
+  function changeOrderState() {
+    var row = $(this).parents("tr");
+    var rowJSON = "{";
+    rowJSON += "\"orderNumber\":\"" + row.find("[name='orderNumber']").text() + "\",";
+    if ($(this).hasClass("completed")) {
+      rowJSON += "\"op\":\"completed\"";
+    }
+    rowJSON += "}";
+    rowJSON = eval("(" + rowJSON + ")");
+    $.ajax( {
+        type: "POST",
+        async: false,
+        data: rowJSON,
+        dataType: "json",
+        url: window.location.href,
+        success: function(result) {
+          setTimeout(function () {
+            window.location.reload();
+          }, 500);
+        }
+      });
+  }
+})();
