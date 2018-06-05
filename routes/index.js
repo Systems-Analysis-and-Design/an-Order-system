@@ -614,21 +614,67 @@ module.exports = function(app) {
     return res.json('success');
   });
   
-  app.get('/employee', function(req, res, next) {
-    var paidOrder = new Array();
-    var item = new Object();
-    item.orderNumber = "0002";
-    item.name = "咸鱼煲汤";
-    item.tabelNumber = 12;
-    item.note = "不要鱼，加辣";
-    paidOrder[0] = item;
-    return res.render('employee-chef', {paidOrder: paidOrder});
+   app.get('/employee', function(req, res, next) {
+    // var paidOrder = new Array();
+    // var item = new Object();
+    // item.orderNumber = "0002";
+    // item.name = "咸鱼煲汤";
+    // item.tabelNumber = 12;
+    // item.note = "不要鱼，加辣";
+    // paidOrder[0] = item;
+
+    var managername = req.query.managername;
+    mongodb.open(function (err, db) {
+      //读取 users 集合
+      db.collection(managername + '_orders', function (err, collection) {
+        var query = {};
+        var amount;
+        collection.count(query, function (err, total) {
+          amount = total;
+          // console.log(amount);
+        });
+        var paidOrder = new Array();
+        collection.find().toArray(function (err, result) {
+          for (var i = 0; i < amount; i++) {
+            if (result[i].state == '0') {
+              var item = new Object();
+              item.orderNumber = result[i].streamid;
+              item.tabelNumber = result[i].id;
+              var sss = '';
+              for (var j = 0; j < result[i].menu_name.length; j++) {
+                if (j != result[i].menu_name.length-1)
+                  sss += result[i].menu_name[j] + 'x' + result[i].number[j] + '、 ';
+                else sss += result[i].menu_name[j] + 'x' + result[i].number[j];
+              }
+              item.name = sss;
+              paidOrder[i] = item;
+            }
+          }
+          return res.render('employee-chef', { paidOrder: paidOrder });
+          mongodb.close();
+        });
+      });
+      mongodb.close();
+    });
   });
 
-  app.post('/employee', function(req, res, next) {
-    console.log(req.body);
-    res.json("success");
+  app.post('/employee', function (req, res, next) {
+    var managername = req.query.managername;
+    console.log(managername);
+    var streamid = parseInt(req.body.orderNumber);
+      var up = {
+        $set: {
+          "state": "1"
+        }
+      };
+      Order.update(managername, streamid, up, function (err, order) {
+        if (err) {
+          return res.json(err);
+        }
+      });
+    return res.json("success");
   });
+
 
   app.use(function (req, res) {    //获取css,js,img
     return res.sendFile(__dirname + '../public' + req.url);

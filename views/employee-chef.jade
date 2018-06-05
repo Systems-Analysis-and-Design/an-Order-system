@@ -11,8 +11,7 @@ block content
           tr
             th 订单号
             th 桌号
-            th 菜名
-            th 备注
+            th 菜单
             th 操作
         tbody
           each item in paidOrder
@@ -23,14 +22,12 @@ block content
                 span #{item.tabelNumber}
               td(name='name')
                 span #{item.name}
-              td(name='note')
-                span #{item.note}
               td.btn-td
-                .btn-circle.btn-circle-td
-                  .btn-line
-                  a(href='#').cancelled
-                    .btn-square
-                    img(src='/images/cross.png')
+                //- .btn-circle.btn-circle-td
+                //-   .btn-line
+                //-   a(href='#').cancelled
+                //-     .btn-square
+                //-     img(src='/images/cross.png')
                 .btn-circle.btn-circle-td
                   .btn-line
                   a(href='#').completed
