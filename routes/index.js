@@ -4,17 +4,174 @@ var crypto = require('crypto');
 var multer = require('multer');
 var User = require('../models/user');
 var Menu = require('../models/menu');
+var Order = require('../models/order');
 var Employee = require('../models/employee');
 var Ingredient = require('../models/ingredient');
 var mongodb = require('../models/db');
 
 module.exports = function(app) {
-  /* GET home page. */
-  app.get('/', function(req, res, next) {
-    res.render('home', { title: '皮皮怪点餐' });
-  });
+    /* GET home page. */
+    app.get('/', function(req, res, next) {
+        res.render('home', { title: '皮皮怪点餐' });
+    });
 
-  app.post('/', function (req, res) {
+    app.get('/*/client', function(req, res, next) {
+        var name = 'qqqqqq';
+        var show = new Object();
+        show.name = name;
+        mongodb.open(function(err, db) {
+            //读取 users 集合
+            db.collection(name + '_menu', function(err, collection) {
+                var query = {};
+                var amount;
+                collection.count(query, function(err, total) {
+                    amount = total;
+                    // console.log(amount);
+                });
+                var menus = new Array();
+                collection.find().toArray(function(err, result) {
+                    for (var i = 0; i < amount; i++) {
+                        var item = new Object();
+                        item.imgSrc = result[i].imgSrc;
+                        item.class = result[i].class;
+                        item.name = result[i].name;
+                        item.ingredients = result[i].ingredients;
+                        item.cost = result[i].cost;
+                        item.price = result[i].price;
+                        menus[i] = item;
+                    }
+                    return res.render('client', {username: 'qqqqqq', user: show, menu: menus });
+                    mongodb.close();
+                });
+            });
+            mongodb.close();
+        });
+    });
+
+
+    app.get('/*/handin', function(req, res, next) {
+            var finish = req.query.finish;
+             if(finish == 'true') {
+                return res.render('order_finish');
+            }
+
+            var sid = parseInt(req.query.id);
+            Order.get('qqqqqq',sid, function(err, order){
+                var ordersss = new Array();
+                if(order) {
+               var itemcount =  order.menu_name.length;
+
+               for (var i = 0; i < itemcount; i++) {
+                    var item = new Object();
+                    item.name = order.menu_name[i];
+                    item.number = order.number[i];
+                    item.price = order.singleprice[i];
+                    ordersss[i] = item;
+                }
+                console.log(ordersss);
+                totalprice = order.price;
+               }
+                mongodb.close();
+               
+                return res.render('order_detail', { order: ordersss, totalprice: totalprice });
+            });
+                    
+            
+    });
+
+
+
+     app.post('/*/client', function (req, res) {
+        var up = req.body;
+        var arr = Object.keys(req.body);
+        var len = arr.length / 4;
+        var name = new Array();
+        var number = new Array();
+        var singleprice = new Array();
+        var totalcost = 0;
+        var totalprice = 0;
+        for (var i = 0; i < len; i++) { 
+            name[i] = up['data['+ i +'][name]'];
+            number[i] = parseInt(up['data['+ i +'][num]']);
+            singleprice[i] = parseInt(up['data['+ i +'][price]']);
+            totalcost += parseInt(up['data[' + i + '][cost]']) * number[i];
+            totalprice += parseInt(up['data[' + i + '][price]']) * number[i];
+        }
+
+
+
+
+        
+            
+//随机数生成订单号
+        var sid = Math.floor(Math.random()*100000);
+        var neworder = new Order({
+                id: 12,
+                streamid: sid,
+                owner: 'qqqqqq',
+                menu_name: name,
+                number: number,
+                singleprice: singleprice,
+                taste:'',
+                speedOfProduction:'',
+                serviceAttitude:'',
+                totalEvaluation:'',
+                cost: totalcost,
+                price: totalprice,
+                state: '0'
+        });
+
+                   // console.log(flag1);
+                      mongodb.open(function(err, db) {
+                    if (err) {
+                        mongodb.close();
+                        return callback(err); //错误，返回 err 信息
+                    }
+                    //读取 employees 集合
+                    db.collection(neworder.owner+'_orders', function(err, collection) {
+                        if (err) {
+                            mongodb.close();
+                            return callback(err); //错误，返回 err 信息
+                        }
+                        //查找账户（值为 account 一个文档
+                        // collection.findOne({id: neworder.id}, function (err, order) {
+                        //     if(order){
+                        //         mongodb.close();
+                        //     }
+                        //     else{
+                                collection.insert(neworder, { safe: true }, function(err, order) {
+                                    mongodb.close();
+                            return res.json(neworder.streamid);
+                                });
+                            //}   
+                        });
+                        mongodb.close();
+                    });
+                });
+     app.post('/*/handin', function (req, res){
+        var sid = parseInt(req.query.id);
+        var owner = req.url.split('/')[1];
+
+        console.log(sid);
+        console.log(owner);
+        var up = {
+        $set: {
+          'taste': req.body.taste,
+          'speedOfProduction': req.body.speedOfProduction,
+          'serviceAttitude':req.body.serviceAttitude,
+          'totalEvaluation':req.body.totalEvaluation
+        }
+      };
+      Order.update(owner,sid, up, function (err, order) {
+        if (err) {
+          return res.json(err);
+        }
+      });
+      return res.json("secess");
+     });
+
+
+    app.post('/', function (req, res) {
     //表单类型
     var op = req.query.op;
     var info = req.query.info;
