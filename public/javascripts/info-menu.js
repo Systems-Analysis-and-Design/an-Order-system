@@ -100,22 +100,20 @@
 
   function deleteRow() {
     $(this).parents("tr").addClass("delete");
-    //更新往后的ID
-    // $(this).parents("tr").nextAll().each(function() {
-    //   $(this).find("th").text(parseInt($(this).find("th").text()) - 1);
-    // });
   }
 
   function editTd() {
-    if($(this).attr("name") != 'img') {
-      $(this).find("input").show();
-      $(this).find("span").hide();
-      $(this).find("input").focus();
-      $(this).find("input").val($(this).find("span").text());
-    } else {
-      $(this).find(".referenceImg").attr("id", "waitingImg");
-      $("#imgUpload").modal('show');
-    }
+    if ($(this).find("input").get(0) != null) {
+      if ($(this).attr("name") != 'img') {
+        $(this).find("input").show();
+        $(this).find("span").hide();
+        $(this).find("input").focus();
+        $(this).find("input").val($(this).find("span").text());
+      } else {
+        $(this).find(".referenceImg").attr("id", "waitingImg");
+        $("#imgUpload").modal('show');
+      }
+    }  
   }
 
   function saveTd() {
