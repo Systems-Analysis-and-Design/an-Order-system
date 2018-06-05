@@ -6,7 +6,6 @@ block info-page
     .card-block
       .account-card-header
         h4(name='accounts') 账目信息
-        input(type='submit', value='保存', name='accounts').btn.btn-secondary
       .account-card-body
         .IO-overview.card.border-bottom-0.flex-row
           h4(name='totalIncome').card-title 总收入：
@@ -21,20 +20,17 @@ block info-page
               .panel-heading
                 h4.panel-title
                   a(data-toggle='collapse', data-parent='#accordion-accounts')
-                    span 收入详情
+                    span 收支详情
                     img(src='/images/down.png').icon
               .panel-collapse.collapse.in.border.border-left-0.border-right-0.border-bottom-0
                 table(name='accounts-in').table.table-hover
                   thead
                     tr
                       th #
-                      th 菜名
+                      th 订单号
                       th 成本
-                      th 售价
-                      th 售出份数
                       th 收入
                       th 净收入
-                      th 操作
                   tbody
                     each item, i in accountsIn
                       tr.alert
@@ -45,66 +41,9 @@ block info-page
                         td(name='cost')
                           span #{item.cost}
                           input(type='number')
-                        td(name='price')
-                          span #{item.price}
-                          input(type='number')
-                        td(name='soldNum')
-                          span #{item.soldNum}
-                          input(type='number')
                         td(name='income')
                           span #{item.income}
                         td(name='netIncome')
                           span #{item.netIncome}
-                        td.btn-td
-                          .btn-circle.btn-circle-td
-                            .btn-line
-                            a(href='#').deleteRow
-                              .btn-square
-                              img(src='/images/cross.png')
-                .btn-circle
-                  .btn-line
-                  a(href='#').addRow
-                    .btn-square
-                    img(src='/images/plus.png')
-            .border-line
-            .panel.panel-default
-              .panel-heading
-                h4.panel-title
-                  a(data-toggle='collapse', data-parent='#accordion-accounts')
-                    span 支出详情
-                    img(src='/images/down.png').icon
-              .panel-collapse.collapse.in.border.border-left-0.border-right-0.border-bottom-0
-                table(name='accounts-out').table.table-hover
-                  thead
-                    tr
-                      th ID
-                      th 事件
-                      th 备注
-                      th 支出
-                      th 操作
-                  tbody
-                    each item, i in accountsOut
-                      tr.alert
-                        td(name='id')
-                          span #{item.id}
-                          input(type='text')
-                        td(name='event')
-                          span #{item.event}
-                          input(type='text')
-                        td(name='note')
-                          span #{item.note}
-                          input(type='text')
-                        td(name='cost')
-                          span #{item.cost}
-                          input(type='number')
-                        td.btn-td
-                          .btn-circle.btn-circle-td
-                            .btn-line
-                            a(href='#').deleteRow
-                              .btn-square
-                              img(src='/images/cross.png')
-                .btn-circle
-                  .btn-line
-                  a(href='#').addRow
-                    .btn-square
-                    img(src='/images/plus.png')
+        
+                 
