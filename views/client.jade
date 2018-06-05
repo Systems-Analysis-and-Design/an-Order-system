@@ -51,7 +51,7 @@ block content
           .row.clearfix
             .col-md-3.column
               // Nav tabs
-              ul.nav.nav-pills.nav-stacked(role='tablist')
+              ul.nav.nav-pills.nav-stacked(role='tablist').card
                 li.nav-item
                   a.nav-link.active(href='#snack', role='tab', data-toggle='tab') 经典小吃
                 li.nav-item
@@ -60,7 +60,7 @@ block content
                   a.nav-link(href='#rice', role='tab', data-toggle='tab') 主食
                 li.nav-item
                   a.nav-link(href='#noodle', role='tab', data-toggle='tab') 面食
-            .col-md-9.column
+            .col-md-9.column.card
               // Tab panes
               .tab-content
                 
@@ -105,7 +105,7 @@ block content
       ul.list-group#code-data
           each item, i in menu
             li.list-group-item
-              .row
+              .row.menu-item.border-left-0.border-right-0.border-bottom-0
                 .code-class #{item.class}
                 .code-cost #{item.cost}
                 .col-md-6
