@@ -2,7 +2,12 @@ jQuery(document).ready(function($) {
     var cartWrapper = $('.cd-cart-container');
     //product id - you don't need a counter in your real project but you can use your real product id
     var productId = 0;
+
+
     var counton = $('.checkout');
+
+
+
 
     if (cartWrapper.length > 0) {
         //store jQuery objects
@@ -19,7 +24,6 @@ jQuery(document).ready(function($) {
         //add product to cart
         $('body').on('click', '.add-button', function(event) {
             event.preventDefault();
-
             addToCart($(this));
         });
 
@@ -110,7 +114,7 @@ jQuery(document).ready(function($) {
 
         if (quantity == '') {
             var select = '<span class="select">x<i id="cd-product-' + proid + '">1</i></span>';
-            var productAdded = $('<li class="product"><div class="product-details"><h3><a href="#0">' + proname + ',</a></h3><span class="price">' + price + '</span><div class="actions"><a href="#0" class="delete-item">,删除,</a><div class="quantity"><label for="cd-product-' + proid + '">件数</label>' + select + '.</div></div></div></li>');
+            var productAdded = $('<li class="product"><div class="product-details"><h3><a href="#0">' + proname + '</a></h3><span class="price">￥' + price + '</span><div class="actions"><a href="#0" class="delete-item">删除</a><div class="quantity"><label for="cd-product-' + proid + '">件数</label>' + select + '</div></div></div></li>');
             cartList.prepend(productAdded);
         } else {
             quantity = parseInt(quantity);
@@ -199,33 +203,44 @@ jQuery(document).ready(function($) {
 
 
     counton.on('click', function(event) {
-        var my = cartBody.find('ul').eq(-1).text();
-        var str = String(my);
-        // var arr = str.split('.');
-        // 	for(var i=0;i<arr.length-1;i++)
-        // 	{	
-        // 		arr[i] = arr[i].split(','); 
+        var data = new Array();
+        $(".product-details").each(function() {
+            var itemJSON = "{";
+            itemJSON += "\"name\":\"" + $(this).find("h3 a").text() + "\",";
+            itemJSON += "\"price\":" + $(this).find(".price").text().slice(1) + ",";
+            itemJSON += "\"num\":" + $(this).find(".select i").text() + ",";
+            data.push(itemJSON);
+        });
 
-        // 	}
-        // for(var i=0;i<arr.length-1;i++){
-        // 		alert(arr[i][0]+' '+arr[i][1]+' '+arr[i][3]);
-        // 	}
 
-        // var tatol = Number(cartTotal.text());
-        // alert(tatol);
-
+        for(var i = 0; i < data.length; i++) {
+            var index_end = data[i].indexOf(",");
+            var name = data[i].slice(8, index_end);
+            var index=0;
+            $("#code-data .tit").each(function() {
+                console.log(index++);
+                if("\"" + $(this).text() + "\"" == name) {
+                    data[i] += "\"cost\":" + $(this).parents(".row").find(".code-cost").text() + "}";
+                    return;
+                }
+            });
+        }
+        data = "{\"data\":[" + data + "]}";
+        //转换成JS对象
+        data = eval("(" + data + ")");
 
         jQuery.ajax({
             type: "POST",
             timeout: 80000,
             url: "client",
             dataType: 'json',
-            data: { 'mydata': str },
+            data: data,
             success: function(data, textStatus) {
-                alert("操作成功");
+                window.location.href = "http://" + window.location.host + "/" + $("#code-username").text() + "/handin/?id=" + data+"&order=detail"
+                
             },
             error: function(xhr, status, errMsg) {
-                alert("操作成功!");
+                alert("操作失败!");
             }
         });
     });
