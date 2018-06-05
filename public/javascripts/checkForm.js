@@ -35,6 +35,15 @@ function checkValidity() {    //检查合法性
     case "storeAddress":
       flag = true;
       break;
+    case "name":
+      flag = true;
+      break;
+    case "age":
+      flag = true;
+      break;
+    case "post":
+      flag = true;
+      break;
   }
   showValidity(flag, objId);
 }
