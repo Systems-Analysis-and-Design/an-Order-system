@@ -387,15 +387,49 @@ module.exports = function(app) {
           }
 
           else if (info == 'evaluation') {
-            var evaluation = new Array();
-            var item = new Object();
-            item.serialNumber = "0001";
-            item.orderDetails = "咸鱼煲汤不要鱼加辣";
-            item.taste = "超级棒";
-            item.speedOfProduction = "超级快";
-            item.serviceAttitude = "超级皮";
-            item.totalEvaluation = "要上天";
-            evaluation[0] = item;
+            var name = req.session.user.name;
+            var show = new Object();
+            show.name = name;
+               mongodb.open(function (err, db) {
+              //读取 users 集合
+              db.collection(name + '_orders', function (err, collection) {
+                var query = {};
+                var amount;
+                collection.count(query,function (err, total) { 
+                  amount = total;
+                 // console.log(amount);
+                });
+                var evaluation = new Array();
+                collection.find().toArray(function (err, result) {
+                  for (var i = 0; i < amount; i++) {
+                    if(result[i].taste!='' ||result[i].speedOfProduction!=''||result[i].serviceAttitude!=''||result[i].totalEvaluation!=''){
+                      var item = new Object();
+                      item.serialNumber = result[i].streamid;
+                      var detal='';
+                      for(var j =0;j<result[i].menu_name.length;j++){
+                        if(j !=result[i].menu_name.length-1){
+                          detal = detal +  result[i].menu_name[j] +", ";
+                        }
+                        else{
+                          detal = detal +  result[i].menu_name[j];
+                        }
+                        
+                      }
+                      item.orderDetails = detal;
+                      item.taste = result[i].taste;
+                      item.speedOfProduction = result[i].speedOfProduction;
+                      item.serviceAttitude = result[i].serviceAttitude;
+                      item.totalEvaluation = result[i].totalEvaluation;
+                      evaluation[i] = item;
+                    }
+                    
+                  }
+                  return res.render('info-' + req.query.info, { user:show, evaluation: evaluation });
+                  mongodb.close();
+                });
+              });
+              mongodb.close();
+            });
           }
 
           else if (info == 'employee') {
@@ -432,22 +466,35 @@ module.exports = function(app) {
           }
 
           else if (info == 'accounts') {
-            var accountsIn = new Array();
-            var itemIn = new Object();
-            itemIn.name = "咸鱼煲汤";
-            itemIn.cost = 1;
-            itemIn.price = 18;
-            itemIn.soldNum = 1000;
-            itemIn.income = 18000;
-            itemIn.netIncome = 17000;
-            accountsIn[0] = itemIn;
-            var accountsOut = new Array();
-            var itemOut = new Object();
-            itemOut.id = 1;
-            itemOut.event = "发工资";
-            itemOut.cost = 5;
-            itemOut.note = "两个月的份";
-            accountsOut[0] = itemOut;
+            var name = req.session.user.name;
+            var show = new Object();
+            show.name = name;
+            mongodb.open(function (err, db) {
+              //读取 users 集合
+              db.collection(name + '_orders', function (err, collection) {
+                var query = {};
+                var amount;
+                collection.count(query,function (err, total) { 
+                  amount = total;
+                 // console.log(amount);
+                });
+                var accountsIn = new Array();
+                var accountsOut = new Array();
+                collection.find().toArray(function (err, result) {
+                  for (var i = 0; i < amount; i++) {
+                    var itemIn = new Object();
+                    itemIn.name = result[i].streamid;
+                    itemIn.cost = result[i].cost;
+                    itemIn.income = result[i].price;
+                    itemIn.netIncome = result[i].price -result[i].cost;
+                    accountsIn[i] = itemIn;
+                  }
+                  return res.render('info-' + req.query.info, { user:show, accountsIn: accountsIn});
+                  mongodb.close();
+                });
+              });
+              mongodb.close();
+            });
           }
         }
         else return res.redirect('/user?username=' + req.session.user.name + '&info=personal');
