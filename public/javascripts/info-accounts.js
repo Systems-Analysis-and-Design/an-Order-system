@@ -43,19 +43,11 @@
     name = $(this).parent().attr("name");
     if(name != "name") {
       switch (name) {
-        case "price":
         case "cost":
           if (parseInt($(this).text()) <= 0) {
             $(this).parents("tr").addClass("alert-danger");
           } else {
             $(this).parents("tr").removeClass("alert-danger");
-          }
-          break;
-        case "soldNum":
-          if (parseInt($(this).text()) < 0) {
-            $(this).parents("tr").addClass("alert-warning");
-          } else {
-            $(this).parents("tr").removeClass("alert-warning");
           }
           break;
       }
@@ -117,14 +109,9 @@
     var totalCost = 0;
     $("[name='accounts-in'] tbody tr").not(".delete").each(function() {
       var income = parseInt($(this).find("[name='income']").text());
-      var cost = parseInt($(this).find("[name='cost']").text()) * parseInt($(this).find("[name='soldNum']").text());
+      var cost = parseInt($(this).find("[name='cost']").text());
       if(isNaN(income) || isNaN(cost)) return false;
       totalIncome += income;
-      totalCost += cost;
-    });
-    $("[name='accounts-out'] tbody tr").not(".delete").each(function() {
-      var cost = parseInt($(this).find("[name='cost']").text());
-      if (isNaN(cost)) return false;
       totalCost += cost;
     });
     var totalNetIncome = totalIncome - totalCost;
