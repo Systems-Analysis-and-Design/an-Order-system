@@ -68,10 +68,12 @@
   }
 
   function editTd() {
-    $(this).find("input").show();
-    $(this).find("span").hide();
-    $(this).find("input").focus();
-    $(this).find("input").val($(this).find("span").text());
+    if ($(this).find("input").get(0) != null) {
+      $(this).find("input").show();
+      $(this).find("span").hide();
+      $(this).find("input").focus();
+      $(this).find("input").val($(this).find("span").text());
+    }
   }
 
   function saveTd() {
