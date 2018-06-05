@@ -95,12 +95,12 @@
       $(".isUpdate, .delete").each(function() {
         var rowJSON = "{";
         rowJSON += "\"name\":\"" + $(this).children("[name='name']").text() + "\",";
+        rowJSON += "\"price\":" + $(this).children("[name='price']").text() + ",";
+        rowJSON += "\"cost\":" + $(this).children("[name='cost']").text() + ",";
+        rowJSON += "\"stock\":" + $(this).children("[name='stock']").text() + ",";
         if ($(this).hasClass("delete")) {
           rowJSON += "\"op\":\"delete\"";
         } else {
-          rowJSON += "\"price\":" + $(this).children("[name='price']").text() + ",";
-          rowJSON += "\"cost\":" + $(this).children("[name='cost']").text() + ",";
-          rowJSON += "\"stock\":" + $(this).children("[name='stock']").text() + ",";
           rowJSON += "\"op\":\"save\"";
         }
         rowJSON += "}";
