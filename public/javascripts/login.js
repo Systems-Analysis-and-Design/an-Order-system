@@ -122,7 +122,7 @@
           if(operation == "店主登录" || operation == "注册") {
             window.location.href = 'user/?username=' + ((operation == "登录") ? $("#mUsername").val() : $("#upUsername").val()) + '&info=personal';
           } else {
-            window.location.href = 'employee/?username=' + $("#eUsername").val();
+            window.location.href = 'employee/?username=' + $("#eUsername").val() + '&managername=' + $("#emUsername").val();
           }
           return;
       }
