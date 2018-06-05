@@ -1,5 +1,6 @@
 extends layout
-  script(src='./../javascripts/order_detail.js')
+block head-content
+  script(src='./../../javascripts/order_detail.js')
 block content
   .card
     .card-block
@@ -10,19 +11,21 @@ block content
             th #
             th 名称
             th 价格
-            th 数目
+            th 总价
         tbody
-          each item, i in menu_list
+          each item, i in order
             tr.alert
               th(scope='row') #{i}
               td(name='name')
                 span #{item.name}
-                
+
+              td(name='number')
+                span #{item.number}  
+
               td(name='price')
                 span #{item.price}
                 
-              td(name='number')
-                span #{item.number}
+
                 
               
 
