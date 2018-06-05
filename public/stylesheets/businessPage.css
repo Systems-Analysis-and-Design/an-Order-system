@@ -347,6 +347,13 @@ img.avatar {
   width: 33%;
 }
 
+.form-result {
+  color: red;
+  float: none;
+  display: table;
+  margin: 5px auto 5px auto;
+}
+
 [name='accounts-in'] thead th {
   width: 15%
 }
