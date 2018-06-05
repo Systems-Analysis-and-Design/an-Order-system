@@ -2,12 +2,7 @@ jQuery(document).ready(function($) {
     var cartWrapper = $('.cd-cart-container');
     //product id - you don't need a counter in your real project but you can use your real product id
     var productId = 0;
-
-
     var counton = $('.checkout');
-
-
-
 
     if (cartWrapper.length > 0) {
         //store jQuery objects
@@ -24,6 +19,7 @@ jQuery(document).ready(function($) {
         //add product to cart
         $('body').on('click', '.add-button', function(event) {
             event.preventDefault();
+
             addToCart($(this));
         });
 
@@ -114,7 +110,7 @@ jQuery(document).ready(function($) {
 
         if (quantity == '') {
             var select = '<span class="select">x<i id="cd-product-' + proid + '">1</i></span>';
-            var productAdded = $('<li class="product"><div class="product-details"><h3><a href="#0">' + proname + ',</a></h3><span class="price">￥' + price + ',</span><div class="actions"><a href="#0" class="delete-item">删除,</a><div class="quantity"><label for="cd-product-' + proid + '">件数</label>' + select + '.</div></div></div></li>');
+            var productAdded = $('<li class="product"><div class="product-details"><h3><a href="#0">' + proname + ',</a></h3><span class="price">' + price + '</span><div class="actions"><a href="#0" class="delete-item">,删除,</a><div class="quantity"><label for="cd-product-' + proid + '">件数</label>' + select + '.</div></div></div></li>');
             cartList.prepend(productAdded);
         } else {
             quantity = parseInt(quantity);
