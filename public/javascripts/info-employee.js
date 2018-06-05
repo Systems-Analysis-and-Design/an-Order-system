@@ -10,6 +10,8 @@
     $("#uploadImg").change(previewImg);
     $("[name='imgUpload']").submit(uploadImg);
     $(".avatar").each(fixImgSrc);
+    $(".form-body input").blur(checkValidity)
+    .blur();
     $("#accordion-employee").on("click", ".avatar", function(e) {
       e.stopPropagation();
       $(this).attr("id", "waitingImg");
@@ -51,10 +53,12 @@
   }
 
   function editInfo() {
-    $(this).find("input").show();
-    $(this).find("span").hide();
-    $(this).find("input").focus();
-    $(this).find("input").val($(this).find("span").text());
+    if ($(this).find("input").get(0) != null) {
+      $(this).find("input").show();
+      $(this).find("span").hide();
+      $(this).find("input").focus();
+      $(this).find("input").val($(this).find("span").text());
+    }  
   }
 
   function saveInfo() {
@@ -115,6 +119,10 @@
   }
 
   function newEmployee() {
+    if (!isAllCorrect("newEmployee")) {    //不合要求则阻止提交
+      $("#newEmployee .form-result").text("存在非法格式！");
+      return false;
+    }
     //合法性检查
     $.ajax({    //采用ajax提交
       type: "POST",
