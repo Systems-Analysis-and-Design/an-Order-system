@@ -4,6 +4,6 @@
     });
 
     function turnToFinish() {
-        window.location.href += "&finish=true";
+        window.location.href += "&finish=true&tableid=12";
     }
 })();
