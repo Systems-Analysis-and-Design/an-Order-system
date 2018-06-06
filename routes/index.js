@@ -9,6 +9,7 @@ var Employee = require('../models/employee');
 var Ingredient = require('../models/ingredient');
 var mongodb = require('../models/db');
 
+var count = 0;
 module.exports = function(app) {
     /* GET home page. */
     app.get('/', function(req, res, next) {
@@ -51,13 +52,15 @@ module.exports = function(app) {
 
     app.get('/*/handin', function(req, res, next) {
             var finish = req.query.finish;
-             if(finish == 'true') {
+             if(finish == 'true'&&count == 1) {
+              count = 0;
                 return res.render('order_finish');
             }
 
             var sid = parseInt(req.query.id);
             Order.get('qqqqqq',sid, function(err, order){
                 var ordersss = new Array();
+                var totalprice = 0;
                 if(order) {
                var itemcount =  order.menu_name.length;
 
@@ -149,11 +152,10 @@ module.exports = function(app) {
                     });
                 });
      app.post('/*/handin', function (req, res){
+      var finish = req.query.finish;
+      if(finish == 'true') {
         var sid = parseInt(req.query.id);
         var owner = req.url.split('/')[1];
-
-        console.log(sid);
-        console.log(owner);
         var up = {
         $set: {
           'taste': req.body.taste,
@@ -161,12 +163,15 @@ module.exports = function(app) {
           'serviceAttitude':req.body.serviceAttitude,
           'totalEvaluation':req.body.totalEvaluation
         }
-      };
-      Order.update(owner,sid, up, function (err, order) {
-        if (err) {
-          return res.json(err);
-        }
-      });
+        };
+        Order.update(owner,sid, up, function (err, order) {
+          if (err) {
+            return res.json(err);
+          }
+        });
+        return res.json("secess");
+      }
+      count = 1;
       return res.json("secess");
      });
 
