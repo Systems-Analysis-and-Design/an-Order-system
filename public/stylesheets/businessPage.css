@@ -268,7 +268,7 @@ h4[name='ingredients'], h4[name='menu'], h4[name='evaluation'], h4[name='employe
   width: 50%;
 }
 
-input[name='ingredients'], input[name='menu'], input[name='evaluation'], input[name='employee'], input[name='accounts'] {
+input[name='ingredients'], input[name='menu'], input[name='evaluation'], input[name='employee'] {
   float: right;
   margin-bottom: 10px;
 }
@@ -355,39 +355,7 @@ img.avatar {
 }
 
 [name='accounts-in'] thead th {
-  width: 15%
-}
-[name='accounts-in'] thead th:nth-child(2) {
-  width: 20%;
-}
-[name='accounts-in'] thead th:nth-child(3) {
-  width: 10%;
-}
-[name='accounts-in'] thead th:nth-child(4) {
-  width: 10%;
-}
-[name='accounts-in'] thead th:first-child {
-  width: 7.5%;
-}
-[name='accounts-in'] thead th:last {
-  width: 7.5%;
-}
-
-
-[name='accounts-out'] thead th:nth-child(2) {
   width: 20%
-}
-[name='accounts-out'] thead th:nth-child(3) {
-  width: 40%
-}
-[name='accounts-out'] thead th:nth-child(4) {
-  width: 20%
-}
-[name='accounts-out'] thead th:first-child {
-  width: 10%;
-}
-[name='accounts-out'] thead th:last {
-  width: 10%;
 }
 
 .border-line {
