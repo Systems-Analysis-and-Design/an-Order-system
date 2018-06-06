@@ -3,29 +3,29 @@ block head-content
   link(rel='stylesheet', href='/stylesheets/order_finish.css')
   script(src='/javascripts/order_finish.js')
 block content
-  .card
-    .card-block
-      #finishImg
-        img(src="/images/finish.png")
-        h3 支付完成
-      
-      h4 请您评价
-      form(name='evaluation')
-        fieldset.form-group
-          label(for='orderNum') 订单号
-          input#orderNum.form-control(type='text', placeholder='orderNum', name='orderNum', disabled)
-        fieldset.form-group
-          label(for='summary') 总体评价
-          input#summary.form-control(type='text', placeholder='summary', name='totalEvaluation')
-        fieldset.form-group
-          label(for='taste') 口味
-          input#taste.form-control(type='text', placeholder='taste', name='taste')
-        fieldset.form-group
-          label(for='speed') 上餐速度
-          input#speed.form-control(type='text', placeholder='speed', name='speedOfProduction')
-        fieldset.form-group
-          label(for='service') 服务态度
-          input#service.form-control(type='text', placeholder='service', name='serviceAttitude')
+  #box.container
+    #finishImg
+      img(src="/images/finish.png")
+      h3 支付完成
+    
+    h4 请您评价
+    form(name='evaluation')
+      fieldset.form-group
+        label(for='orderNum') 订单号
+        input#orderNum.form-control(type='text', placeholder='orderNum', name='orderNum', disabled)
+      fieldset.form-group
+        label(for='summary') 总体评价
+        input#summary.form-control(type='text', placeholder='summary', name='totalEvaluation')
+      fieldset.form-group
+        label(for='taste') 口味
+        input#taste.form-control(type='text', placeholder='taste', name='taste')
+      fieldset.form-group
+        label(for='speed') 上餐速度
+        input#speed.form-control(type='text', placeholder='speed', name='speedOfProduction')
+      fieldset.form-group
+        label(for='service') 服务态度
+        input#service.form-control(type='text', placeholder='service', name='serviceAttitude')
     .footer
       button.btn.btn-success.btn-lg.btn-block(type='button')#post 完成
-   
+    
+
