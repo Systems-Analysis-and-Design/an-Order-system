@@ -1,34 +1,30 @@
 extends layout
 block head-content
+  link(rel='stylesheet', href='/stylesheets/order_detail.css')
   script(src='./../../javascripts/order_detail.js')
 block content
-  .card
-    .card-block
-      h4 订单详情
-      table.table
-        thead
-            tr
-            th #
-            th 名称
-            th 价格
-            th 总价
-        tbody
-          each item, i in order
-            tr.alert
-              th(scope='row') #{i}
-              td(name='name')
-                span #{item.name}
+  .container
+    h4 订单详情
+    table.table
+      thead
+          tr
+          th #
+          th 名称
+          th 价格
+          th 总价
+      tbody
+        each item, i in order
+          tr.alert
+            th(scope='row') #{i}
+            td(name='name')
+              span #{item.name}
 
-              td(name='number')
-                span #{item.number}  
+            td(name='number')
+              span #{item.number}  
 
-              td(name='price')
-                span #{item.price}
+            td(name='price')
+              span #{item.price}
                 
-
-                
-              
-
     label
         | 总计:
         span#priceTotal.label.label-pill.label-primary #{totalprice}
