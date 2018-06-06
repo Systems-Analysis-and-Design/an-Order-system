@@ -236,7 +236,7 @@ jQuery(document).ready(function($) {
             dataType: 'json',
             data: data,
             success: function(data, textStatus) {
-                window.location.href = "http://" + window.location.host + "/" + $("#code-username").text() + "/handin/?id=" + data+"&order=detail"
+                window.location.href = "http://" + window.location.host + "/" + $("#code-username").text() + "/handin/?id=" + data+"&order=detail&tableid=12"
                 
             },
             error: function(xhr, status, errMsg) {
