@@ -31,6 +31,9 @@ npm install
 
 #start the demo
 npm start
+
+#run this project
+localhost:3000
 ```
 
 ![](/public/images/exhibit/1.PNG)
