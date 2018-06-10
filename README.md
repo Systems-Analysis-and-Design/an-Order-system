@@ -33,12 +33,12 @@ npm install
 npm start
 ```
 
-![](/images/exhibit/1.PNG)
+![](/public/images/exhibit/1.PNG)
 
-![](/images/exhibit/2.PNG)
+![](/public/images/exhibit/2.PNG)
 
-![](/images/exhibit/3.PNG)
+![](/public/images/exhibit/3.PNG)
 
-![](/images/exhibit/4.PNG)
+![](/public/images/exhibit/4.PNG)
 
-![](/images/exhibit/5.PNG)
+![](/public/images/exhibit/5.PNG)
