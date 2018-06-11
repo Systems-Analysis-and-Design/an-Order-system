@@ -1,6 +1,5 @@
 (function() {
 
-
     $(function() {
         $("#code-data").children("li").each(fixClassify);
         $(".tab-content").on("click", ".addNum", addNum);
@@ -9,6 +8,7 @@
     });
     // 动态生成菜品加入html模块
     function fixClassify() {
+        //获取菜品模块代码，通过传入菜品对象绑定类别加入相应tab内容
         var itemClass = $(this).find(".code-class").text();
         console.log($(this).html());
         $("#" + itemClass).append($(this).html());
