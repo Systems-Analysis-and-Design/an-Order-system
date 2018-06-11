@@ -20,7 +20,7 @@ module.exports = function(app) {
 
   //点餐请求处理
   app.get('/*/client', function(req, res, next) {
-    var name = 'qqqqqq';
+    var name = req.url.split('/')[1];
     var show = new Object();
     show.name = name;
     //从数据口中获取菜品信息传入前台显示
@@ -43,7 +43,7 @@ module.exports = function(app) {
             item.price = result[i].price;
             menus[i] = item;
           }
-          return res.render('client', {username: 'qqqqqq', user: show, menu: menus });
+          return res.render('client', {username: name, user: show, menu: menus });
           mongodb.close();
         });
       });
@@ -52,7 +52,8 @@ module.exports = function(app) {
   });
 
   //订单提交处理
-  app.get('/*/handin', function(req, res, next) {
+  app.get('/*/handin', function (req, res, next) {
+    var name = req.url.split('/')[1];
     var finish = req.query.finish;
     if(finish == 'true'&&count == 1) {
       count = 0;
@@ -60,7 +61,7 @@ module.exports = function(app) {
     }
     var sid = parseInt(req.query.id);
     //从数据库中获取订单信息
-    Order.get('qqqqqq',sid, function(err, order){
+    Order.get(name, sid, function(err, order){
       var ordersss = new Array();
       var totalprice = 0;
       if(order) {
@@ -81,6 +82,8 @@ module.exports = function(app) {
 
   //根据菜品选择结果生成订单，存入数据库
   app.post('/*/client', function (req, res) {
+    var bossname = req.url.split('/')[1];
+    var tableID = req.query.tableID;
     var up = req.body;
     var arr = Object.keys(req.body);
     var len = arr.length / 4;
@@ -100,9 +103,9 @@ module.exports = function(app) {
     //随机数生成订单号
     var sid = Math.floor(Math.random()*100000);
     var neworder = new Order({
-      id: 12,
+      id: tableID,
       streamid: sid,
-      owner: 'qqqqqq',
+      owner: bossname,
       menu_name: name,
       number: number,
       singleprice: singleprice,
@@ -129,7 +132,10 @@ module.exports = function(app) {
         //插入新建的订单到数据库
         collection.insert(neworder, { safe: true }, function(err, order) {
           mongodb.close();
-          return res.json(neworder.streamid);
+          var data = new Array();
+          data[0] = neworder.streamid;
+          data[1] = neworder.id;
+          return res.json(data);
         });   
       });
       mongodb.close();
