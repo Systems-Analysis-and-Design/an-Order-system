@@ -13,14 +13,17 @@ var upload = multer({ dest: 'public/images/upload' });
 var count = 0;
 module.exports = function(app) {
 
+  //渲染后台管理主页
   app.get('/', function(req, res, next) {
     res.render('home', { title: '皮皮怪点餐' });
   });
 
+  //点餐请求处理
   app.get('/*/client', function(req, res, next) {
     var name = 'qqqqqq';
     var show = new Object();
     show.name = name;
+    //从数据口中获取菜品信息传入前台显示
     mongodb.open(function(err, db) {
       db.collection(name + '_menu', function(err, collection) {
         var query = {};
@@ -48,15 +51,15 @@ module.exports = function(app) {
     });
   });
 
-
+  //订单提交处理
   app.get('/*/handin', function(req, res, next) {
     var finish = req.query.finish;
     if(finish == 'true'&&count == 1) {
       count = 0;
       return res.render('order_finish');
     }
-
     var sid = parseInt(req.query.id);
+    //从数据库中获取订单信息
     Order.get('qqqqqq',sid, function(err, order){
       var ordersss = new Array();
       var totalprice = 0;
@@ -76,8 +79,7 @@ module.exports = function(app) {
     });     
   });
 
-
-
+  //根据菜品选择结果生成订单，存入数据库
   app.post('/*/client', function (req, res) {
     var up = req.body;
     var arr = Object.keys(req.body);
@@ -87,6 +89,7 @@ module.exports = function(app) {
     var singleprice = new Array();
     var totalcost = 0;
     var totalprice = 0;
+    //获取前端传入到后台的表单信息
     for (var i = 0; i < len; i++) { 
       name[i] = up['data['+ i +'][name]'];
       number[i] = parseInt(up['data['+ i +'][num]']);
@@ -94,7 +97,6 @@ module.exports = function(app) {
       totalcost += parseInt(up['data[' + i + '][cost]']) * number[i];
       totalprice += parseInt(up['data[' + i + '][price]']) * number[i];
     }
-
     //随机数生成订单号
     var sid = Math.floor(Math.random()*100000);
     var neworder = new Order({
@@ -112,19 +114,19 @@ module.exports = function(app) {
       price: totalprice,
       state: '0'
     });
-
+    //打开数据库将订单信息写入数据库表项中
     mongodb.open(function(err, db) {
       if (err) {
         mongodb.close();
-        return callback(err); //错误，返回 err 信息
+        //打开数据库错误，返回 err 信息
+        return callback(err); 
       }
-
       db.collection(neworder.owner+'_orders', function(err, collection) {
         if (err) {
           mongodb.close();
-          return callback(err); //错误，返回 err 信息
+          return callback(err); 
         }
-          
+        //插入新建的订单到数据库
         collection.insert(neworder, { safe: true }, function(err, order) {
           mongodb.close();
           return res.json(neworder.streamid);
@@ -134,11 +136,13 @@ module.exports = function(app) {
     });
   });
 
+  //后台处理评价信息
   app.post('/*/handin', function (req, res){
     var finish = req.query.finish;
     if(finish == 'true') {
       var sid = parseInt(req.query.id);
       var owner = req.url.split('/')[1];
+      //获取前台用户提交的评价信息
       var up = {
         $set: {
           'taste': req.body.taste,
@@ -147,7 +151,7 @@ module.exports = function(app) {
           'totalEvaluation':req.body.totalEvaluation
         }
       };
-
+      //将评价信息更新到后台的数据库中
       Order.update(owner,sid, up, function (err, order) {
         if (err) {
           return res.json(err);
@@ -159,12 +163,14 @@ module.exports = function(app) {
     return res.json("secess");
   });
 
-
+  //系统后台管理登录/注册功能的实现
   app.post('/', function (req, res) {
     var op = req.query.op;
     var info = req.query.info;
+    //进行密码加密
     var md5 = crypto.createHash('md5');
     var password = md5.update(req.body.password).digest('hex');
+    //店主注册功能实现
     if (op == 'regist') {
       var newUser = new User({
         name: req.body.username,
@@ -174,14 +180,16 @@ module.exports = function(app) {
         storeName: req.body.storeName,
         storeAddress:req.body.storeAddress
       });
-      //检查用户名是否已经存在 
+      //检查注册用户名是否已经存在 
       User.get(newUser.name, function (err, user) {
         if (err) {
           return res.json(err);
         }
+        //如用户名已存在，则不能注册
         if (user) {
           return res.json("exited");
         }
+        //如用户名不存在，则成功注册
         newUser.save(function (err, user) {
           if (err) {
             return res.json(err);
@@ -191,7 +199,7 @@ module.exports = function(app) {
         });
       });
     }
-    //登录表单处理
+    //店主登录处理
     else if(op == 'managerLogin') {
       var name = req.body.username;
       User.get(name, function (err, user) {
@@ -203,28 +211,30 @@ module.exports = function(app) {
             req.session.user = user;
             return res.json("success");
           }
+          //如登录时密码错误，返回相应信息
           else {
             return res.json("wrongPassword");
           }
         }
+        //如登录时用户名不存在，则返回相应信息
         else {
           return res.json("notFound");
         }
       });
     }
-    //员工登录
+    //员工登录处理
     else if(op == 'employeeLogin') {
       var owner1 = req.body.managerUsername;
       var name1 = req.body.username;
       var password1 = req.body.password;
       mongodb.open(function (err, db) {
         if (err) {
-          return callback(err);//错误，返回 err 信息
+          return callback(err);
         }
         db.collection(owner1+"_employees", function (err, collection1) {
           if (err) {
             mongodb.close();
-            return callback(err);//错误，返回 err 信息
+            return callback(err);
           }
           collection1.findOne({username: name1}, function (err, employee) {
             if (err) {
@@ -234,10 +244,12 @@ module.exports = function(app) {
               if(employee.password == password1){
                 return res.json("success");
               }
+              //如登录时密码错误，返回相应信息
               else {
                 return res.json("wrongPassword");
               }
             }
+            //如登录时用户名不存在，则返回相应信息
             else {
               return res.json("notFound");
             }
@@ -249,7 +261,7 @@ module.exports = function(app) {
     }
   });
 
-  //管理页
+  //系统后台管理页显示
   app.get('/user', function(req, res, next) {
     var op = req.query.op;
     var info = req.query.info;
@@ -258,9 +270,10 @@ module.exports = function(app) {
       return res.redirect('/');
     }
     else {
-        if (req.session.user) {
-          if (req.session.user.name == req.query.username && req.query.info) {
-            //防止通过改url访问他人数据
+      if (req.session.user) {
+          //防止通过改url访问他人数据
+        if (req.session.user.name == req.query.username && req.query.info) {
+          //显示店主个人信息
           if (info == 'personal') {
             var name = req.session.user.name;
             var show = new Object();
@@ -274,22 +287,22 @@ module.exports = function(app) {
                 return res.render('info-' + req.query.info, { user: show });
               }
             });
-            }
+          }
+          //显示数据库中已有的菜品信息
           else if (info == 'menu') {
-            
-           var name = req.session.user.name;
+            var name = req.session.user.name;
             var show = new Object();
             show.name = name;
             mongodb.open(function (err, db) {
-              //读取 users 集合
+              //打开数据库获取菜品信息
               db.collection(name + '_menu', function (err, collection) {
                 var query = {};
                 var amount;
                 collection.count(query, function (err, total) {
                   amount = total;
-                  // console.log(amount);
                 });
                 var menus = new Array();
+                //将获取到的菜品信息传至前端
                 collection.find().toArray(function (err, result) {
                   for (var i = 0; i < amount; i++) {
                     var item = new Object();
@@ -308,11 +321,12 @@ module.exports = function(app) {
               mongodb.close();
             });
           }
-
+          //显示数据库中已有的食材信息
           else if (info == 'ingredients') {
             var name = req.session.user.name;
             var show = new Object();
             show.name = name;
+            //打开数据库获取食材信息
             mongodb.open(function (err, db) {
               db.collection(name + '_ingredients', function (err, collection) {
                 var query = {};
@@ -321,10 +335,10 @@ module.exports = function(app) {
                   amount = total;
                 });
                 var ingredients = new Array();
+                //将获取到的食材信息传至前端
                 collection.find().toArray(function (err, result) {
                   for (var i = 0; i < amount; i++) {
                     var item = new Object();
-                    //item.id = (i+1).toString();
                     item.name = result[i].name;
                     item.price = result[i].price;
                     item.cost = result[i].cost;
@@ -338,21 +352,21 @@ module.exports = function(app) {
               mongodb.close();
             });
           }
-
+           //显示数据库中已有的订单评价信息
           else if (info == 'evaluation') {
             var name = req.session.user.name;
             var show = new Object();
             show.name = name;
-               mongodb.open(function (err, db) {
-              //读取 users 集合
+            //打开数据库获取订单评价信息
+            mongodb.open(function (err, db) {
               db.collection(name + '_orders', function (err, collection) {
                 var query = {};
                 var amount;
                 collection.count(query,function (err, total) { 
                   amount = total;
-                 // console.log(amount);
                 });
                 var evaluation = new Array();
+                //将获取到的订单评价信息传至前端
                 collection.find().toArray(function (err, result) {
                   for (var i = 0; i < amount; i++) {
                     if(result[i].taste!='' ||result[i].speedOfProduction!=''||result[i].serviceAttitude!=''||result[i].totalEvaluation!=''){
@@ -366,7 +380,6 @@ module.exports = function(app) {
                         else{
                           detal = detal +  result[i].menu_name[j];
                         }
-                        
                       }
                       item.orderDetails = detal;
                       item.taste = result[i].taste;
@@ -375,7 +388,6 @@ module.exports = function(app) {
                       item.totalEvaluation = result[i].totalEvaluation;
                       evaluation[i] = item;
                     }
-                    
                   }
                   return res.render('info-' + req.query.info, { user:show, evaluation: evaluation });
                   mongodb.close();
@@ -452,28 +464,27 @@ module.exports = function(app) {
         }
         else return res.redirect('/user?username=' + req.session.user.name + '&info=personal');
       }
-          //return res.render('info-' + req.query.info, {user: show, ingredients: ingredients, menu: menu, evaluation: evaluation, employee: employee, accountsIn: accountsIn, accountsOut: accountsOut});
-      }
+    }
   });
 
   //修改表单
  
 
-  //修改表单
+  //后台管理表单修改处理
   app.post('/user', upload.single('img'), function (req, res, next) {
     // Test
     var info = req.query.info;
     var op1 = req.query.op;
+    //实现图片上传功能
     if (op1 == 'uploadImg') { 
       var filename = req.file.originalname;
       var mime = filename.split('.').pop();
       //使用新文件名 防止图片文件名相同 
       fs.renameSync('./public/images/upload/' + req.file.filename, './public/images/upload/' + req.file.filename + '.' + mime); 
       var newpath = 'images/upload/' + req.file.filename + '.' + mime;
-
-      console.log(newpath);
       return res.json(newpath);
     }
+    //修改店铺信息
     if (info == 'personal-store') {
       var name = req.query.username;
       var up = {
@@ -482,12 +493,14 @@ module.exports = function(app) {
           'storeAddress': req.body.storeAddress
         }
       };
+      //更新数据库中的店主店铺信息
       User.update(name, up, function (err, user) {
         if (err) {
           return res.json(err);
         }
       });
     }
+    //修改店主账号信息
     else if (info == 'personal-account') {
       var name = req.query.username;
       var up = {
@@ -496,15 +509,18 @@ module.exports = function(app) {
           'email': req.body.email
         }
       };
+      //将店主账号信息更新到数据库
       User.update(name, up, function (err, user) {
         if (err) {
           return res.json(err);
         }
       });
     }
+    //实现员工信息的修改，添加以及删除
     else if (info == 'employee') {
       var op = req.query.op;
       var name = req.query.username;
+      //添加员工账户
       if (op == 'new') {
         var newEmployee = new Employee({
           owner: name,
@@ -516,7 +532,7 @@ module.exports = function(app) {
           phone: req.body.phone,
           post: req.body.post
         });
-        //检查用户名是否已经存在
+        //打开数据库
         mongodb.open(function (err, db) {
           if (err) {
             mongodb.close();
@@ -528,7 +544,7 @@ module.exports = function(app) {
               mongodb.close();
               return callback(err);//错误，返回 err 信息
             }
-            //查找账户（值为 account 一个文档
+            //插入新的员工账号
             collection.insert(newEmployee, { safe: true }, function (err, employee) {
               mongodb.close();
             });
@@ -536,16 +552,16 @@ module.exports = function(app) {
           mongodb.close();
         });
       }
+      //实现修改员工账户信息以及实现删除
       else if (op == 'save') {
         var up = req.body;
         var name1 = req.query.username;
         Employee.gg(name1, up, function (err) {
-          // if (err) {
-          //   return res.json(err);
-          // }
+          
         });   
       }
     }
+    //实现菜品信息的修改，添加以及删除
      else if (info == 'menu') {
       var name = req.query.username;
       var up = req.body;
@@ -555,6 +571,7 @@ module.exports = function(app) {
          }
       });
     }
+    //实现食材信息的修改，添加以及删除
     else if(info == 'ingredients'){
       var up = req.body;
       console.log(up);
@@ -567,6 +584,7 @@ module.exports = function(app) {
     return res.json('success');
   });
   
+  //厨师界面，获取订单信息
   app.get('/employee', function(req, res, next) {
     var managername = req.query.managername;
     mongodb.open(function (err, db) {
@@ -577,7 +595,9 @@ module.exports = function(app) {
           amount = total;
         });
         var paidOrder = new Array();
+        //在订单数据库中获取订单
         collection.find().toArray(function (err, result) {
+          //将未制作的订单传到前端
           for (var i = 0; i < amount; i++) {
             if (result[i].state == '0') {
               var item = new Object();
@@ -601,6 +621,7 @@ module.exports = function(app) {
     });
   });
 
+  //厨师修改订单状态
   app.post('/employee', function (req, res, next) {
     var managername = req.query.managername;
     console.log(managername);
@@ -610,6 +631,7 @@ module.exports = function(app) {
           "state": "1"
         }
       };
+      //更新订单信息到数据库中
       Order.update(managername, streamid, up, function (err, order) {
         if (err) {
           return res.json(err);
