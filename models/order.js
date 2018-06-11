@@ -40,7 +40,7 @@ Order.update = function (owner, streamid, up, callback) {
         if (err) {
             return callback(err);//错误，返回 err 信息
         }
-        db.collection('qqqqqq_orders', function (err, collection) {
+        db.collection(owner+'_orders', function (err, collection) {
             if (err) {
                 mongodb.close();
                 return callback(err);//错误，返回 err 信息
