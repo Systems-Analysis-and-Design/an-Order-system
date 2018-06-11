@@ -48,10 +48,13 @@ block content
               ul.nav.nav-pills.nav-stacked(role='tablist').card
                 li.nav-item
                   a.nav-link.active(href='#snack', role='tab', data-toggle='tab') 经典小吃
+
                 li.nav-item
-                  a.nav-link(href='#drink', role='tab', data-toggle='tab') 饮尿
+                  a.nav-link(href='#drink', role='tab', data-toggle='tab') 饮料
+
                 li.nav-item
                   a.nav-link(href='#rice', role='tab', data-toggle='tab') 主食
+                  
                 li.nav-item
                   a.nav-link(href='#noodle', role='tab', data-toggle='tab') 面食
             .col-md-9.column.card
@@ -62,14 +65,14 @@ block content
                   p 风味小吃是各个地域的特色小吃，以其独特的口味令人赞不绝口。
                   
                 #drink.tab-pane(role='tabpanel')
-                  p 饮尿是为很多人知道的一种不健康饮品，一般只有在沙漠里面才会尝试到，在这里也可以尝试，只需一分钟36度新鲜感受。
+                  p 饮料是为很多人知道的一种不健康饮品，一般只有在沙漠里面才会尝试到，在这里也可以尝试，只需一分钟新鲜感受。
                   
                 #rice.tab-pane(role='tabpanel')
                   p 米饭颗粒饱满，能满足大部分的能量需求，怕吃不饱的就点我。
                   
                 #noodle.tab-pane(role='tabpanel')
                   p 面食是北方人多爱吃的一种食物，丰富多样色彩鲜艳，口味丰富，是爽口的不二选择。
-                  
+      //- 购物车            
       .cd-cart-container.empty
         a.cd-cart-trigger(href='#0')
           //- img(src='/images/cart.png')
@@ -96,6 +99,7 @@ block content
                 em
                   | 结算 - ￥
                   span 0
+      //- 菜品生成模块，自动添加至tab内容中
       ul.list-group#code-data
           each item, i in menu
             li.list-group-item
