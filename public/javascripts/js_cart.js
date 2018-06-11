@@ -232,11 +232,11 @@ jQuery(document).ready(function($) {
         jQuery.ajax({
             type: "POST",
             timeout: 80000,
-            url: "client",
+            url: "",
             dataType: 'json',
             data: data,
             success: function(data, textStatus) {
-                window.location.href = "http://" + window.location.host + "/" + $("#code-username").text() + "/handin/?id=" + data+"&order=detail&tableid=12"
+                window.location.href = "http://" + window.location.host + "/" + $("#code-username").text() + "/handin/?id=" + data[0]+"&order=detail&tableID="+data[1]
                 
             },
             error: function(xhr, status, errMsg) {
