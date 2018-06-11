@@ -90,7 +90,7 @@ form {
   width: 500px;
 }
 
-.form-body label {
+.form-body label, .QRcode label {
   min-width: 100px;
   margin: 10px 10px;
   font-size: 20px;
@@ -382,4 +382,25 @@ h4[name='paidOrder'] {
 }
 [name='paidOrder'] th:nth-child(5) {
   width: 15%;
+}
+
+
+.QRcode label {
+  margin: 0px;
+}
+.QRcode input {
+  display: inline-block;
+}
+.QRcode [name='createQRcode'] {
+  margin: 0px 10px;
+  margin-bottom: 3px;
+}
+
+.QRCodeBody {
+  position: relative;
+  left: 90px;
+  margin: 10px;
+  width: 150px;
+  height: 150px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
 }
