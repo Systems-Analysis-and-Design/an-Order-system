@@ -26,17 +26,26 @@ block info-page
   .card
     .card-block
       form(name='personal-store')
-          .form-header
-            h4.card-title 店铺信息
-          .form-body
-            .form-group.row
-              label(for='storeName').col-sm-1.form-control-label 店铺名
-              input(type='text', name='storeName', value='#{user.storeName}').form-control#storeName.col-sm-4
-              img
-            .form-group.row
-              label(for='storeAddress').col-sm-1.form-control-label 地址
-              input(type='text', value='#{user.storeAddress}', name='storeAddress').form-control#storeAddress.col-sm-4
-              img
-          .form-footer
-            .form-group.row
-              input(type='submit', value='保存', name='personal-store' disabled).btn.btn-secondary.mx-auto
+        .form-header
+          h4.card-title 店铺信息
+        .form-body
+          .form-group.row
+            label(for='storeName').col-sm-1.form-control-label 店铺名
+            input(type='text', name='storeName', value='#{user.storeName}').form-control#storeName.col-sm-4
+            img
+          .form-group.row
+            label(for='storeAddress').col-sm-1.form-control-label 地址
+            input(type='text', value='#{user.storeAddress}', name='storeAddress').form-control#storeAddress.col-sm-4
+            img
+        .form-footer
+          .form-group.row
+            input(type='submit', value='保存', name='personal-store' disabled).btn.btn-secondary.mx-auto
+  .card
+    .card-block
+      .QRcode
+        .selectTable
+          label(for='tableID').col-sm-1.form-control-label 桌号
+          input(type='text', value='1A', name='tableID').form-control.col-sm-2
+          input(type='button', value='生成', name='createQRcode').btn.btn-secondary
+        .QRCodeBody
+          img
