@@ -23,37 +23,29 @@ jQuery(document).ready(function($) {
             addToCart($(this));
         });
 
-        $('body').on('click', '.decrease-button', function(event) {
+        $('body').on('click', '.dec-button', function(event) {
             event.preventDefault();
             decreaseToCart($(this));
         });
 
         function decreaseToCart(trigger) {
         var cartIsEmpty = cartWrapper.hasClass('empty');
-        //update cart product list
         var price = trigger.data('price'),
             proname = trigger.data('proname'),
             proid = trigger.data('proid'),
             proimg = trigger.data('proimg');
         decreaseProduct(proname,proid,price,proimg);
-        //console.log();
-        
         //update number of items 
         decreaseCartCount(cartIsEmpty);
         //update total price
         updateCartTotal(trigger.data('price'), false);
-        //show cart
         }
 
 
         function decreaseProduct(proname,proid,price,proimg) {
-
-        productId = productId + 1;
-        
+        productId = productId + 1;     
         var quantity = $("#cd-product-"+proid).text();
         var select='',productAdded='';
-            
-
         quantity = parseInt(quantity);
             //var select = '<span class="select">x<i id="cd-product-'+proid+'">'+quantity+'</i></span>';
             $("#cd-product-"+proid).html(quantity-1);
