@@ -3,11 +3,7 @@ jQuery(document).ready(function($) {
     //product id - you don't need a counter in your real project but you can use your real product id
     var productId = 0;
 
-
     var counton = $('.checkout');
-
-
-
 
     if (cartWrapper.length > 0) {
         //store jQuery objects
@@ -26,6 +22,86 @@ jQuery(document).ready(function($) {
             event.preventDefault();
             addToCart($(this));
         });
+
+        $('body').on('click', '.decrease-button', function(event) {
+            event.preventDefault();
+            decreaseToCart($(this));
+        });
+
+        function decreaseToCart(trigger) {
+        var cartIsEmpty = cartWrapper.hasClass('empty');
+        //update cart product list
+        var price = trigger.data('price'),
+            proname = trigger.data('proname'),
+            proid = trigger.data('proid'),
+            proimg = trigger.data('proimg');
+        decreaseProduct(proname,proid,price,proimg);
+        //console.log();
+        
+        //update number of items 
+        decreaseCartCount(cartIsEmpty);
+        //update total price
+        updateCartTotal(trigger.data('price'), false);
+        //show cart
+        }
+
+
+        function decreaseProduct(proname,proid,price,proimg) {
+
+        productId = productId + 1;
+        
+        var quantity = $("#cd-product-"+proid).text();
+        var select='',productAdded='';
+            
+
+        quantity = parseInt(quantity);
+            //var select = '<span class="select">x<i id="cd-product-'+proid+'">'+quantity+'</i></span>';
+            $("#cd-product-"+proid).html(quantity-1);
+            alert(quantity-1);
+
+        if((quantity-1) ==  0){
+            $(".product-"+proid).remove();
+        }
+            
+    }
+
+
+
+        function decreaseCartCount(emptyCart, quantity) {
+        if( typeof quantity === 'undefined' ) {
+            var actual = Number(cartCount.find('li').eq(0).text()) - 1;
+            var next = actual - 1;
+                
+            if( emptyCart ) {
+                cartCount.find('li').eq(0).text(actual);
+                cartCount.find('li').eq(1).text(next);
+            } else {
+                cartCount.addClass('update-count');
+
+                setTimeout(function() {
+                    cartCount.find('li').eq(0).text(actual);
+                }, 150);
+
+                setTimeout(function() {
+                    cartCount.removeClass('update-count');
+                }, 200);
+
+                setTimeout(function() {
+                    cartCount.find('li').eq(1).text(next);
+                }, 230);
+            }
+        } else {
+            var actual = Number(cartCount.find('li').eq(0).text()) + quantity;
+            var next = actual - 1;
+            
+            cartCount.find('li').eq(0).text(actual);
+            cartCount.find('li').eq(1).text(next);
+        }
+    }
+
+
+    
+
 
         //open/close cart
         cartTrigger.on('click', function(event) {
