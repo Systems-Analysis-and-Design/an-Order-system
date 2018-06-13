@@ -1,14 +1,13 @@
 (function() {
   $(function() {
-    //å®šæ—¶åˆ·æ–°
     autoRefresh();
     $("tbody").on("click", ".completed", changeOrderState);
   });
 
   function autoRefresh() {
-    // setTimeout(function() {
-    //   window.location.reload();
-    // }, 5000);
+    setTimeout(function() {
+      window.location.reload();
+    }, 5000);
   }
 
   function changeOrderState() {
