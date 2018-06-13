@@ -10,21 +10,18 @@ block content
           tr
           th #
           th 名称
-          th 价格
-          th 总价
+          th 数量
+          th 单价
       tbody
         each item, i in order
           tr.alert
             th(scope='row') #{i}
             td(name='name')
               span #{item.name}
-
             td(name='number')
               span #{item.number}  
-
             td(name='price')
-              span #{item.price}
-                
+              span #{item.price}      
     label
         | 总计:
         span#priceTotal.label.label-pill.label-primary #{totalprice}
