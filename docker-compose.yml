@@ -1,0 +1,21 @@
+version: '2'
+services:
+  web:
+    build: .
+    command: npm start
+    volumes:
+      - .:/pr/src
+      - /pr/src/node_modules
+    ports:
+      - "3000:3000"
+    links:
+      - mongo
+    environment:
+      PORT: 3000 # this is optional, allows express to use process.env.PORT instead of a raw 3000
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+    restart: always
+    volumes:
+      - data/db
