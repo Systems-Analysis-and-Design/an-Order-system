@@ -4,12 +4,12 @@
 
 FROM node:latest
 
-RUN mkdir -p /pr/src
-WORKDIR /pr/src
+RUN mkdir -p /app-pr/src
+WORKDIR /app-pr/src
 
-COPY . /pr/src
-RUN cd /pr/src; npm install
-
+COPY . /app-pr/src
+RUN cd /app-pr/src; npm install
 
 EXPOSE 3000
-CMD ["npm", "start"]
+
+RUN curl "mongo:27017"

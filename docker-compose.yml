@@ -1,11 +1,11 @@
-version: '2'
+version: '3'
 services:
   web:
     build: .
     command: npm start
     volumes:
       - .:/pr/src
-      - /pr/src/node_modules
+      - /app-pr/src/node_modules
     ports:
       - "3000:3000"
     links:
@@ -19,3 +19,4 @@ services:
     restart: always
     volumes:
       - data/db
+      
