@@ -173,7 +173,7 @@ jQuery(document).ready(function($) {
 
     if (quantity == '') {
       var select = '<span class="select">x<i id="cd-product-' + proid + '">1</i></span>';
-      var productAdded = $('<li class="product"><div class="product-details"><h3><a href="#0">' + proname + '</a></h3><span class="price">￥' + price + '</span><div class="actions"><a href="#0" class="delete-item">删除</a><div class="quantity"><label for="cd-product-' + proid + '">件数</label>' + select + '</div></div></div></li>');
+      var productAdded = $('<li class="product product-'+proid+' "><div class="product-details"><h3><a href="#0">' + proname + '</a></h3><span class="price">￥' + price + '</span><div class="actions"><a href="#0" class="delete-item"></a><div class="quantity"><label for="cd-product-' + proid + '">件数</label>' + select + '</div></div></div></li>');
       cartList.prepend(productAdded);
     }
     else {
