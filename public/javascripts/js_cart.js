@@ -25,7 +25,9 @@ jQuery(document).ready(function($) {
 
     $('body').on('click', '.dec-button', function(event) {
         event.preventDefault();
+      if (Number($("#cd-product-" + $(this).data('proid')).text()) > 0) {
         decreaseToCart($(this));
+      }           
     });
 
     function decreaseToCart(trigger) {
@@ -104,7 +106,9 @@ jQuery(document).ready(function($) {
     //delete an item from the cart
     cartList.on('click', '.delete-item', function(event) {
       event.preventDefault();
-      removeProduct($(event.target).parents('.product'));
+      if (Number($("#cd-product-" + $(this).data('proid')).text()) > 0) {
+        removeProduct($(event.target).parents('.product'));
+      }
     });
 
     //update item quantity
