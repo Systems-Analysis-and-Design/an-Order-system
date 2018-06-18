@@ -601,13 +601,16 @@ module.exports = function(app) {
           amount = total;
         });
         var paidOrder = new Array();
+        var sumundo = 0;
         //在订单数据库中获取订单
         collection.find().toArray(function (err, result) {
           //将未制作的订单传到前端
           for (var i = 0; i < amount; i++) {
+            (function (i) {
             if (result[i].state == '0') {
               var item = new Object();
-              item.orderNumber = result[i].streamid;
+              item.orderNumber = String(result[i].streamid);
+              console.log(item.orderNumber);
               item.tabelNumber = result[i].id;
               var sss = '';
               for (var j = 0; j < result[i].menu_name.length; j++) {
@@ -616,9 +619,12 @@ module.exports = function(app) {
                 else sss += result[i].menu_name[j] + 'x' + result[i].number[j];
               }
               item.name = sss;
-              paidOrder[i] = item;
-            }
+              paidOrder[sumundo] = item;
+              sumundo += 1;
+              }
+            })(i);
           }
+          console.log(paidOrder);
           return res.render('employee-chef', { paidOrder: paidOrder });
           mongodb.close();
         });
@@ -632,6 +638,7 @@ module.exports = function(app) {
     var managername = req.query.managername;
     console.log(managername);
     var streamid = parseInt(req.body.orderNumber);
+    console.log(streamid);
       var up = {
         $set: {
           "state": "1"
