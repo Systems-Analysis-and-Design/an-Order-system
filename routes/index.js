@@ -372,6 +372,7 @@ module.exports = function(app) {
                   amount = total;
                 });
                 var evaluation = new Array();
+                var sumundoeva = 0;
                 //将获取到的订单评价信息传至前端
                 collection.find().toArray(function (err, result) {
                   for (var i = 0; i < amount; i++) {
@@ -392,7 +393,8 @@ module.exports = function(app) {
                       item.speedOfProduction = result[i].speedOfProduction;
                       item.serviceAttitude = result[i].serviceAttitude;
                       item.totalEvaluation = result[i].totalEvaluation;
-                      evaluation[i] = item;
+                      evaluation[sumundoeva] = item;
+                      sumundoeva += 1;
                     }
                   }
                   return res.render('info-' + req.query.info, { user:show, evaluation: evaluation });
