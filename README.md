@@ -40,6 +40,15 @@ npm start
 localhost:3000
 ```
 
+部署docker
+```
+# build
+docker-compose build
+
+# run
+docker-compose up
+```
+
 ![](/public/images/exhibit/1.PNG)
 
 ![](/public/images/exhibit/2.PNG)
