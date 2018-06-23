@@ -17,6 +17,16 @@ jQuery(document).ready(function($) {
     var undo = cartWrapper.find('.undo');
     var undoTimeoutId;
 
+    //购物车删除菜品后同时清空页面内的相应的菜品的数量
+    function cleanNum(itemName) {
+      $(".menu-item .tit").each(function () {
+        if ($(this).text() == itemName) {
+          $(this).siblings(".count").find(".label-num").text(0);
+          return;
+        }
+      });
+    }
+
     //add product to cart
     $('body').on('click', '.add-button', function(event) {
         event.preventDefault();
@@ -106,9 +116,10 @@ jQuery(document).ready(function($) {
     //delete an item from the cart
     cartList.on('click', '.delete-item', function(event) {
       event.preventDefault();
-      if (Number($("#cd-product-" + $(this).data('proid')).text()) > 0) {
+      //if (Number($("#cd-product-" + $(this).data('proid')).text()) > 0) {
+      cleanNum($(this).parent().siblings("h3").children("a").text());
         removeProduct($(event.target).parents('.product'));
-      }
+     // }
     });
 
     //update item quantity
@@ -177,7 +188,7 @@ jQuery(document).ready(function($) {
 
     if (quantity == '') {
       var select = '<span class="select">x<i id="cd-product-' + proid + '">1</i></span>';
-      var productAdded = $('<li class="product product-'+proid+' "><div class="product-details"><h3><a href="#0">' + proname + '</a></h3><span class="price">￥' + price + '</span><div class="actions"><a href="#0" class="delete-item"></a><div class="quantity"><label for="cd-product-' + proid + '">件数</label>' + select + '</div></div></div></li>');
+      var productAdded = $('<li class="product product-' + proid + ' "><div class="product-details"><h3><a href="#0">' + proname + '</a></h3><span class="price">￥' + price + '</span><div class="actions"><a href="#0" class="delete-item">删除</a><div class="quantity"><label for="cd-product-' + proid + '">件数</label>' + select + '</div></div></div></li>');
       cartList.prepend(productAdded);
     }
     else {
