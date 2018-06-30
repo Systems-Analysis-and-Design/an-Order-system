@@ -55,6 +55,5 @@ docker-compose up
 
 ![](/public/images/exhibit/3.PNG)
 
-![](/public/images/exhibit/4.PNG)
 
 ![](/public/images/exhibit/5.PNG)
