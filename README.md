@@ -49,6 +49,10 @@ docker-compose build
 docker-compose up
 ```
 
+---
+
+部分界面效果：
+
 ![](/public/images/exhibit/1.PNG)
 
 ![](/public/images/exhibit/2.PNG)
